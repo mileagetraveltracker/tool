@@ -11,8 +11,8 @@
     }
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
-      background: #ffffff;
-      color: #1c1e21;
+      background: #0e1116;
+      color: #e6edf3;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -24,7 +24,7 @@
       top: 20px;
       left: 20px;
       font-size: 28px;
-      color: #1c1e21;
+      color: #e6edf3;
       cursor: pointer;
       font-weight: 300;
     }
@@ -42,6 +42,7 @@
       width: 100%;
       max-width: 280px;
       margin: 0 auto 35px auto;
+      filter: brightness(0.9);
     }
     .logo img {
       width: 100%;
@@ -53,20 +54,21 @@
       margin-bottom: 12px; 
       font-size: 17px; 
       border-radius: 12px; 
-      border: 1px solid #dddfe2; 
-      background: #ffffff;
+      border: 1px solid #30363d; 
+      background: #161b22;
+      color: #e6edf3;
       outline: none;
       transition: all 0.2s;
     }
     input:focus {
-      border-color: #1877f2;
-      box-shadow: 0 0 0 2px #e7f3ff;
+      border-color: #1f6feb;
+      box-shadow: 0 0 0 3px rgba(31,111,235,0.15);
     }
     input::placeholder {
-      color: #8a8d91;
+      color: #7d8590;
     }
     .login-btn { 
-      background: #1877f2; 
+      background: #1f6feb; 
       color: white; 
       cursor: pointer; 
       font-weight: 600; 
@@ -79,7 +81,7 @@
       transition: background 0.2s;
     }
     .login-btn:hover {
-      background: #166fe5;
+      background: #1a5fd1;
     }
     .login-btn:active {
       transform: scale(0.98);
@@ -92,7 +94,7 @@
       font-size: 15px;
     }
     .forgot-link {
-      color: #1877f2;
+      color: #2f81f7;
       font-size: 16px;
       font-weight: 500;
       text-decoration: none;
@@ -110,29 +112,29 @@
       display: block;
       width: 100%;
       padding: 14px 16px;
-      background: #ffffff;
-      color: #1877f2;
+      background: #161b22;
+      color: #2f81f7;
       text-decoration: none;
       border-radius: 12px;
       font-weight: 600;
       font-size: 17px;
-      border: 1px solid #1877f2;
+      border: 1px solid #2f81f7;
       text-align: center;
       transition: all 0.2s;
       margin-bottom: 20px;
     }
     .gc-link:hover {
-      background: #f0f8ff;
+      background: #1c2128;
     }
     .footer-note {
       font-size: 13px;
-      color: #8a8d91;
+      color: #7d8590;
       text-align: center;
       line-height: 1.4;
       margin-bottom: 20px;
     }
     .footer-note strong {
-      color: #1c1e21;
+      color: #e6edf3;
     }
   </style>
 </head>
@@ -149,7 +151,7 @@
     <button class="login-btn" onclick="checkPass()">Log in</button>
     <div id="result"></div>
     
-    <!-- NILIPAT KO NA DITO SA ILALIM NG LOGIN -->
+    <!-- NASA ILALIM NA NG LOGIN -->
     <a href="#" class="forgot-link" onclick="alert('Message Charls Darwin to get updated password'); return false;">
       You don't have password?
     </a>
@@ -163,7 +165,7 @@
     </a>
     
     <p class="footer-note">
-      Password is valid only for 1month.<br>
+      Password expires monthly.<br>
       Message <strong>@CharlsDarwin</strong> to get password
     </p>
   </div>
@@ -181,12 +183,12 @@
       
       if (!passkey) {
         resultDiv.innerHTML = "⚠️ Please enter password";
-        resultDiv.style.color = "#fa383e";
+        resultDiv.style.color = "#f85149";
         return;
       }
 
       resultDiv.innerHTML = "Verifying...";
-      resultDiv.style.color = "#8a8d91";
+      resultDiv.style.color = "#7d8590";
       
       try {
         const res = await fetch('/api/verify', {
@@ -199,7 +201,7 @@
         
         if (res.status === 200) {
           resultDiv.innerHTML = "✓ Access Granted";
-          resultDiv.style.color = "#31a24c";
+          resultDiv.style.color = "#3fb950";
           
           sound.volume = 1.0;
           sound.currentTime = 0;
@@ -210,11 +212,11 @@
           }, 1500);
         } else {
           resultDiv.innerHTML = "Wrong password. Try again.";
-          resultDiv.style.color = "#fa383e";
+          resultDiv.style.color = "#f85149";
         }
       } catch (error) {
         resultDiv.innerHTML = "Server error. Try again.";
-        resultDiv.style.color = "#fa383e";
+        resultDiv.style.color = "#f85149";
       }
     }
 
