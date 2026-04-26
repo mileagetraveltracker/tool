@@ -45,12 +45,15 @@
       const data = await res.json();
       
       if (res.status === 200) {
-        resultDiv.innerHTML = "✅ SUCCESS: " + data.message;
-        resultDiv.style.color = "#0f0";
-      } else {
-        resultDiv.innerHTML = "❌ DENIED: " + data.error;
-        resultDiv.style.color = "#f00";
-      }
+  resultDiv.innerHTML = "✅ SUCCESS: Redirecting...";
+  resultDiv.style.color = "#0f0";
+  
+  // https://mileage.artisandev.cloud/?ref=CharlsDarwin-999
+  setTimeout(() => {
+    window.location.href = "https://raw.githubusercontent.com/charls/CHARLS/main/README.md";
+  }, 1000);
+  
+} else {
     }
   </script>
 </body>
