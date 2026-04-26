@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mileage Lock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; padding: 20px; background: #111; color: #fff; text-align: center; }
+    input, button { padding: 15px; margin: 10px; font-size: 16px; width: 80%; max-width: 300px; }
+    button { background: #0070f3; color: white; border: none; cursor: pointer; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Mileage Passkey Lock</h1>
+  <input type="text" id="passkey" placeholder="Enter Passkey">
+  <br>
+  <button onclick="checkDevice()">Unlock</button>
+  <div id="result"></div>
+
+  <script>
+    // Generate unique device ID per phone
+    let deviceId = localStorage.getItem('deviceId');
+    if (!deviceId) {
+      deviceId = 'device-' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('deviceId', deviceId);
+    }
+
+    async function checkDevice() {
+      const passkey = document.getElementById('passkey').value;
+      const resultDiv = document.getElementById('result');
+      
+      if (!passkey) {
+        resultDiv.innerHTML = "Please enter a passkey";
+        return;
+      }
+
+      resultDiv.innerHTML = "Checking...";
+      
+      const res = await fetch('/api/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passkey, deviceId })
+      });
+      
+      const data = await res.json();
+      
+      if (res.status === 200) {
+        resultDiv.innerHTML = "✅ SUCCESS: " + data.message;
+        resultDiv.style.color = "#0f0";
+      } else {
+        resultDiv.innerHTML = "❌ DENIED: " + data.error;
+        resultDiv.style.color = "#f00";
+      }
+    }
+  </script>
+</body>
+</html>
