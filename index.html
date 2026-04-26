@@ -113,9 +113,9 @@
     </p>
   </div>
 
-  <!-- SUCCESS SOUND -->
+  <!-- IPHONE NOTIFICATION SOUND - MALAKAS TO -->
   <audio id="successSound" preload="auto">
-    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b7b44.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_ad4f6752d8.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -146,9 +146,10 @@
           resultDiv.innerHTML = "✅ ACCESS GRANTED! REDIRECTING...";
           resultDiv.style.color = "#0f0";
           
-          // PLAY SOUND PAG TAMA
-          sound.volume = 0.5;
-          sound.play().catch(e => console.log("Auto-play blocked"));
+          // IPHONE SOUND - MAX VOLUME
+          sound.volume = 1.0;
+          sound.currentTime = 0;
+          sound.play().catch(e => console.log("Sound blocked"));
           
           setTimeout(() => {
             window.location.href = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
