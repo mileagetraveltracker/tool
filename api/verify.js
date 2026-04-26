@@ -1,31 +1,33 @@
-import { Redis } from '@upstash/redis';
-
-const redis = Redis.fromEnv();
-
 export default async function handler(req, res) {
-  const { k, t } = req.query;
+  const { passkey, deviceId } = req.body;
+  const KVDB_URL = "https://kvdb.io/EHv2rsn95n9QK7XfAktEWK"; // Bucket mo yan
 
-  if (!k ||!t || t.length < 10) {
-    return res.status(400).send('<h2>Invalid Link</h2><p>Contact support.</p>');
+  if (!passkey || !deviceId) {
+    return res.status(400).json({ error: "Missing passkey or deviceId" });
   }
 
-  const ua = req.headers['user-agent'] || '';
-  const ip = req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
-  const deviceId = `${ip}-${ua}`.slice(0, 100);
+  try {
+    // 1. Check kung may naka-lock na device sa passkey na to
+    const getRes = await fetch(`${KVDB_URL}/${passkey}`);
+    const lockedDevice = await getRes.text();
 
-  const usedBy = await redis.get(k);
+    // 2. Wala pang naka-lock = i-lock natin sa device nya ngayon
+    if (!lockedDevice || lockedDevice === "null") {
+      await fetch(`${KVDB_URL}/${passkey}`, {
+        method: "POST",
+        body: deviceId
+      });
+      return res.status(200).json({ success: true, message: "Device locked" });
+    }
 
-  if (usedBy && usedBy!== deviceId) {
-    return res.status(403).send(`
-      <h2>Link Already Activated</h2>
-      <p>This access link was already used on another device.</p>
-      <p>Each license is valid for 1 device only.</p>
-    `);
+    // 3. May naka-lock na = check kung same device
+    if (lockedDevice === deviceId) {
+      return res.status(200).json({ success: true, message: "Device verified" });
+    } else {
+      return res.status(403).json({ error: "This passkey is already used on another device" });
+    }
+
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
   }
-
-  if (!usedBy) {
-    await redis.set(k, deviceId);
-  }
-
-  res.redirect(302, `https://mileage.artisandev.cloud/?ref=${k}`);
 }
