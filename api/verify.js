@@ -4,16 +4,30 @@ export default async function handler(req, res) {
   }
 
   const { passkey } = req.body;
+  const correctPass = process.env.PASSKEY;
   
-  if (!passkey) {
-    return res.status(400).json({ error: 'Passkey is required' });
-  }
+  // TRACKING CODE - KUKUHA NG INFO NG USER
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
+  const userAgent = req.headers['user-agent'] || 'Unknown';
+  const time = new Date().toLocaleString('en-PH', { 
+    timeZone: 'Asia/Manila',
+    year: 'numeric',
+    month: '2-digit', 
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+  
+  const success = passkey === correctPass;
+  
+  // LOG SA VERCEL - ITO MAKIKITA MO SA LOGS
+  console.log(`[MILEAGE LOGIN] ${time} | IP: ${ip} | SUCCESS: ${success} | Device: ${userAgent}`);
+  // END TRACKING CODE
 
-  const MASTER_PASS = "MILEAGE-OCT26";
-  
-  if (passkey === MASTER_PASS) {
-    return res.status(200).json({ message: 'Access granted' });
+  if (success) {
+    res.status(200).json({ success: true });
   } else {
-    return res.status(403).json({ error: 'Expired or wrong passkey. Message admin for new pass.' });
+    res.status(401).json({ success: false });
   }
 }
