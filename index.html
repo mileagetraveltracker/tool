@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial;
-      background: #0d1117; color: #e6edf3; min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; padding: 20px;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; background: #0d1117; color: #e6edf3; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
     .back-arrow { position: absolute; top: 20px; left: 20px; font-size: 28px; color: #7d8590; cursor: pointer; font-weight: 300; }
     .container { width: 100%; max-width: 396px; margin-top: 40px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
     .logo { width: 100%; max-width: 240px; margin: 0 auto 40px auto; padding: 20px; background: #ffffff; border-radius: 16px; }
@@ -57,7 +53,6 @@
   </audio>
 
   <script>
-    // 
     const PUBLIC_PASS = "GCMILEAGE2026";
     const ADMIN_PASS = "Darwengots200412*";
     const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=chrlsdrwn=";
@@ -76,7 +71,6 @@
       resultDiv.innerHTML = "Verifying...";
       resultDiv.style.color = "#7d8590";
 
-      //
       if (passkey === PUBLIC_PASS || passkey === ADMIN_PASS) {
         resultDiv.innerHTML = "✓ Access Granted";
         resultDiv.style.color = "#3fb950";
