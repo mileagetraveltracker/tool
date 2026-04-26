@@ -4,68 +4,29 @@
   <title>Mileage Lock</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { 
-      font-family: Arial; 
-      padding: 20px; 
-      background: #0a0a0a; 
-      color: #fff; 
-      text-align: center; 
-      margin-top: 50px;
-    }
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      background: #1a1a1a;
-      padding: 30px;
-      border-radius: 10px;
-    }
-    input, button { 
-      padding: 15px; 
-      margin: 10px 0; 
-      font-size: 16px; 
-      width: 100%; 
-      box-sizing: border-box;
-      border-radius: 5px;
-      border: none;
-    }
-    button { 
-      background: #0070f3; 
-      color: white; 
-      cursor: pointer; 
-      font-weight: bold;
-    }
-    button:disabled {
-      background: #555;
-      cursor: not-allowed;
-    }
-    #result { 
-      margin-top: 20px; 
-      font-weight: bold; 
-      min-height: 24px;
-    }
+    body { font-family: Arial; padding: 20px; background: #0a0a0a; color: #fff; text-align: center; margin-top: 50px; }
+    .container { max-width: 400px; margin: 0 auto; background: #1a1a1a; padding: 30px; border-radius: 10px; }
+    input, button { padding: 15px; margin: 10px 0; font-size: 16px; width: 100%; box-sizing: border-box; border-radius: 5px; border: none; }
+    button { background: #0070f3; color: white; cursor: pointer; font-weight: bold; }
+    #result { margin-top: 20px; font-weight: bold; min-height: 24px; }
+    .note { font-size: 12px; color: #888; margin-top: 20px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🔐 Mileage Access</h1>
-    <p>Enter your passkey to continue</p>
-    <input type="text" id="passkey" placeholder="Enter Passkey" autocomplete="off">
+    <h1>🔐 Mileage Private Tools</h1>
+    <p>Enter monthly passkey to continue</p>
+    <input type="password" id="passkey" placeholder="Enter Passkey" autocomplete="off">
     <br>
-    <button id="unlockBtn" onclick="checkDevice()">Unlock</button>
+    <button onclick="checkPass()">Unlock Access</button>
     <div id="result"></div>
+    <p class="note">Passkey expires monthly. Contact admin if denied.</p>
   </div>
 
   <script>
-    let deviceId = localStorage.getItem('deviceId');
-    if (!deviceId) {
-      deviceId = 'device-' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('deviceId', deviceId);
-    }
-
-    async function checkDevice() {
+    async function checkPass() {
       const passkey = document.getElementById('passkey').value.trim();
       const resultDiv = document.getElementById('result');
-      const btn = document.getElementById('unlockBtn');
       
       if (!passkey) {
         resultDiv.innerHTML = "⚠️ Please enter a passkey";
@@ -73,41 +34,36 @@
         return;
       }
 
-      btn.disabled = true;
-      resultDiv.innerHTML = "Checking...";
+      resultDiv.innerHTML = "Verifying...";
       resultDiv.style.color = "#fff";
       
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passkey, deviceId })
+          body: JSON.stringify({ passkey })
         });
         
         const data = await res.json();
         
         if (res.status === 200) {
-          resultDiv.innerHTML = "✅ SUCCESS: Redirecting to Mileage Private Tool...";
+          resultDiv.innerHTML = "✅ Access Granted! Redirecting...";
           resultDiv.style.color = "#0f0";
-          
           setTimeout(() => {
             window.location.href = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
           }, 1000);
-          
         } else {
-          resultDiv.innerHTML = "❌ DENIED: " + data.error;
+          resultDiv.innerHTML = "❌ " + data.error;
           resultDiv.style.color = "#f00";
-          btn.disabled = false;
         }
       } catch (error) {
         resultDiv.innerHTML = "❌ Server error. Try again.";
         resultDiv.style.color = "#f00";
-        btn.disabled = false;
       }
     }
 
     document.getElementById('passkey').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') checkDevice();
+      if (e.key === 'Enter') checkPass();
     });
   </script>
 </body>
