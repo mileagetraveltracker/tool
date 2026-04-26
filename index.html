@@ -95,7 +95,7 @@
 <body>
   <div class="container">
     <h1>MILEAGE PRIVATE TOOL</h1>
-    <p>Enter monthly password generate by Charls to continue</p>
+    <p>Enter monthly passkey to continue</p>
     <input type="password" id="passkey" placeholder="Enter Passkey" autocomplete="off">
     <br>
     <button onclick="checkPass()">UNLOCK ACCESS</button>
@@ -108,16 +108,21 @@
     </a>
     
     <p class="note">
-      Password expires monthly!
-      Join GC for new password.<br>
-      Or Message Charls Darwin to get updated password.
+      Passkey expires monthly. Join GC for new password.<br>
+      Or Message Charls Darwin to get updated password
     </p>
   </div>
+
+  <!-- SUCCESS SOUND -->
+  <audio id="successSound" preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b7b44.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
     async function checkPass() {
       const passkey = document.getElementById('passkey').value.trim();
       const resultDiv = document.getElementById('result');
+      const sound = document.getElementById('successSound');
       
       if (!passkey) {
         resultDiv.innerHTML = "⚠️ Please enter a passkey";
@@ -140,9 +145,14 @@
         if (res.status === 200) {
           resultDiv.innerHTML = "✅ ACCESS GRANTED! REDIRECTING...";
           resultDiv.style.color = "#0f0";
+          
+          // PLAY SOUND PAG TAMA
+          sound.volume = 0.5;
+          sound.play().catch(e => console.log("Auto-play blocked"));
+          
           setTimeout(() => {
             window.location.href = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
-          }, 1000);
+          }, 1500);
         } else {
           resultDiv.innerHTML = "❌ " + data.error;
           resultDiv.style.color = "#f00";
