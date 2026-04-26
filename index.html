@@ -10,167 +10,135 @@
       box-sizing: border-box;
     }
     body { 
-      font-family: Arial; 
-      background: #0a0a0a; 
-      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
+      background: #ffffff;
+      color: #1c1e21;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
       padding: 20px;
+    }
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 28px;
+      color: #1c1e21;
+      cursor: pointer;
+      font-weight: 300;
     }
     .container { 
       width: 100%;
-      max-width: 400px; 
-      background: #1a1a1a; 
-      padding: 30px; 
-      border-radius: 10px;
+      max-width: 396px; 
+      margin-top: 50px;
       text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    h1 {
-      color: #FF0000;
-      font-weight: 900;
-      font-size: 28px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px rgba(255,0,0,0.5);
-      text-align: center;
+    .logo {
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto 35px auto;
+      mix-blend-mode: multiply;
     }
-    p {
-      margin-bottom: 15px;
-      text-align: center;
+    .logo img {
+      width: 100%;
+      height: auto;
     }
     input { 
-      padding: 15px; 
-      margin: 10px 0; 
-      font-size: 16px; 
-      width: 100%; 
-      border-radius: 5px; 
-      border: none; 
-      text-align: center;
+      width: 100%;
+      padding: 16px 18px; 
+      margin-bottom: 12px; 
+      font-size: 17px; 
+      border-radius: 12px; 
+      border: 1px solid #dddfe2; 
+      background: #ffffff;
+      outline: none;
+      transition: all 0.2s;
+    }
+    input:focus {
+      border-color: #1877f2;
+      box-shadow: 0 0 0 2px #e7f3ff;
     }
     input::placeholder {
-      text-align: center;
+      color: #8a8d91;
     }
-    button { 
-      background: #FF0000; 
+    .login-btn { 
+      background: #1877f2; 
       color: white; 
       cursor: pointer; 
-      font-weight: bold; 
-      text-align: center;
-      padding: 15px; 
-      margin: 10px 0 5px 0; 
-      font-size: 16px; 
+      font-weight: 600; 
+      padding: 14px 16px; 
+      margin-top: 8px;
+      font-size: 20px; 
       width: 100%; 
-      border-radius: 1px; 
+      border-radius: 12px; 
       border: none;
+      transition: background 0.2s;
     }
-    button:hover {
-      background: #CC0000;
+    .login-btn:hover {
+      background: #166fe5;
+    }
+    .login-btn:active {
+      transform: scale(0.98);
     }
     #result { 
-      margin-top: 10px; 
-      font-weight: bold; 
-      min-height: 24px;
+      margin-top: 14px; 
+      font-weight: 500; 
+      min-height: 20px;
       text-align: center;
+      font-size: 15px;
+    }
+    .forgot-link {
+      color: #1877f2;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      margin-top: 18px;
+      display: inline-block;
+    }
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+    .spacer {
+      flex: 1;
     }
     .gc-link {
-      display: inline-block;
-      margin-top: 5px;
-      padding: 15px;
-      background: #0084FF;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      font-size: 16px;
+      display: block;
       width: 100%;
+      padding: 14px 16px;
+      background: #ffffff;
+      color: #1877f2;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 17px;
+      border: 1px solid #1877f2;
       text-align: center;
+      transition: all 0.2s;
+      margin-bottom: 20px;
     }
     .gc-link:hover {
-      background: #0066CC;
+      background: #f0f8ff;
     }
-    .note { 
-      font-size: 12px; 
-      color: #888; 
-      margin-top: 15px;
+    .footer-note {
+      font-size: 13px;
+      color: #8a8d91;
       text-align: center;
       line-height: 1.4;
+      margin-bottom: 20px;
+    }
+    .footer-note strong {
+      color: #1c1e21;
     }
   </style>
 </head>
 <body>
+  <div class="back-arrow">‹</div>
+  
   <div class="container">
-    <h1>MILEAGE PRIVATE TOOL</h1>
-    <p>Enter password to access</p>
-    <input type="password" id="passkey" placeholder="Enter Password" autocomplete="off">
-    <button onclick="checkPass()">UNLOCK TO ACCESS</button>
-    <div id="result"></div>
-    
-    <a href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" 
-       class="gc-link" 
-       target="_blank">
-       CLICK TO GET PASSWORD
-    </a>
-    
-    <p class="note">
-      Password expires monthly.<br>
-      or message @CharlsDarwin to get password
-    </p>
-  </div>
-
-  <!-- IPHONE NOTIFICATION SOUND -->
-  <audio id="successSound" preload="auto">
-    <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_ad4f6752d8.mp3" type="audio/mpeg">
-  </audio>
-
-  <script>
-    async function checkPass() {
-      const passkey = document.getElementById('passkey').value.trim();
-      const resultDiv = document.getElementById('result');
-      const sound = document.getElementById('successSound');
-      
-      if (!passkey) {
-        resultDiv.innerHTML = "⚠️ Please enter a password";
-        resultDiv.style.color = "#ff0";
-        return;
-      }
-
-      resultDiv.innerHTML = "Verifying...";
-      resultDiv.style.color = "#fff";
-      
-      try {
-        const res = await fetch('/api/verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passkey })
-        });
-        
-        const data = await res.json();
-        
-        if (res.status === 200) {
-          resultDiv.innerHTML = "✅ ACCESS GRANTED! REDIRECTING...";
-          resultDiv.style.color = "#0f0";
-          
-          sound.volume = 1.0;
-          sound.currentTime = 0;
-          sound.play().catch(e => console.log("Sound blocked"));
-          
-          setTimeout(() => {
-            window.location.href = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
-          }, 1500);
-        } else {
-          resultDiv.innerHTML = "❌ " + data.error;
-          resultDiv.style.color = "#f00";
-        }
-      } catch (error) {
-        resultDiv.innerHTML = "❌ Server error. Try again.";
-        resultDiv.style.color = "#f00";
-      }
-    }
-
-    document.getElementById('passkey').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') checkPass();
-    });
-  </script>
-</body>
-</html>
+    <!-- LOGO MO NASA TAAS NA -->
+    <div
