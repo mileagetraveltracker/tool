@@ -4,21 +4,58 @@
   <title>Mileage Lock</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; padding: 20px; background: #111; color: #fff; text-align: center; }
-    input, button { padding: 15px; margin: 10px; font-size: 16px; width: 80%; max-width: 300px; }
-    button { background: #0070f3; color: white; border: none; cursor: pointer; }
-    #result { margin-top: 20px; font-weight: bold; }
+    body { 
+      font-family: Arial; 
+      padding: 20px; 
+      background: #0a0a0a; 
+      color: #fff; 
+      text-align: center; 
+      margin-top: 50px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    input, button { 
+      padding: 15px; 
+      margin: 10px 0; 
+      font-size: 16px; 
+      width: 100%; 
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: none;
+    }
+    button { 
+      background: #0070f3; 
+      color: white; 
+      cursor: pointer; 
+      font-weight: bold;
+    }
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+    #result { 
+      margin-top: 20px; 
+      font-weight: bold; 
+      min-height: 24px;
+    }
   </style>
 </head>
 <body>
-  <h1>Mileage Passkey Lock</h1>
-  <input type="text" id="passkey" placeholder="Enter Passkey">
-  <br>
-  <button onclick="checkDevice()">Unlock</button>
-  <div id="result"></div>
+  <div class="container">
+    <h1>🔐 Mileage Access</h1>
+    <p>Enter your passkey to continue</p>
+    <input type="text" id="passkey" placeholder="Enter Passkey" autocomplete="off">
+    <br>
+    <button id="unlockBtn" onclick="checkDevice()">Unlock</button>
+    <div id="result"></div>
+  </div>
 
   <script>
-    // Generate unique device ID per phone
     let deviceId = localStorage.getItem('deviceId');
     if (!deviceId) {
       deviceId = 'device-' + Math.random().toString(36).substr(2, 9);
@@ -26,34 +63,52 @@
     }
 
     async function checkDevice() {
-      const passkey = document.getElementById('passkey').value;
+      const passkey = document.getElementById('passkey').value.trim();
       const resultDiv = document.getElementById('result');
+      const btn = document.getElementById('unlockBtn');
       
       if (!passkey) {
-        resultDiv.innerHTML = "Please enter a passkey";
+        resultDiv.innerHTML = "⚠️ Please enter a passkey";
+        resultDiv.style.color = "#ff0";
         return;
       }
 
+      btn.disabled = true;
       resultDiv.innerHTML = "Checking...";
+      resultDiv.style.color = "#fff";
       
-      const res = await fetch('/api/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passkey, deviceId })
-      });
-      
-      const data = await res.json();
-      
-      if (res.status === 200) {
-  resultDiv.innerHTML = "✅ SUCCESS: Redirecting...";
-  resultDiv.style.color = "#0f0";
-  
-  setTimeout(() => {
-    window.location.href = "https://mileage.artisandev.cloud/?ref=CharlsDarwin-999;
-  }, 1000);
-  
-} else {
+      try {
+        const res = await fetch('/api/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passkey, deviceId })
+        });
+        
+        const data = await res.json();
+        
+        if (res.status === 200) {
+          resultDiv.innerHTML = "✅ SUCCESS: Redirecting to Mileage Private Tool...";
+          resultDiv.style.color = "#0f0";
+          
+          setTimeout(() => {
+            window.location.href = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
+          }, 1000);
+          
+        } else {
+          resultDiv.innerHTML = "❌ DENIED: " + data.error;
+          resultDiv.style.color = "#f00";
+          btn.disabled = false;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = "❌ Server error. Try again.";
+        resultDiv.style.color = "#f00";
+        btn.disabled = false;
+      }
     }
+
+    document.getElementById('passkey').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkDevice();
+    });
   </script>
 </body>
 </html>
