@@ -37,9 +37,9 @@
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
     <input type="password" id="passkey" placeholder="Password" autocomplete="off">
-    <button class="login-btn" onclick="checkPass()">Log in</button>
+    <button class="login-btn" onclick="checkPass()">LOG IN</button>
     <div id="result"></div>
-    <a href="#" class="forgot-link" onclick="alert('Message Charls Darwin to get updated password'); return false;">
+    <a href="#" class="forgot-link" onclick="alert('Message @CharlsDarwin to get updated password'); return false;">
       You don't have password?
     </a>
     <div class="spacer"></div>
@@ -57,10 +57,10 @@
   </audio>
 
   <script>
-    // ETO YUNG 2 PASSWORD MO GALING VERCEL ENV
+    // 
     const PUBLIC_PASS = "GCMILEAGE2026";
-    const ADMIN_PASS = "Darwengots2200412*";
-    const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
+    const ADMIN_PASS = "Darwengots200412*";
+    const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=chrlsdrwn=";
 
     function checkPass() {
       const passkey = document.getElementById('passkey').value.trim();
@@ -76,7 +76,7 @@
       resultDiv.innerHTML = "Verifying...";
       resultDiv.style.color = "#7d8590";
 
-      // AYAN YUNG FIX - DIRECT CHECK NA, WALA NG /api/verify
+      //
       if (passkey === PUBLIC_PASS || passkey === ADMIN_PASS) {
         resultDiv.innerHTML = "✓ Access Granted";
         resultDiv.style.color = "#3fb950";
