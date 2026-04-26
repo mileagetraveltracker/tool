@@ -96,20 +96,20 @@
   <div class="container">
     <h1>MILEAGE PRIVATE TOOL</h1>
     <p>Enter monthly password to continue</p>
-    <input type="password" id="passkey" placeholder="Enter Passkey" autocomplete="off">
+    <input type="password" id="passkey" placeholder="Enter Password" autocomplete="off">
     <br>
-    <button onclick="checkPass()">UNLOCK ACCESS</button>
+    <button onclick="checkPass()">UNLOCK TO ACCESS</button>
     <div id="result"></div>
     
     <a href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" 
        class="gc-link" 
        target="_blank">
-       CLICK HERE TO GET PASSWORD
+       CLICK TO GET PASSWORD
     </a>
     
     <p class="note">
       Password expires monthly.<br>
-      Or Message Charls Darwin to get password
+      or message @CharlsDarwin to get password
     </p>
   </div>
 
@@ -124,7 +124,7 @@
       const sound = document.getElementById('successSound');
       
       if (!passkey) {
-        resultDiv.innerHTML = "⚠️ Please enter a passkey";
+        resultDiv.innerHTML = "⚠️ Please enter a password";
         resultDiv.style.color = "#ff0";
         return;
       }
