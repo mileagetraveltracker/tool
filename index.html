@@ -47,30 +47,30 @@
       if your password is expired message <strong>@CharlsDarwin</strong> to get new password
     </p>
   </div>
-
+  
   <audio id="successSound" preload="auto">
     <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_ad4f6752d8.mp3" type="audio/mpeg">
   </audio>
-
+  
   <script>
     const PUBLIC_PASS = "GCMILEAGE2026";
     const ADMIN_PASS = "Darwengots200412*";
-    const REDIRECT_URL =  const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=cd2026&t=ok";
-
+    const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=cd2026&t=ok";
+    
     function checkPass() {
       const passkey = document.getElementById('passkey').value.trim();
       const resultDiv = document.getElementById('result');
       const sound = document.getElementById('successSound');
-
+      
       if (!passkey) {
         resultDiv.innerHTML = "⚠️ Please enter password";
         resultDiv.style.color = "#f85149";
         return;
       }
-
+      
       resultDiv.innerHTML = "Verifying...";
       resultDiv.style.color = "#7d8590";
-
+      
       if (passkey === PUBLIC_PASS || passkey === ADMIN_PASS) {
         resultDiv.innerHTML = "✓ Access Granted";
         resultDiv.style.color = "#3fb950";
@@ -87,7 +87,7 @@
         document.getElementById('passkey').value = "";
       }
     }
-
+    
     document.getElementById('passkey').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') checkPass();
     });
