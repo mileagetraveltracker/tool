@@ -104,6 +104,7 @@
     }
     .spacer {
       flex: 1;
+      min-height: 40px;
     }
     .gc-link {
       display: block;
@@ -139,7 +140,7 @@
   <div class="back-arrow">‹</div>
   
   <div class="container">
-    <!-- LOGO MO - NAKA CAPS PNG YUNG FILE -->
+    <!-- LOGO MO -->
     <div class="logo">
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
@@ -148,6 +149,7 @@
     <button class="login-btn" onclick="checkPass()">Log in</button>
     <div id="result"></div>
     
+    <!-- NILIPAT KO NA DITO SA ILALIM NG LOGIN -->
     <a href="#" class="forgot-link" onclick="alert('Message Charls Darwin to get updated password'); return false;">
       You don't have password?
     </a>
@@ -161,7 +163,7 @@
     </a>
     
     <p class="footer-note">
-      Password expires monthly.<br>
+      Password is valid only for 1month.<br>
       Message <strong>@CharlsDarwin</strong> to get password
     </p>
   </div>
