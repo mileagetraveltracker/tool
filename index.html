@@ -42,7 +42,6 @@
       width: 100%;
       max-width: 280px;
       margin: 0 auto 35px auto;
-      mix-blend-mode: multiply;
     }
     .logo img {
       width: 100%;
@@ -140,5 +139,86 @@
   <div class="back-arrow">‹</div>
   
   <div class="container">
-    <!-- LOGO MO NASA TAAS NA -->
-    <div
+    <!-- LOGO MO - NAKA CAPS PNG YUNG FILE -->
+    <div class="logo">
+      <img src="./logo.PNG" alt="Mileage Logo">
+    </div>
+    
+    <input type="password" id="passkey" placeholder="Password" autocomplete="off">
+    <button class="login-btn" onclick="checkPass()">Log in</button>
+    <div id="result"></div>
+    
+    <a href="#" class="forgot-link" onclick="alert('Message Charls Darwin to get updated password'); return false;">
+      You don't have password?
+    </a>
+    
+    <div class="spacer"></div>
+    
+    <a href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" 
+       class="gc-link" 
+       target="_blank">
+       Click here to get access
+    </a>
+    
+    <p class="footer-note">
+      Password expires monthly.<br>
+      Message <strong>@CharlsDarwin</strong> to get password
+    </p>
+  </div>
+
+  <!-- IPHONE NOTIFICATION SOUND -->
+  <audio id="successSound" preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_ad4f6752d8.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    async function checkPass() {
+      const passkey = document.getElementById('passkey').value.trim();
+      const resultDiv = document.getElementById('result');
+      const sound = document.getElementById('successSound');
+      
+      if (!passkey) {
+        resultDiv.innerHTML = "⚠️ Please enter password";
+        resultDiv.style.color = "#fa383e";
+        return;
+      }
+
+      resultDiv.innerHTML = "Verifying...";
+      resultDiv.style.color = "#8a8d91";
+      
+      try {
+        const res = await fetch('/api/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passkey })
+        });
+        
+        const data = await res.json();
+        
+        if (res.status === 200) {
+          resultDiv.innerHTML = "✓ Access Granted";
+          resultDiv.style.color = "#31a24c";
+          
+          sound.volume = 1.0;
+          sound.currentTime = 0;
+          sound.play().catch(e => console.log("Sound blocked"));
+          
+          setTimeout(() => {
+            window.location.href = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
+          }, 1500);
+        } else {
+          resultDiv.innerHTML = "Wrong password. Try again.";
+          resultDiv.style.color = "#fa383e";
+        }
+      } catch (error) {
+        resultDiv.innerHTML = "Server error. Try again.";
+        resultDiv.style.color = "#fa383e";
+      }
+    }
+
+    document.getElementById('passkey').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkPass();
+    });
+  </script>
+</body>
+</html>
