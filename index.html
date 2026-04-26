@@ -39,7 +39,7 @@
       margin-bottom: 15px;
       text-align: center;
     }
-    input, button { 
+    input { 
       padding: 15px; 
       margin: 10px 0; 
       font-size: 16px; 
@@ -57,26 +57,32 @@
       cursor: pointer; 
       font-weight: bold; 
       text-align: center;
+      padding: 15px; 
+      margin: 10px 0 5px 0; 
+      font-size: 16px; 
+      width: 100%; 
+      border-radius: 5px; 
+      border: none;
     }
     button:hover {
       background: #CC0000;
     }
     #result { 
-      margin-top: 20px; 
+      margin-top: 10px; 
       font-weight: bold; 
       min-height: 24px;
       text-align: center;
     }
     .gc-link {
       display: inline-block;
-      margin-top: 25px;
-      padding: 12px 20px;
+      margin-top: 5px;
+      padding: 15px;
       background: #0084FF;
       color: white;
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 16px;
       width: 100%;
       text-align: center;
     }
@@ -95,9 +101,8 @@
 <body>
   <div class="container">
     <h1>MILEAGE PRIVATE TOOL</h1>
-    <p>Enter monthly password to continue</p>
+    <p>Enter password to access</p>
     <input type="password" id="passkey" placeholder="Enter Password" autocomplete="off">
-    <br>
     <button onclick="checkPass()">UNLOCK TO ACCESS</button>
     <div id="result"></div>
     
@@ -113,6 +118,7 @@
     </p>
   </div>
 
+  <!-- IPHONE NOTIFICATION SOUND -->
   <audio id="successSound" preload="auto">
     <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_ad4f6752d8.mp3" type="audio/mpeg">
   </audio>
@@ -145,7 +151,6 @@
           resultDiv.innerHTML = "✅ ACCESS GRANTED! REDIRECTING...";
           resultDiv.style.color = "#0f0";
           
-          // IPHONE SOUND - MAX VOLUME
           sound.volume = 1.0;
           sound.currentTime = 0;
           sound.play().catch(e => console.log("Sound blocked"));
