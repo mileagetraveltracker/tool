@@ -4,23 +4,114 @@
   <title>Mileage Lock</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; padding: 20px; background: #0a0a0a; color: #fff; text-align: center; margin-top: 50px; }
-    .container { max-width: 400px; margin: 0 auto; background: #1a1a1a; padding: 30px; border-radius: 10px; }
-    input, button { padding: 15px; margin: 10px 0; font-size: 16px; width: 100%; box-sizing: border-box; border-radius: 5px; border: none; }
-    button { background: #0070f3; color: white; cursor: pointer; font-weight: bold; }
-    #result { margin-top: 20px; font-weight: bold; min-height: 24px; }
-    .note { font-size: 12px; color: #888; margin-top: 20px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body { 
+      font-family: Arial; 
+      background: #0a0a0a; 
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container { 
+      width: 100%;
+      max-width: 400px; 
+      background: #1a1a1a; 
+      padding: 30px; 
+      border-radius: 10px;
+      text-align: center;
+    }
+    h1 {
+      color: #FF0000;
+      font-weight: 900;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255,0,0,0.5);
+      text-align: center;
+    }
+    p {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    input, button { 
+      padding: 15px; 
+      margin: 10px 0; 
+      font-size: 16px; 
+      width: 100%; 
+      border-radius: 5px; 
+      border: none; 
+      text-align: center;
+    }
+    input::placeholder {
+      text-align: center;
+    }
+    button { 
+      background: #FF0000; 
+      color: white; 
+      cursor: pointer; 
+      font-weight: bold; 
+      text-align: center;
+    }
+    button:hover {
+      background: #CC0000;
+    }
+    #result { 
+      margin-top: 20px; 
+      font-weight: bold; 
+      min-height: 24px;
+      text-align: center;
+    }
+    .gc-link {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 20px;
+      background: #0084FF;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      width: 100%;
+      text-align: center;
+    }
+    .gc-link:hover {
+      background: #0066CC;
+    }
+    .note { 
+      font-size: 12px; 
+      color: #888; 
+      margin-top: 15px;
+      text-align: center;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🔐 Mileage Private Tools</h1>
-    <p>Enter monthly passkey to continue</p>
+    <h1>MILEAGE PRIVATE TOOL</h1>
+    <p>Enter monthly password generate by Charls to continue</p>
     <input type="password" id="passkey" placeholder="Enter Passkey" autocomplete="off">
     <br>
-    <button onclick="checkPass()">Unlock Access</button>
+    <button onclick="checkPass()">UNLOCK ACCESS</button>
     <div id="result"></div>
-    <p class="note">Passkey expires monthly. Contact admin if denied.</p>
+    
+    <a href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" 
+       class="gc-link" 
+       target="_blank">
+       CLICK HERE TO GET PASSWORD
+    </a>
+    
+    <p class="note">
+      Password expires monthly!
+      Join GC for new password.<br>
+      Or Message Charls Darwin to get updated password.
+    </p>
   </div>
 
   <script>
@@ -47,7 +138,7 @@
         const data = await res.json();
         
         if (res.status === 200) {
-          resultDiv.innerHTML = "✅ Access Granted! Redirecting...";
+          resultDiv.innerHTML = "✅ ACCESS GRANTED! REDIRECTING...";
           resultDiv.style.color = "#0f0";
           setTimeout(() => {
             window.location.href = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
