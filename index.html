@@ -6,12 +6,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
-    
+    html, body { height: 100%; overflow: hidden; }
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
       background: #000000; 
@@ -24,262 +19,67 @@
       padding-bottom: max(12px, env(safe-area-inset-bottom));
       position: relative;
     }
-    
-    /* POV HIGHWAY - 150KPH BILIS */
-    .highway-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      background: #000000;
-      overflow: hidden;
-    }
-    
-    .road-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      perspective: 500px;
-    }
-    
-    .road {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%);
-      transform: rotateX(60deg);
-      transform-origin: center bottom;
-    }
-    
-    .lane-lines {
-      position: absolute;
-      bottom: -50%;
-      left: 50%;
-      width: 20px;
-      height: 250%;
-      transform: translateX(-50%);
-      background: repeating-linear-gradient(
-        to top,
-        transparent 0px,
-        transparent 30px,
-        #ffffff 30px,
-        #ffffff 70px
-      );
-      animation: moveRoad 0.25s linear infinite;
-      will-change: transform;
-    }
-    
-    @keyframes moveRoad {
-      0% { transform: translateX(-50%) translateY(0); }
-      100% { transform: translateX(-50%) translateY(70px); }
-    }
-    
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: 1;
-    }
-    
-    .back-arrow { 
-      position: absolute; 
-      top: 12px; 
-      left: 12px; 
-      font-size: 24px; 
-      color: #7d8590; 
-      cursor: pointer; 
-      font-weight: 300; 
-      z-index: 3; 
-      transition: color 0.2s;
-    }
+    .highway-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: #000000; overflow: hidden; }
+    .road-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; perspective: 500px; }
+    .road { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%); transform: rotateX(60deg); transform-origin: center bottom; }
+    .lane-lines { position: absolute; bottom: -50%; left: 50%; width: 20px; height: 250%; transform: translateX(-50%); background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px); animation: moveRoad 0.25s linear infinite; will-change: transform; }
+    @keyframes moveRoad { 0% { transform: translateX(-50%) translateY(0); } 100% { transform: translateX(-50%) translateY(70px); } }
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 1; }
+    .back-arrow { position: absolute; top: 12px; left: 12px; font-size: 24px; color: #7d8590; cursor: pointer; font-weight: 300; z-index: 3; transition: color 0.2s; }
     .back-arrow:hover { color: #58a6ff; }
-    
-    .container { 
-      width: 100%; 
-      max-width: 360px;
-      text-align: center; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
-      position: relative; 
-      z-index: 3;
-      gap: 6px;
-    }
-    
-    .logo { 
-      width: 100%; 
-      max-width: 240px;
-      margin: 0 auto 12px auto;
-      padding: 14px;
-      background: #ffffff; 
-      border-radius: 14px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.8);
-      animation: logoPop 0.6s ease-out;
-    }
-    @keyframes logoPop {
-      0% { opacity: 0; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1); }
-    }
+    .container { width: 100%; max-width: 360px; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 3; gap: 6px; }
+    .logo { width: 100%; max-width: 240px; margin: 0 auto 12px auto; padding: 14px; background: #ffffff; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.8); animation: logoPop 0.6s ease-out; }
+    @keyframes logoPop { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
     .logo img { width: 100%; height: auto; display: block; }
-    
-    .password-wrapper {
-      position: relative;
-      width: 100%;
-      margin-bottom: 6px;
-    }
-    
-    input { 
-      width: 100%; 
-      padding: 12px 40px 12px 14px;
-      font-size: 16px; 
-      border-radius: 10px; 
-      border: 1px solid #30363d; 
-      background: rgba(22,27,34,0.95); 
-      color: #e6edf3; 
-      outline: none; 
-      transition: all 0.2s; 
-      backdrop-filter: blur(10px); 
-    }
+    .password-wrapper { position: relative; width: 100%; margin-bottom: 6px; }
+    input { width: 100%; padding: 12px 40px 12px 14px; font-size: 16px; border-radius: 10px; border: 1px solid #30363d; background: rgba(22,27,34,0.95); color: #e6edf3; outline: none; transition: all 0.2s; backdrop-filter: blur(10px); }
     input:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
     input::placeholder { color: #6e7681; }
-    
-    .toggle-pass {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #6e7681;
-      cursor: pointer;
-      font-size: 16px;
-      transition: color 0.2s;
-    }
+    .toggle-pass { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #6e7681; cursor: pointer; font-size: 16px; transition: color 0.2s; }
     .toggle-pass:hover { color: #58a6ff; }
-    
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-8px); }
-      75% { transform: translateX(8px); }
-    }
-    
-    .login-btn { 
-      background: #238636; 
-      color: white; 
-      cursor: pointer; 
-      font-weight: 600; 
-      padding: 12px 14px;
-      margin-top: 2px; 
-      font-size: 16px; 
-      width: 100%; 
-      border-radius: 10px; 
-      border: none; 
-      transition: all 0.2s; 
-      box-shadow: 0 4px 20px rgba(35,134,54,0.4);
-    }
-    .login-btn:hover { 
-      background: #2ea043; 
-      box-shadow: 0 6px 30px rgba(35,134,54,0.6); 
-    }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    .login-btn { background: #238636; color: white; cursor: pointer; font-weight: 600; padding: 12px 14px; margin-top: 2px; font-size: 16px; width: 100%; border-radius: 10px; border: none; transition: all 0.2s; box-shadow: 0 4px 20px rgba(35,134,54,0.4); }
+    .login-btn:hover { background: #2ea043; box-shadow: 0 6px 30px rgba(35,134,54,0.6); }
     .login-btn:active { transform: scale(0.98); }
-    
-    #result { 
-      margin-top: 2px; 
-      margin-bottom: 0; 
-      font-weight: 500; 
-      min-height: 18px; 
-      text-align: center; 
-      font-size: 13px; 
-    }
-    
-    .forgot-link { 
-      color: #58a6ff; 
-      font-size: 13px; 
-      font-weight: 400; 
-      text-decoration: none; 
-      margin-top: 2px; 
-      display: inline-block; 
-      cursor: pointer;
-    }
+    #result { margin-top: 2px; margin-bottom: 0; font-weight: 500; min-height: 18px; text-align: center; font-size: 13px; }
+    .forgot-link { color: #58a6ff; font-size: 13px; font-weight: 400; text-decoration: none; margin-top: 2px; display: inline-block; cursor: pointer; }
     .forgot-link:hover { text-decoration: underline; }
-    
-    .social-wrapper { 
-      display: flex; 
-      justify-content: center; 
-      gap: 10px; 
-      margin: 10px 0 6px 0;
-      list-style: none; 
-    }
-    .social-wrapper .icon { 
-      position: relative; 
-      width: 38px;
-      height: 38px; 
-      border-radius: 50%; 
-      background: rgba(22,27,34,0.95); 
-      border: 1px solid #30363d; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      cursor: pointer; 
-      transition: all 0.3s; 
-      backdrop-filter: blur(10px); 
-    }
+    .social-wrapper { display: flex; justify-content: center; gap: 10px; margin: 10px 0 6px 0; list-style: none; }
+    .social-wrapper .icon { position: relative; width: 38px; height: 38px; border-radius: 50%; background: rgba(22,27,34,0.95); border: 1px solid #30363d; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px); }
     .social-wrapper .icon:hover { background: #238636; transform: translateY(-5px); }
     .social-wrapper .icon i { font-size: 16px; color: #7d8590; }
     .social-wrapper .icon:hover i { color: white; }
     .social-wrapper .tooltip { position: absolute; top: -40px; background: #238636; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; opacity: 0; pointer-events: none; transition: all 0.3s; white-space: nowrap; }
     .social-wrapper .icon:hover .tooltip { opacity: 1; top: -45px; }
     .tooltip::after { content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #238636; }
-    
-    .gc-link { 
-      display: block; 
-      width: 100%; 
-      padding: 11px 14px;
-      background: rgba(22,27,34,0.95); 
-      color: #58a6ff; 
-      text-decoration: none; 
-      border-radius: 10px; 
-      font-weight: 500; 
-      font-size: 14px; 
-      border: 1px solid #30363d; 
-      text-align: center; 
-      transition: all 0.2s; 
-      margin-bottom: 6px; 
-      backdrop-filter: blur(10px); 
-      cursor: pointer;
-    }
+    .gc-link { display: block; width: 100%; padding: 11px 14px; background: rgba(22,27,34,0.95); color: #58a6ff; text-decoration: none; border-radius: 10px; font-weight: 500; font-size: 14px; border: 1px solid #30363d; text-align: center; transition: all 0.2s; margin-bottom: 6px; backdrop-filter: blur(10px); cursor: pointer; }
     .gc-link:hover { background: rgba(22,27,34,1); border-color: #58a6ff; }
-    
-    .footer-note { 
-      font-size: 10px;
-      color: #6e7681; 
-      text-align: center; 
-      line-height: 1.3; 
-      margin-bottom: 0; 
-    }
+    .footer-note { font-size: 10px; color: #6e7681; text-align: center; line-height: 1.3; margin-bottom: 0; }
     .footer-note strong { color: #e6edf3; }
+    .footer-link { color: #58a6ff; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+    .footer-link:hover { text-decoration: underline; color: #79c0ff; }
     
-    .footer-link {
-      color: #58a6ff;
-      text-decoration: none;
-      transition: all 0.2s;
-      cursor: pointer;
-    }
-    .footer-link:hover {
-      text-decoration: underline;
-      color: #79c0ff;
+    /* MESSENGER WEBVIEW WARNING */
+    .browser-warning {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #f85149;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-size: 12px;
+      z-index: 999;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <!-- POV HIGHWAY - 150KPH -->
+  <div class="browser-warning" id="browserWarning">
+    ⚠️ Open in Safari/Chrome para gumana ang Messenger links. Click ⋯ sa taas → Open in Browser
+  </div>
+
   <div class="highway-bg">
     <div class="road-container">
       <div class="road">
@@ -308,7 +108,7 @@
     </span>
 
     <ul class="social-wrapper">
-      <li class="icon facebook" onclick="window.open('https://www.facebook.com/share/1Dy3attxpX/?mibextid=wwXIfr', '_blank')">
+      <li class="icon facebook" onclick="openLink('https://www.facebook.com/share/1Dy3attxpX/?mibextid=wwXIfr')">
         <span class="tooltip">Facebook Profile</span>
         <span><i class="fab fa-facebook-f"></i></span>
       </li>
@@ -348,22 +148,45 @@
     const ADMIN_PASS = "Darwengots200412*";
     const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
     
-    // FIX: MESSENGER DEEP LINK - GAGANA SA iPHONE + ANDROID
-    function openMessenger() {
-      // Try FB Messenger app first
-      window.location.href = 'fb-messenger://user-thread/arayco09';
-      // Fallback to m.me after 500ms if app not installed
-      setTimeout(function() {
-        window.location.href = 'https://m.me/arayco09';
-      }, 500);
+    // DETECT KUNG NASA MESSENGER WEBVIEW
+    function isMessengerWebView() {
+      return navigator.userAgent.includes('FBAN') || navigator.userAgent.includes('FBAV');
     }
     
-    // FIX: GC DEEP LINK - GAGANA SA iPHONE + ANDROID
+    // SHOW WARNING PAG NASA MESSENGER
+    if (isMessengerWebView()) {
+      document.getElementById('browserWarning').style.display = 'block';
+    }
+    
+    // UNIVERSAL LINK OPENER - FORCE EXTERNAL BROWSER
+    function openLink(url) {
+      if (isMessengerWebView()) {
+        // Trick para ma-force open sa Safari/Chrome
+        window.open(url, '_system');
+      } else {
+        window.open(url, '_blank');
+      }
+    }
+    
+    // MESSENGER LINK - GAMIT UNIVERSAL LINK
+    function openMessenger() {
+      const url = 'https://m.me/arayco09';
+      if (isMessengerWebView()) {
+        // Sa Messenger WebView, mag-shoshow ng warning
+        alert('Click ⋯ sa taas ng screen → "Open in Browser" para gumana ang Messenger');
+      } else {
+        window.open(url, '_blank');
+      }
+    }
+    
+    // GC LINK - GAMIT UNIVERSAL LINK
     function openGC() {
-      window.location.href = 'fb-messenger://group-thread/AbYpGq-yLGpGvqNK';
-      setTimeout(function() {
-        window.location.href = 'https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c';
-      }, 500);
+      const url = 'https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c';
+      if (isMessengerWebView()) {
+        alert('Click ⋯ sa taas ng screen → "Open in Browser" para sumali sa GC');
+      } else {
+        window.open(url, '_blank');
+      }
     }
     
     // TOGGLE PASSWORD VISIBILITY
