@@ -20,15 +20,16 @@
     .back-arrow { position: absolute; top: 20px; left: 20px; font-size: 28px; color: #7d8590; cursor: pointer; font-weight: 300; z-index: 2; }
     .container { width: 100%; max-width: 396px; margin-top: 40px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
     
-    /* LOGO CONTAINER - STEADY */
+    /* LOGO CONTAINER - STEADY LANG */
     .logo { 
       width: 100%; 
-      max-width: 240px; 
+      max-width: 320px; 
       margin: 0 auto 40px auto; 
       padding: 20px; 
       background: #ffffff; 
       border-radius: 16px;
       position: relative;
+      overflow: hidden;
     }
     
     .logo img { 
@@ -39,70 +40,78 @@
       z-index: 3;
     }
     
-    /* HIGHWAY ANIMATION SA LOOB NG SPEEDOMETER */
-    .highway-bg {
+    /* HIGHWAY LINES ANIMATION - TUMATAKBO SA LOOB NG SPEEDOMETER */
+    .highway-track {
       position: absolute;
-      top: 28px;
-      left: 28px;
-      width: 58px;
-      height: 58px;
+      top: 48px;
+      left: 32px;
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
       overflow: hidden;
       z-index: 1;
-      clip-path: circle(50% at 50% 50%);
+      clip-path: path('M 0 72 Q 18 45 36 36 Q 54 27 72 18 L 72 72 Z');
     }
     
-    .highway-lines {
+    .road-lines {
       position: absolute;
-      top: 50%;
-      left: 0;
+      top: 35px;
+      left: -50%;
       width: 200%;
-      height: 3px;
+      height: 4px;
       background: repeating-linear-gradient(
         90deg,
         #ffffff 0px,
-        #ffffff 8px,
-        transparent 8px,
-        transparent 16px
+        #ffffff 10px,
+        transparent 10px,
+        transparent 20px
       );
-      transform: translateY(-50%) rotate(-25deg);
-      animation: roadMove 1s linear infinite;
+      transform: rotate(-20deg);
+      animation: driveForward 0.8s linear infinite;
     }
     
-    @keyframes roadMove {
-      0% { transform: translateY(-50%) translateX(0) rotate(-25deg); }
-      100% { transform: translateY(-50%) translateX(-50%) rotate(-25deg); }
+    @keyframes driveForward {
+      0% { transform: translateX(0) rotate(-20deg); }
+      100% { transform: translateX(-50%) rotate(-20deg); }
     }
     
-    /* SPEEDOMETER NEEDLE ANIMATION */
+    /* SPEEDOMETER NEEDLE - PA-RIGHT LANG PARANG 6TH GEAR */
     .needle {
       position: absolute;
-      top: 35px;
-      left: 55px;
+      top: 52px;
+      left: 66px;
       width: 3px;
-      height: 28px;
-      background: #e74c3c;
+      height: 32px;
+      background: #4CAF50;
       transform-origin: bottom center;
       z-index: 4;
       border-radius: 2px;
-      animation: needleSweep 3s ease-in-out infinite;
+      animation: revUp 4s ease-out infinite;
+      box-shadow: 0 0 4px rgba(76,175,80,0.5);
     }
     
-    .needle::after {
+    .needle::before {
       content: '';
       position: absolute;
-      bottom: -4px;
+      bottom: -5px;
       left: 50%;
       transform: translateX(-50%);
-      width: 8px;
-      height: 8px;
-      background: #e74c3c;
+      width: 10px;
+      height: 10px;
+      background: #4CAF50;
       border-radius: 50%;
+      border: 2px solid #ffffff;
     }
     
-    @keyframes needleSweep {
-      0%, 100% { transform: rotate(-45deg); }
-      50% { transform: rotate(45deg); }
+    /* PA-RIGHT LANG YUNG ANIMATION - IDLE TO 6TH GEAR */
+    @keyframes revUp {
+      0% { transform: rotate(-50deg); }      /* Idle */
+      15% { transform: rotate(-30deg); }     /* 1st gear */
+      30% { transform: rotate(-10deg); }     /* 2nd gear */
+      45% { transform: rotate(5deg); }       /* 3rd gear */
+      60% { transform: rotate(20deg); }      /* 4th gear */
+      75% { transform: rotate(35deg); }      /* 5th gear */
+      90%, 100% { transform: rotate(45deg); } /* 6th gear - stay dito */
     }
     
     input { width: 100%; padding: 16px 18px; margin-bottom: 12px; font-size: 17px; border-radius: 12px; border: 1px solid #30363d; background: #161b22; color: #e6edf3; outline: none; transition: all 0.2s; }
@@ -136,13 +145,13 @@
   <div class="back-arrow">‹</div>
   <div class="container">
     <div class="logo">
-      <!-- HIGHWAY SA LOOB -->
-      <div class="highway-bg">
-        <div class="highway-lines"></div>
+      <!-- HIGHWAY LINES NA GUMAGALAW -->
+      <div class="highway-track">
+        <div class="road-lines"></div>
       </div>
-      <!-- SPEEDOMETER NEEDLE NA GUMAGALAW -->
+      <!-- SPEEDOMETER NEEDLE - PA-RIGHT LANG -->
       <div class="needle"></div>
-      <!-- LOGO MO - STEADY -->
+      <!-- LOGO MO - STEADY LANG TO -->
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
     
