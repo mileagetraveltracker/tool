@@ -2,23 +2,27 @@
 <html>
 <head>
   <title>Mileage Private Tool</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html, body {
+      height: 100%;
+      overflow: hidden; /* WALANG SCROLL TALAGA */
+    }
     
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
       background: #000000; 
       color: #e6edf3; 
-      height: 100vh; /* FIXED HEIGHT - WALANG SCROLL */
       display: flex; 
       flex-direction: column; 
       align-items: center; 
-      justify-content: center; /* CENTER LAHAT */
-      padding: 16px; /* BINABAAN PADDING */
+      justify-content: center;
+      padding: 12px; /* MAS SINIKIP PA */
+      padding-bottom: max(12px, env(safe-area-inset-bottom)); /* SAFE AREA SA iPHONE */
       position: relative;
-      overflow: hidden; /* WALANG SCROLL TALAGA */
     }
     
     /* POV HIGHWAY - 150KPH BILIS */
@@ -57,7 +61,7 @@
       position: absolute;
       bottom: -50%;
       left: 50%;
-      width: 16px; /* NILAKIHAN PARA MAS KITA */
+      width: 16px;
       height: 250%;
       transform: translateX(-50%);
       background: repeating-linear-gradient(
@@ -82,15 +86,15 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.75); /* BINABAAN PARA MAS KITA HIGHWAY */
+      background: rgba(0, 0, 0, 0.75);
       z-index: 1;
     }
     
     .back-arrow { 
       position: absolute; 
-      top: 16px; 
-      left: 16px; 
-      font-size: 28px; 
+      top: 12px; 
+      left: 12px; 
+      font-size: 24px; 
       color: #7d8590; 
       cursor: pointer; 
       font-weight: 300; 
@@ -99,33 +103,33 @@
     
     .container { 
       width: 100%; 
-      max-width: 396px; 
+      max-width: 360px; /* NILIITAN PA */
       text-align: center; 
       display: flex; 
       flex-direction: column; 
       justify-content: center; 
       position: relative; 
       z-index: 3;
-      gap: 8px; /* CONTROLLED SPACING - WALANG AKSAYA */
+      gap: 6px; /* MAS SIKSIK NA SPACING */
     }
     
     .logo { 
       width: 100%; 
-      max-width: 280px; /* NILIITAN KONTI */
-      margin: 0 auto 16px auto; /* BINABAAN MARGIN */
-      padding: 16px; /* BINABAAN PADDING */
+      max-width: 240px; /* NILIITAN PA LOGO */
+      margin: 0 auto 12px auto; /* BINABAAN MARGIN */
+      padding: 14px; /* BINABAAN PADDING */
       background: #ffffff; 
-      border-radius: 16px;
+      border-radius: 14px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.8);
     }
     .logo img { width: 100%; height: auto; display: block; }
     
     input { 
       width: 100%; 
-      padding: 14px 16px; /* BINABAAN */
-      margin-bottom: 8px; 
+      padding: 12px 14px; /* BINABAAN */
+      margin-bottom: 6px; 
       font-size: 16px; 
-      border-radius: 12px; 
+      border-radius: 10px; 
       border: 1px solid #30363d; 
       background: rgba(22,27,34,0.95); 
       color: #e6edf3; 
@@ -141,14 +145,14 @@
       color: white; 
       cursor: pointer; 
       font-weight: 600; 
-      padding: 14px 16px; 
-      margin-top: 4px; 
-      font-size: 17px; 
+      padding: 12px 14px; /* BINABAAN */
+      margin-top: 2px; 
+      font-size: 16px; 
       width: 100%; 
-      border-radius: 12px; 
+      border-radius: 10px; 
       border: none; 
       transition: all 0.2s; 
-      box-shadow: 0 4px 20px rgba(35,134,54,0.4); /* GLOW EFFECT */
+      box-shadow: 0 4px 20px rgba(35,134,54,0.4);
     }
     .login-btn:hover { 
       background: #2ea043; 
@@ -157,17 +161,17 @@
     .login-btn:active { transform: scale(0.98); }
     
     #result { 
-      margin-top: 4px; 
+      margin-top: 2px; 
       margin-bottom: 0; 
       font-weight: 500; 
-      min-height: 20px; 
+      min-height: 18px; 
       text-align: center; 
-      font-size: 14px; 
+      font-size: 13px; 
     }
     
     .forgot-link { 
       color: #58a6ff; 
-      font-size: 14px; 
+      font-size: 13px; 
       font-weight: 400; 
       text-decoration: none; 
       margin-top: 2px; 
@@ -178,15 +182,15 @@
     .social-wrapper { 
       display: flex; 
       justify-content: center; 
-      gap: 12px; 
-      margin: 12px 0 8px 0; /* BINABAAN MARGIN */
+      gap: 10px; 
+      margin: 10px 0 6px 0; /* BINABAAN MARGIN */
       list-style: none; 
     }
     .social-wrapper a { text-decoration: none; }
     .social-wrapper .icon { 
       position: relative; 
-      width: 42px; /* NILIITAN KONTI */
-      height: 42px; 
+      width: 38px; /* NILIITAN */
+      height: 38px; 
       border-radius: 50%; 
       background: rgba(22,27,34,0.95); 
       border: 1px solid #30363d; 
@@ -198,7 +202,7 @@
       backdrop-filter: blur(10px); 
     }
     .social-wrapper .icon:hover { background: #238636; transform: translateY(-5px); }
-    .social-wrapper .icon i { font-size: 18px; color: #7d8590; }
+    .social-wrapper .icon i { font-size: 16px; color: #7d8590; }
     .social-wrapper .icon:hover i { color: white; }
     .social-wrapper .tooltip { position: absolute; top: -40px; background: #238636; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; opacity: 0; pointer-events: none; transition: all 0.3s; white-space: nowrap; }
     .social-wrapper .icon:hover .tooltip { opacity: 1; top: -45px; }
@@ -207,26 +211,26 @@
     .gc-link { 
       display: block; 
       width: 100%; 
-      padding: 12px 16px; /* BINABAAN */
+      padding: 11px 14px; /* BINABAAN */
       background: rgba(22,27,34,0.95); 
       color: #58a6ff; 
       text-decoration: none; 
-      border-radius: 12px; 
+      border-radius: 10px; 
       font-weight: 500; 
-      font-size: 15px; 
+      font-size: 14px; 
       border: 1px solid #30363d; 
       text-align: center; 
       transition: all 0.2s; 
-      margin-bottom: 8px; 
+      margin-bottom: 6px; 
       backdrop-filter: blur(10px); 
     }
     .gc-link:hover { background: rgba(22,27,34,1); border-color: #58a6ff; }
     
     .footer-note { 
-      font-size: 11px; /* NILIITAN */
+      font-size: 10px; /* NILIITAN PA */
       color: #6e7681; 
       text-align: center; 
-      line-height: 1.4; 
+      line-height: 1.3; 
       margin-bottom: 0; 
     }
     .footer-note strong { color: #e6edf3; }
@@ -315,7 +319,7 @@
         return;
       }
       
-      resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Verifying...'; /* MAY SPINNER NA */
+      resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Verifying...';
       resultDiv.style.color = "#7d8590";
       
       if (passkey === PUBLIC_PASS || passkey === ADMIN_PASS) {
