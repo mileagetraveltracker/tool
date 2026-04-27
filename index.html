@@ -11,7 +11,6 @@
       height: 100%; 
       width: 100%;
       overflow-x: hidden;
-      overflow-y: auto;
     }
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
@@ -26,20 +25,22 @@
       position: relative;
     }
     
-    /* ROAD ANIMATION BACKGROUND */
+    /* ROAD ANIMATION - NAKA POINTER-EVENTS NONE NA */
     .highway-bg { 
       position: fixed; 
       top: 0; left: 0; 
       width: 100%; height: 100%; 
       z-index: 0; 
       background: #000000; 
-      overflow: hidden; 
+      overflow: hidden;
+      pointer-events: none;
     }
     .road-container { 
       position: absolute; 
       top: 0; left: 0; 
       width: 100%; height: 100%; 
       perspective: 500px; 
+      pointer-events: none;
     }
     .road { 
       position: absolute; 
@@ -48,6 +49,7 @@
       background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%); 
       transform: rotateX(60deg); 
       transform-origin: center bottom; 
+      pointer-events: none;
     }
     .lane-lines { 
       position: absolute; 
@@ -55,6 +57,7 @@
       width: 20px; height: 250%; 
       background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px); 
       animation: moveRoad 0.25s linear infinite; 
+      pointer-events: none;
     }
     @keyframes moveRoad { 
       0% { transform: translateX(-50%) translateY(0); } 
@@ -65,23 +68,23 @@
       top: 0; left: 0; 
       width: 100%; height: 100%; 
       background: rgba(0, 0, 0, 0.85); 
-      z-index: 1; 
+      z-index: 1;
+      pointer-events: none;
     }
     
-    /* MAIN CONTAINER */
+    /* MAIN CONTAINER - NAKA Z-INDEX 10 NA PARA SA TAAS */
     .container { 
       width: 100%; 
       max-width: 380px; 
       text-align: center; 
       position: relative; 
-      z-index: 3; 
+      z-index: 10; 
       display: flex;
       flex-direction: column;
       gap: 16px;
       margin: auto;
     }
     
-    /* LOGO */
     .logo { 
       width: 100%; 
       max-width: 260px; 
@@ -93,7 +96,6 @@
     }
     .logo img { width: 100%; height: auto; display: block; }
     
-    /* INPUT WITH ICON */
     .input-group {
       position: relative;
       width: 100%;
@@ -105,6 +107,7 @@
       transform: translateY(-50%);
       color: #6e7681;
       font-size: 16px;
+      pointer-events: none;
     }
     input { 
       width: 100%; 
@@ -115,7 +118,6 @@
       background: rgba(22,27,34,0.95); 
       color: #e6edf3; 
       outline: none; 
-      transition: all 0.2s; 
     }
     input:focus { 
       border-color: #1f6feb; 
@@ -123,7 +125,6 @@
     }
     input::placeholder { color: #6e7681; }
     
-    /* BUTTON */
     .login-btn { 
       background: #238636; 
       color: white; 
@@ -134,17 +135,14 @@
       width: 100%; 
       border-radius: 12px; 
       border: none; 
-      transition: all 0.2s; 
-      box-shadow: 0 4px 20px rgba(35,134,54,0.4); 
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
     }
-    .login-btn:hover { background: #2ea043; }
+    .login-btn:active { transform: scale(0.98); }
     .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
     
-    /* TEXT & LINKS */
     #result, #signupResult { 
       font-weight: 500; 
       min-height: 20px; 
@@ -155,19 +153,20 @@
       color: #58a6ff; 
       font-size: 14px; 
       cursor: pointer;
-      padding: 8px;
+      padding: 10px;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
-    .toggle-form:hover, .forgot:hover { 
-      text-decoration: underline; 
-      color: #79c0ff;
+    .toggle-form:active, .forgot:active { 
+      opacity: 0.7;
     }
     
-    /* IMPORTANTE TO - HIDDEN CLASS FIX */
+    /* CRITICAL FIX - HIDDEN CLASS */
     .hidden { 
       display: none !important; 
+      visibility: hidden !important;
     }
     
-    /* FORM CONTAINER */
     .form-box {
       display: flex;
       flex-direction: column;
@@ -209,7 +208,7 @@
         <i class="fa-solid fa-key"></i> Forgot Password?
       </p>
       <p class="toggle-form" onclick="toggleForms()">
-        <i class="fa-solid fa-user-plus"></i> Don't have account? Create one
+        <i class="fa-solid fa-user-plus"></i> Don't have account? Sign Up
       </p>
     </div>
 
@@ -292,7 +291,7 @@
         return;
       }
       
-      if (password.length < 8) {
+      if (password.length < 15) {
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
         resultDiv.style.color = "#f85149";
         return;
@@ -338,8 +337,10 @@
     }
 
     function toggleForms() {
-      document.getElementById('loginForm').classList.toggle('hidden');
-      document.getElementById('signupForm').classList.toggle('hidden');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      loginForm.classList.toggle('hidden');
+      signupForm.classList.toggle('hidden');
       document.getElementById('result').innerHTML = '';
       document.getElementById('signupResult').innerHTML = '';
     }
