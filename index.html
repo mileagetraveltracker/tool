@@ -6,8 +6,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    /* OPTIMIZED HIGHWAY BACKGROUND - GPU ACCELERATED */
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
       background: #0d1117; 
@@ -17,47 +15,12 @@
       flex-direction: column; 
       align-items: center; 
       padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .highway {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      background: #0d1117;
-      z-index: 0;
-      will-change: transform;
-    }
-    
-    .highway-lines {
-      position: absolute;
-      bottom: 48px;
-      left: 0;
-      width: 200%;
-      height: 4px;
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(255,255,255,0.3) 0px,
-        rgba(255,255,255,0.3) 40px,
-        transparent 40px,
-        transparent 80px
-      );
-      animation: highwayMove 2s linear infinite;
-      will-change: transform;
-    }
-    
-    @keyframes highwayMove {
-      0% { transform: translate3d(0, 0, 0); }
-      100% { transform: translate3d(-50%, 0, 0); }
     }
     
     .back-arrow { position: absolute; top: 20px; left: 20px; font-size: 28px; color: #7d8590; cursor: pointer; font-weight: 300; z-index: 2; }
     .container { width: 100%; max-width: 396px; margin-top: 40px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
     
-    /* LOGO - STEADY LANG, WALANG ANIMATION */
+    /* LOGO CONTAINER - STEADY */
     .logo { 
       width: 100%; 
       max-width: 240px; 
@@ -65,9 +28,82 @@
       padding: 20px; 
       background: #ffffff; 
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      position: relative;
     }
-    .logo img { width: 100%; height: auto; display: block; }
+    
+    .logo img { 
+      width: 100%; 
+      height: auto; 
+      display: block; 
+      position: relative;
+      z-index: 3;
+    }
+    
+    /* HIGHWAY ANIMATION SA LOOB NG SPEEDOMETER */
+    .highway-bg {
+      position: absolute;
+      top: 28px;
+      left: 28px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 1;
+      clip-path: circle(50% at 50% 50%);
+    }
+    
+    .highway-lines {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 200%;
+      height: 3px;
+      background: repeating-linear-gradient(
+        90deg,
+        #ffffff 0px,
+        #ffffff 8px,
+        transparent 8px,
+        transparent 16px
+      );
+      transform: translateY(-50%) rotate(-25deg);
+      animation: roadMove 1s linear infinite;
+    }
+    
+    @keyframes roadMove {
+      0% { transform: translateY(-50%) translateX(0) rotate(-25deg); }
+      100% { transform: translateY(-50%) translateX(-50%) rotate(-25deg); }
+    }
+    
+    /* SPEEDOMETER NEEDLE ANIMATION */
+    .needle {
+      position: absolute;
+      top: 35px;
+      left: 55px;
+      width: 3px;
+      height: 28px;
+      background: #e74c3c;
+      transform-origin: bottom center;
+      z-index: 4;
+      border-radius: 2px;
+      animation: needleSweep 3s ease-in-out infinite;
+    }
+    
+    .needle::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: #e74c3c;
+      border-radius: 50%;
+    }
+    
+    @keyframes needleSweep {
+      0%, 100% { transform: rotate(-45deg); }
+      50% { transform: rotate(45deg); }
+    }
     
     input { width: 100%; padding: 16px 18px; margin-bottom: 12px; font-size: 17px; border-radius: 12px; border: 1px solid #30363d; background: #161b22; color: #e6edf3; outline: none; transition: all 0.2s; }
     input:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
@@ -94,23 +130,22 @@
     .gc-link:hover { background: #161b22; border-color: #58a6ff; }
     .footer-note { font-size: 12px; color: #6e7681; text-align: center; line-height: 1.5; margin-bottom: 20px; }
     .footer-note strong { color: #e6edf3; }
-    
-    /* PAUSE ANIMATION SA MOBILE KAPAG HINDI VISIBLE PARA TIPID BATTERY */
-    @media (prefers-reduced-motion: reduce) {
-      .highway-lines { animation: none; }
-    }
   </style>
 </head>
 <body>
-  <div class="highway">
-    <div class="highway-lines"></div>
-  </div>
-  
   <div class="back-arrow">‹</div>
   <div class="container">
     <div class="logo">
+      <!-- HIGHWAY SA LOOB -->
+      <div class="highway-bg">
+        <div class="highway-lines"></div>
+      </div>
+      <!-- SPEEDOMETER NEEDLE NA GUMAGALAW -->
+      <div class="needle"></div>
+      <!-- LOGO MO - STEADY -->
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
+    
     <input type="password" id="passkey" placeholder="Password" autocomplete="off">
     <button class="login-btn" onclick="checkPass()">LOG IN</button>
     <div id="result"></div>
