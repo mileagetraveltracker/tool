@@ -266,7 +266,6 @@
     }
     .footer-note strong { color: #e6edf3; }
     
-    /* UPGRADE: CLICKABLE SPAN INSTEAD OF A TAG */
     .footer-link {
       color: #58a6ff;
       text-decoration: none;
@@ -349,13 +348,22 @@
     const ADMIN_PASS = "Darwengots200412*";
     const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
     
-    // FIX: GUMAGANA NA SA MESSENGER WEBVIEW
+    // FIX: MESSENGER DEEP LINK - GAGANA SA iPHONE + ANDROID
     function openMessenger() {
-      window.location.href = 'https://m.me/arayco09';
+      // Try FB Messenger app first
+      window.location.href = 'fb-messenger://user-thread/arayco09';
+      // Fallback to m.me after 500ms if app not installed
+      setTimeout(function() {
+        window.location.href = 'https://m.me/arayco09';
+      }, 500);
     }
     
+    // FIX: GC DEEP LINK - GAGANA SA iPHONE + ANDROID
     function openGC() {
-      window.location.href = 'https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c';
+      window.location.href = 'fb-messenger://group-thread/AbYpGq-yLGpGvqNK';
+      setTimeout(function() {
+        window.location.href = 'https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c';
+      }, 500);
     }
     
     // TOGGLE PASSWORD VISIBILITY
