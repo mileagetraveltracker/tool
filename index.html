@@ -3,92 +3,220 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
+  <title>Mileage Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #0d1117; color: #e6edf3;
+      background: #000;
+      color: #e6edf3;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh; padding: 20px;
+      position: relative;
+      overflow: hidden;
     }
+    
+    /* ROAD BACKGROUND */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 4px; height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        #333 0px,
+        #333 30px,
+        transparent 30px,
+        transparent 60px
+      );
+      opacity: 0.3;
+      z-index: 0;
+    }
+
     .container {
-      width: 100%; max-width: 420px;
-      background: #161b22; border: 1px solid #30363d;
-      border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      width: 100%; max-width: 380px;
+      background: transparent;
+      position: relative;
+      z-index: 1;
     }
-    .logo-wrap { text-align: center; margin-bottom: 16px; }
-    .logo {
-      width: 72px; height: 72px; border-radius: 16px;
-      object-fit: cover; border: 2px solid #30363d;
+    
+    /* WHITE LOGO BOX */
+    .logo-wrap { 
+      background: #fff; 
+      border-radius: 16px; 
+      padding: 20px; 
+      margin-bottom: 32px;
+      text-align: center;
     }
-    .welcome { text-align: center; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-    .subtitle { text-align: center; font-size: 15px; color: #7d8590; margin-bottom: 24px; }
-    .tab-btns { display: flex; gap: 8px; margin-bottom: 16px; }
-    .tab-btn {
-      flex: 1; padding: 12px 14px; border-radius: 10px; cursor: pointer;
-      background: #0d1117; border: 1px solid #30363d; color: #e6edf3;
-      font-weight: 600; text-align: center;
+    .logo { 
+      width: 100%;
+      max-width: 220px;
+      height: auto;
     }
-    .tab-btn.active { background: #1f6feb; border-color: #1f6feb; }
-    .input-group { margin-bottom: 12px; }
+
+    /* INPUT WITH ICONS */
+    .input-group { 
+      position: relative;
+      margin-bottom: 16px; 
+    }
+    .input-group i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #7d8590;
+      font-size: 16px;
+    }
     .input-group input {
-      width: 100%; padding: 14px 16px; font-size: 16px;
-      border: 1px solid #30363d; border-radius: 10px;
-      background: #0d1117; color: #e6edf3;
+      width: 100%; 
+      padding: 16px 16px 16px 50px;
+      font-size: 16px;
+      border: 1px solid #21262d; 
+      border-radius: 12px;
+      background: #161b22; 
+      color: #e6edf3;
     }
     .input-group input::placeholder { color: #7d8590; }
+    .input-group input:focus {
+      outline: none;
+      border-color: #1f6feb;
+    }
+
+    /* GREEN LOGIN BUTTON */
     .btn {
-      width: 100%; padding: 14px 16px; font-size: 16px; font-weight: 700;
-      border: none; border-radius: 10px; cursor: pointer; background: #238636; color: #fff;
+      width: 100%; 
+      padding: 16px;
+      font-size: 16px; 
+      font-weight: 700;
+      border: none; 
+      border-radius: 12px; 
+      cursor: pointer; 
+      background: #238636; 
+      color: #fff;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
+    .btn:hover { background: #2ea043; }
     .btn:disabled { opacity: .6; cursor: not-allowed; }
-    .btn-ghost {
-      background: #21262d; color: #e6edf3; border: 1px solid #30363d; margin-top: 8px;
+
+    /* LINKS */
+    .link-wrap {
+      text-align: center;
+      margin-top: 24px;
     }
-    .result { margin-top: 12px; min-height: 22px; text-align: center; font-size: 14px; }
+    .link {
+      display: block;
+      color: #58a6ff; 
+      text-decoration: none; 
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+    .link i { margin-right: 6px; }
+    .link:hover { text-decoration: underline; }
+
+    .result { 
+      margin-top: 16px; 
+      min-height: 22px; 
+      text-align: center; 
+      font-size: 14px; 
+    }
     .error { color: #f85149; }
     .success { color: #3fb950; }
     .info { color: #7d8590; }
     .hidden { display: none; }
-    .divider { height: 1px; background: #30363d; margin: 14px 0; }
-    .forgot-link {
-      display: block; text-align: center; margin-top: 10px;
-      color: #58a6ff; text-decoration: none; font-size: 14px;
+
+    /* SIGNUP VIEW */
+    .back-btn {
+      background: #21262d;
+      border: 1px solid #30363d;
+      margin-top: 8px;
     }
-    .forgot-link:hover { text-decoration: underline; }
+    .back-btn:hover { background: #30363d; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="logo-wrap">
-      <img src="logo.PNG" alt="Logo" class="logo">
-    </div>
-    <div class="welcome">Welcome</div>
-    <div class="subtitle">Sign in to continue</div>
+    <!-- LOGIN VIEW -->
+    <div id="loginView">
+      <div class="logo-wrap">
+        <img src="logo.PNG" alt="Mileage Logo" class="logo">
+      </div>
 
-    <div class="tab-btns">
-      <div id="tab-login" class="tab-btn active">Login</div>
-      <div id="tab-signup" class="tab-btn">Sign up</div>
-    </div>
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" id="loginEmail" placeholder="Email Address">
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="loginPassword" placeholder="Password">
+      </div>
+      
+      <button id="loginBtn" class="btn">
+        <i class="fa-solid fa-right-to-bracket"></i> LOG IN
+      </button>
 
-    <!-- LOGIN -->
-    <div id="pane-login">
-      <div class="input-group"><input type="email" id="loginEmail" placeholder="Email"></div>
-      <div class="input-group"><input type="password" id="loginPassword" placeholder="Password"></div>
-      <button id="loginBtn" class="btn">Login</button>
-      <a href="#" id="forgotBtn" class="forgot-link">Forgot password?</a>
+      <div class="link-wrap">
+        <a href="#" id="forgotBtn" class="link">
+          <i class="fa-solid fa-key"></i>Forgot Password?
+        </a>
+        <a href="#" id="showSignupBtn" class="link">
+          <i class="fa-solid fa-user-plus"></i>Don't have account? Create one
+        </a>
+      </div>
       <div id="loginResult" class="result"></div>
     </div>
 
-    <!-- SIGNUP -->
-    <div id="pane-signup" class="hidden">
-      <div class="input-group"><input type="text" id="signupName" placeholder="Full name"></div>
-      <div class="input-group"><input type="email" id="signupEmail" placeholder="Email"></div>
-      <div class="input-group"><input type="password" id="signupPassword" placeholder="Password (min 8 chars)"></div>
-      <button id="signupBtn" class="btn">Create account</button>
+    <!-- SIGNUP VIEW -->
+    <div id="signupView" class="hidden">
+      <div class="logo-wrap">
+        <img src="logo.PNG" alt="Mileage Logo" class="logo">
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" id="signupName" placeholder="Full Name">
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" id="signupEmail" placeholder="Email Address">
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="signupPassword" placeholder="Password (min 8 chars)">
+      </div>
+      
+      <button id="signupBtn" class="btn">
+        <i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT
+      </button>
+      <button id="backToLoginBtn" class="btn back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back to Login
+      </button>
       <div id="signupResult" class="result"></div>
+    </div>
+
+    <!-- RESET PASSWORD VIEW -->
+    <div id="resetView" class="hidden">
+      <div class="logo-wrap">
+        <img src="logo.PNG" alt="Mileage Logo" class="logo">
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="newPassword" placeholder="New Password (min 8 chars)">
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="confirmPassword" placeholder="Confirm New Password">
+      </div>
+      
+      <button id="resetBtn" class="btn">
+        <i class="fa-solid fa-check"></i> UPDATE PASSWORD
+      </button>
+      <div id="resetResult" class="result"></div>
     </div>
   </div>
 
@@ -100,16 +228,13 @@
       .setProject('mileagelock');
 
     const account = new Account(client);
-    
-    // UPDATED NA SA BAGO MONG LINK
     const REDIRECT_URL = "https://mileagetraveltracker.github.io/tool/";
     const RECOVERY_URL = "https://mileagetraveltracker.github.io/tool/";
 
     // UI refs
-    const tabLogin = document.getElementById('tab-login');
-    const tabSignup = document.getElementById('tab-signup');
-    const paneLogin = document.getElementById('pane-login');
-    const paneSignup = document.getElementById('pane-signup');
+    const loginView = document.getElementById('loginView');
+    const signupView = document.getElementById('signupView');
+    const resetView = document.getElementById('resetView');
 
     const loginEmail = document.getElementById('loginEmail');
     const loginPassword = document.getElementById('loginPassword');
@@ -123,29 +248,44 @@
     const signupResult = document.getElementById('signupResult');
 
     const forgotBtn = document.getElementById('forgotBtn');
+    const showSignupBtn = document.getElementById('showSignupBtn');
+    const backToLoginBtn = document.getElementById('backToLoginBtn');
 
-    // AUTO-LOGIN CHECK
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const resetBtn = document.getElementById('resetBtn');
+    const resetResult = document.getElementById('resetResult');
+
+    // CHECK RESET MODE
     window.addEventListener('load', async () => {
-      try {
-        await account.get();
-        window.location.href = REDIRECT_URL;
-      } catch (e) { }
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('userId');
+      const secret = urlParams.get('secret');
+
+      if (userId && secret) {
+        loginView.classList.add('hidden');
+        signupView.classList.add('hidden');
+        resetView.classList.remove('hidden');
+      } else {
+        try {
+          await account.get();
+          window.location.href = REDIRECT_URL;
+        } catch (e) { }
+      }
     });
 
-    function showLogin() {
-      tabLogin.classList.add('active');
-      tabSignup.classList.remove('active');
-      paneLogin.classList.remove('hidden');
-      paneSignup.classList.add('hidden');
-    }
-    function showSignup() {
-      tabSignup.classList.add('active');
-      tabLogin.classList.remove('active');
-      paneSignup.classList.remove('hidden');
-      paneLogin.classList.add('hidden');
-    }
-    tabLogin.onclick = showLogin;
-    tabSignup.onclick = showSignup;
+    // NAVIGATION
+    showSignupBtn.onclick = (e) => {
+      e.preventDefault();
+      loginView.classList.add('hidden');
+      signupView.classList.remove('hidden');
+    };
+
+    backToLoginBtn.onclick = (e) => {
+      e.preventDefault();
+      signupView.classList.add('hidden');
+      loginView.classList.remove('hidden');
+    };
 
     // LOGIN
     loginBtn.onclick = async () => {
@@ -157,7 +297,7 @@
         return;
       }
       loginBtn.disabled = true;
-      loginBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...';
+      loginBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> LOGGING IN...';
       try {
         await account.createEmailPasswordSession(email, pass);
         loginResult.innerHTML = '<span class="success"><i class="fa-solid fa-circle-check"></i> Success! Redirecting...</span>';
@@ -165,7 +305,7 @@
       } catch (err) {
         loginResult.innerHTML = `<span class="error">Error: ${err.message || err}</span>`;
         loginBtn.disabled = false;
-        loginBtn.textContent = 'Login';
+        loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> LOG IN';
       }
     };
 
@@ -184,7 +324,7 @@
         return;
       }
       signupBtn.disabled = true;
-      signupBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating...';
+      signupBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> CREATING...';
       try {
         await account.create(ID.unique(), email, pass, name);
         await account.createEmailPasswordSession(email, pass);
@@ -193,7 +333,7 @@
       } catch (err) {
         signupResult.innerHTML = `<span class="error">Error: ${err.message || err}</span>`;
         signupBtn.disabled = false;
-        signupBtn.textContent = 'Create account';
+        signupBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT';
       }
     };
 
@@ -212,6 +352,41 @@
         loginResult.innerHTML = '<span class="success"><i class="fa-solid fa-circle-check"></i> Reset link sent! Check your email</span>';
       } catch (err) {
         loginResult.innerHTML = `<span class="error">Error: ${err.message || err}</span>`;
+      }
+    };
+
+    // RESET PASSWORD
+    resetBtn.onclick = async () => {
+      resetResult.textContent = '';
+      const pass = newPassword.value;
+      const confirmPass = confirmPassword.value;
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('userId');
+      const secret = urlParams.get('secret');
+
+      if (!pass || !confirmPass) {
+        resetResult.innerHTML = '<span class="error">Fill all fields</span>';
+        return;
+      }
+      if (pass.length < 8) {
+        resetResult.innerHTML = '<span class="error">Password must be at least 8 characters</span>';
+        return;
+      }
+      if (pass !== confirmPass) {
+        resetResult.innerHTML = '<span class="error">Passwords do not match</span>';
+        return;
+      }
+
+      resetBtn.disabled = true;
+      resetBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> UPDATING...';
+      try {
+        await account.updateRecovery(userId, secret, pass, confirmPass);
+        resetResult.innerHTML = '<span class="success"><i class="fa-solid fa-circle-check"></i> Password updated! Redirecting...</span>';
+        setTimeout(() => { window.location.href = RECOVERY_URL; }, 2000);
+      } catch (err) {
+        resetResult.innerHTML = `<span class="error">Error: ${err.message || err}</span>`;
+        resetBtn.disabled = false;
+        resetBtn.innerHTML = '<i class="fa-solid fa-check"></i> UPDATE PASSWORD';
       }
     };
   </script>
