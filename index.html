@@ -20,7 +20,7 @@
       overflow: hidden;
     }
     
-    /* CSS HIGHWAY BACKGROUND - MAS MABILIS NA ANDAR */
+    /* CSS HIGHWAY BACKGROUND - NASA GITNA NG BUONG SCREEN */
     .css-highway {
       position: fixed;
       top: 0;
@@ -57,7 +57,7 @@
         transparent 40px,
         transparent 80px
       );
-      animation: roadFlow 0.4s linear infinite; /* MAS MABILIS - 0.4s */
+      animation: roadFlow 1s linear infinite;
     }
     
     .side-lines-left, .side-lines-right {
@@ -72,7 +72,7 @@
         transparent 60px,
         transparent 120px
       );
-      animation: roadFlow 0.4s linear infinite; /* MAS MABILIS */
+      animation: roadFlow 1s linear infinite;
     }
     
     .side-lines-left { left: 30%; }
@@ -97,7 +97,6 @@
     .back-arrow { position: absolute; top: 20px; left: 20px; font-size: 28px; color: #7d8590; cursor: pointer; font-weight: 300; z-index: 3; }
     .container { width: 100%; max-width: 396px; margin-top: 40px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 3; }
     
-    /* LOGO CONTAINER */
     .logo { 
       width: 100%; 
       max-width: 320px; 
@@ -106,47 +105,8 @@
       background: #ffffff; 
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.8);
-      position: relative;
     }
-    .logo img { width: 100%; height: auto; display: block; position: relative; z-index: 2; }
-    
-    /* SPEEDOMETER NEEDLE - PA-RIGHT LANG, 6TH GEAR STYLE */
-    .needle {
-      position: absolute;
-      top: 52px;
-      left: 66px;
-      width: 3px;
-      height: 32px;
-      background: #4CAF50;
-      transform-origin: bottom center;
-      z-index: 4;
-      border-radius: 2px;
-      animation: revToMax 3s ease-out infinite;
-      box-shadow: 0 0 6px rgba(76,175,80,0.8);
-    }
-    
-    .needle::before {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 10px;
-      height: 10px;
-      background: #4CAF50;
-      border-radius: 50%;
-      border: 2px solid #ffffff;
-    }
-    
-    /* PA-RIGHT LANG - IDLE TO 6TH GEAR */
-    @keyframes revToMax {
-      0% { transform: rotate(-50deg); }      /* Idle */
-      20% { transform: rotate(-20deg); }     /* 1st-2nd */
-      40% { transform: rotate(0deg); }       /* 3rd */
-      60% { transform: rotate(20deg); }      /* 4th */
-      80% { transform: rotate(40deg); }      /* 5th */
-      100% { transform: rotate(45deg); }     /* 6th gear - sagad */
-    }
+    .logo img { width: 100%; height: auto; display: block; }
     
     input { width: 100%; padding: 16px 18px; margin-bottom: 12px; font-size: 17px; border-radius: 12px; border: 1px solid #30363d; background: rgba(22,27,34,0.95); color: #e6edf3; outline: none; transition: all 0.2s; backdrop-filter: blur(10px); }
     input:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
@@ -176,7 +136,7 @@
   </style>
 </head>
 <body>
-  <!-- CSS HIGHWAY BACKGROUND - MABILIS ANDAR -->
+  <!-- CSS HIGHWAY BACKGROUND - GITNA NG SCREEN -->
   <div class="css-highway">
     <div class="road">
       <div class="lane-lines"></div>
@@ -189,8 +149,6 @@
   <div class="back-arrow">‹</div>
   <div class="container">
     <div class="logo">
-      <!-- NEEDLE NA GUMAGALAW PA-RIGHT -->
-      <div class="needle"></div>
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
     
