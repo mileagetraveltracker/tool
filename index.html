@@ -25,22 +25,21 @@
       position: relative;
     }
     
-    /* ROAD ANIMATION - NAKA POINTER-EVENTS NONE NA */
     .highway-bg { 
       position: fixed; 
       top: 0; left: 0; 
       width: 100%; height: 100%; 
       z-index: 0; 
       background: #000000; 
-      overflow: hidden;
-      pointer-events: none;
+      overflow: hidden; 
+      pointer-events: none; 
     }
     .road-container { 
       position: absolute; 
       top: 0; left: 0; 
       width: 100%; height: 100%; 
       perspective: 500px; 
-      pointer-events: none;
+      pointer-events: none; 
     }
     .road { 
       position: absolute; 
@@ -49,7 +48,7 @@
       background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%); 
       transform: rotateX(60deg); 
       transform-origin: center bottom; 
-      pointer-events: none;
+      pointer-events: none; 
     }
     .lane-lines { 
       position: absolute; 
@@ -57,7 +56,7 @@
       width: 20px; height: 250%; 
       background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px); 
       animation: moveRoad 0.25s linear infinite; 
-      pointer-events: none;
+      pointer-events: none; 
     }
     @keyframes moveRoad { 
       0% { transform: translateX(-50%) translateY(0); } 
@@ -68,21 +67,20 @@
       top: 0; left: 0; 
       width: 100%; height: 100%; 
       background: rgba(0, 0, 0, 0.85); 
-      z-index: 1;
-      pointer-events: none;
+      z-index: 1; 
+      pointer-events: none; 
     }
     
-    /* MAIN CONTAINER - NAKA Z-INDEX 10 NA PARA SA TAAS */
     .container { 
       width: 100%; 
       max-width: 380px; 
       text-align: center; 
       position: relative; 
       z-index: 10; 
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin: auto;
+      display: flex; 
+      flex-direction: column; 
+      gap: 16px; 
+      margin: auto; 
     }
     
     .logo { 
@@ -96,18 +94,15 @@
     }
     .logo img { width: 100%; height: auto; display: block; }
     
-    .input-group {
-      position: relative;
-      width: 100%;
-    }
-    .input-group i {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #6e7681;
-      font-size: 16px;
-      pointer-events: none;
+    .input-group { position: relative; width: 100%; }
+    .input-group i { 
+      position: absolute; 
+      left: 16px; 
+      top: 50%; 
+      transform: translateY(-50%); 
+      color: #6e7681; 
+      font-size: 16px; 
+      pointer-events: none; 
     }
     input { 
       width: 100%; 
@@ -135,10 +130,10 @@
       width: 100%; 
       border-radius: 12px; 
       border: none; 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
     }
     .login-btn:active { transform: scale(0.98); }
     .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -152,36 +147,34 @@
     .toggle-form, .forgot { 
       color: #58a6ff; 
       font-size: 14px; 
-      cursor: pointer;
-      padding: 10px;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      cursor: pointer; 
+      padding: 10px; 
+      user-select: none; 
+      -webkit-tap-highlight-color: transparent; 
     }
-    .toggle-form:active, .forgot:active { 
-      opacity: 0.7;
-    }
+    .toggle-form:active, .forgot:active { opacity: 0.7; }
     
-    /* CRITICAL FIX - HIDDEN CLASS */
-    .hidden { 
-      display: none !important; 
-      visibility: hidden !important;
-    }
+    .hidden { display: none !important; }
     
-    .form-box {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
+    .form-box { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+      width: 100%; 
     }
   </style>
 </head>
 <body>
+  <!-- AYAN NA YUNG MISSING NA CLOSING DIV -->
   <div class="highway-bg">
     <div class="road-container">
       <div class="road">
         <div class="lane-lines"></div>
       </div>
     </div>
+  </div>
+  <!-- END NG HIGHWAY-BG -->
+  
   <div class="overlay"></div>
   
   <div class="container">
@@ -189,7 +182,6 @@
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
     
-    <!-- LOGIN FORM -->
     <div id="loginForm" class="form-box">
       <div class="input-group">
         <input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email">
@@ -208,11 +200,10 @@
         <i class="fa-solid fa-key"></i> Forgot Password?
       </p>
       <p class="toggle-form" onclick="toggleForms()">
-        <i class="fa-solid fa-user-plus"></i> Don't have account? Sign Up
+        <i class="fa-solid fa-user-plus"></i> Don't have account? Create one
       </p>
     </div>
 
-    <!-- SIGNUP FORM -->
     <div id="signupForm" class="form-box hidden">
       <div class="input-group">
         <input type="text" id="signupName" placeholder="Full Name" autocomplete="name">
@@ -291,7 +282,7 @@
         return;
       }
       
-      if (password.length < 15) {
+      if (password.length < 8) {
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
         resultDiv.style.color = "#f85149";
         return;
