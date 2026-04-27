@@ -20,50 +20,40 @@
       overflow: hidden;
     }
     
-    /* HIGHWAY BACKGROUND - MABILIS, WALANG YELLOW LINE */
-    .css-highway {
+    /* SIMPLE HIGHWAY - WALANG 3D, WALANG LAG */
+    .highway-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
-      background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
-      perspective: 400px;
-    }
-    
-    .road {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 200%;
-      height: 300%;
-      background: #1a1a1a;
-      transform: translate(-50%, -50%) rotateX(75deg);
+      background: #000000;
       overflow: hidden;
     }
     
-    /* WHITE LINES LANG - MABILIS ANDAR */
+    /* WHITE DASHED LINE LANG SA GITNA - SMOOTH */
     .lane-lines {
       position: absolute;
-      top: 0;
+      top: -100%;
       left: 50%;
-      width: 8px;
-      height: 200%;
+      width: 4px;
+      height: 300%;
       transform: translateX(-50%);
       background: repeating-linear-gradient(
-        0deg,
+        to bottom,
         #ffffff 0px,
-        #ffffff 40px,
-        transparent 40px,
-        transparent 80px
+        #ffffff 30px,
+        transparent 30px,
+        transparent 60px
       );
-      animation: roadFlow 0.3s linear infinite;
+      animation: moveDown 0.5s linear infinite;
+      will-change: transform;
     }
     
-    @keyframes roadFlow {
+    @keyframes moveDown {
       0% { transform: translateX(-50%) translateY(0); }
-      100% { transform: translateX(-50%) translateY(80px); }
+      100% { transform: translateX(-50%) translateY(60px); }
     }
     
     /* DARK OVERLAY */
@@ -73,14 +63,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       z-index: 1;
     }
     
     .back-arrow { position: absolute; top: 20px; left: 20px; font-size: 28px; color: #7d8590; cursor: pointer; font-weight: 300; z-index: 3; }
     .container { width: 100%; max-width: 396px; margin-top: 40px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 3; }
     
-    /* LOGO - STEADY LANG, WALANG ANIMATION, WALANG CSS NEEDLE */
+    /* LOGO - STEADY LANG */
     .logo { 
       width: 100%; 
       max-width: 320px; 
@@ -120,17 +110,15 @@
   </style>
 </head>
 <body>
-  <!-- HIGHWAY BACKGROUND LANG - WALANG YELLOW LINE -->
-  <div class="css-highway">
-    <div class="road">
-      <div class="lane-lines"></div>
-    </div>
+  <!-- SIMPLE HIGHWAY - WALANG 3D, WALANG LAG -->
+  <div class="highway-bg">
+    <div class="lane-lines"></div>
+  </div>
   <div class="overlay"></div>
   
   <div class="back-arrow">‹</div>
   <div class="container">
     <div class="logo">
-      <!-- LOGO MO LANG - STEADY, WALANG CSS NEEDLE -->
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
     
