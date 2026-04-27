@@ -9,7 +9,7 @@
     
     html, body {
       height: 100%;
-      overflow: hidden; /* WALANG SCROLL TALAGA */
+      overflow: hidden;
     }
     
     body { 
@@ -20,8 +20,8 @@
       flex-direction: column; 
       align-items: center; 
       justify-content: center;
-      padding: 12px; /* MAS SINIKIP PA */
-      padding-bottom: max(12px, env(safe-area-inset-bottom)); /* SAFE AREA SA iPHONE */
+      padding: 12px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
       position: relative;
     }
     
@@ -61,7 +61,7 @@
       position: absolute;
       bottom: -50%;
       left: 50%;
-      width: 16px;
+      width: 20px; /* UPGRADE #4: MAS MALINAW NA LINES */
       height: 250%;
       transform: translateX(-50%);
       background: repeating-linear-gradient(
@@ -99,35 +99,49 @@
       cursor: pointer; 
       font-weight: 300; 
       z-index: 3; 
+      transition: color 0.2s;
     }
+    .back-arrow:hover { color: #58a6ff; }
     
     .container { 
       width: 100%; 
-      max-width: 360px; /* NILIITAN PA */
+      max-width: 360px;
       text-align: center; 
       display: flex; 
       flex-direction: column; 
       justify-content: center; 
       position: relative; 
       z-index: 3;
-      gap: 6px; /* MAS SIKSIK NA SPACING */
+      gap: 6px;
     }
     
+    /* UPGRADE #1: LOGO POP ANIMATION */
     .logo { 
       width: 100%; 
-      max-width: 240px; /* NILIITAN PA LOGO */
-      margin: 0 auto 12px auto; /* BINABAAN MARGIN */
-      padding: 14px; /* BINABAAN PADDING */
+      max-width: 240px;
+      margin: 0 auto 12px auto;
+      padding: 14px;
       background: #ffffff; 
       border-radius: 14px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+      animation: logoPop 0.6s ease-out;
+    }
+    @keyframes logoPop {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
     }
     .logo img { width: 100%; height: auto; display: block; }
     
+    /* UPGRADE #5: PASSWORD WRAPPER PARA SA EYE ICON */
+    .password-wrapper {
+      position: relative;
+      width: 100%;
+      margin-bottom: 6px;
+    }
+    
     input { 
       width: 100%; 
-      padding: 12px 14px; /* BINABAAN */
-      margin-bottom: 6px; 
+      padding: 12px 40px 12px 14px; /* DAGDAG PADDING RIGHT PARA SA EYE */
       font-size: 16px; 
       border-radius: 10px; 
       border: 1px solid #30363d; 
@@ -140,12 +154,32 @@
     input:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
     input::placeholder { color: #6e7681; }
     
+    /* UPGRADE #5: EYE ICON */
+    .toggle-pass {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6e7681;
+      cursor: pointer;
+      font-size: 16px;
+      transition: color 0.2s;
+    }
+    .toggle-pass:hover { color: #58a6ff; }
+    
+    /* UPGRADE #2: SHAKE ANIMATION */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    
     .login-btn { 
       background: #238636; 
       color: white; 
       cursor: pointer; 
       font-weight: 600; 
-      padding: 12px 14px; /* BINABAAN */
+      padding: 12px 14px;
       margin-top: 2px; 
       font-size: 16px; 
       width: 100%; 
@@ -183,13 +217,13 @@
       display: flex; 
       justify-content: center; 
       gap: 10px; 
-      margin: 10px 0 6px 0; /* BINABAAN MARGIN */
+      margin: 10px 0 6px 0;
       list-style: none; 
     }
     .social-wrapper a { text-decoration: none; }
     .social-wrapper .icon { 
       position: relative; 
-      width: 38px; /* NILIITAN */
+      width: 38px;
       height: 38px; 
       border-radius: 50%; 
       background: rgba(22,27,34,0.95); 
@@ -211,7 +245,7 @@
     .gc-link { 
       display: block; 
       width: 100%; 
-      padding: 11px 14px; /* BINABAAN */
+      padding: 11px 14px;
       background: rgba(22,27,34,0.95); 
       color: #58a6ff; 
       text-decoration: none; 
@@ -227,13 +261,24 @@
     .gc-link:hover { background: rgba(22,27,34,1); border-color: #58a6ff; }
     
     .footer-note { 
-      font-size: 10px; /* NILIITAN PA */
+      font-size: 10px;
       color: #6e7681; 
       text-align: center; 
       line-height: 1.3; 
       margin-bottom: 0; 
     }
     .footer-note strong { color: #e6edf3; }
+    
+    /* UPGRADE #6: CLICKABLE @CHARLSDARWIN */
+    .footer-note a {
+      color: #58a6ff;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .footer-note a:hover {
+      text-decoration: underline;
+      color: #79c0ff;
+    }
   </style>
 </head>
 <body>
@@ -247,13 +292,20 @@
   </div>
   <div class="overlay"></div>
   
-  <div class="back-arrow">‹</div>
+  <!-- UPGRADE #3: BACK ARROW WORKING -->
+  <div class="back-arrow" onclick="history.back()">‹</div>
+  
   <div class="container">
     <div class="logo">
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
     
-    <input type="password" id="passkey" placeholder="Password" autocomplete="off">
+    <!-- UPGRADE #5: PASSWORD WITH EYE TOGGLE -->
+    <div class="password-wrapper">
+      <input type="password" id="passkey" placeholder="Password" autocomplete="off">
+      <i class="fa fa-eye toggle-pass" id="togglePass"></i>
+    </div>
+    
     <button class="login-btn" onclick="checkPass()">LOG IN</button>
     <div id="result"></div>
     <a href="#" class="forgot-link" onclick="alert('Message @CharlsDarwin to get updated password'); return false;">
@@ -293,9 +345,11 @@
     <a href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" class="gc-link" target="_blank">
       Click here to get access
     </a>
+    
+    <!-- UPGRADE #6: CLICKABLE @CHARLSDARWIN -->
     <p class="footer-note">
       Password is valid only for 1month.<br>
-      if your password is expired message <strong>@CharlsDarwin</strong> to get new password
+      if your password is expired message <a href="https://m.me/arayco09" target="_blank"><strong>@CharlsDarwin</strong></a> to get new password
     </p>
   </div>
   
@@ -308,12 +362,28 @@
     const ADMIN_PASS = "Darwengots200412*";
     const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
     
+    // UPGRADE #5: TOGGLE PASSWORD VISIBILITY
+    document.getElementById('togglePass').onclick = function() {
+      const pass = document.getElementById('passkey');
+      const icon = this;
+      if (pass.type === 'password') {
+        pass.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        pass.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    };
+    
     function checkPass() {
-      const passkey = document.getElementById('passkey').value.trim();
+      const passkey = document.getElementById('passkey');
+      const passkeyValue = passkey.value.trim();
       const resultDiv = document.getElementById('result');
       const sound = document.getElementById('successSound');
       
-      if (!passkey) {
+      if (!passkeyValue) {
         resultDiv.innerHTML = "⚠️ Please enter password";
         resultDiv.style.color = "#f85149";
         return;
@@ -322,7 +392,7 @@
       resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Verifying...';
       resultDiv.style.color = "#7d8590";
       
-      if (passkey === PUBLIC_PASS || passkey === ADMIN_PASS) {
+      if (passkeyValue === PUBLIC_PASS || passkeyValue === ADMIN_PASS) {
         resultDiv.innerHTML = "✓ Access Granted";
         resultDiv.style.color = "#3fb950";
         sound.volume = 1.0;
@@ -335,7 +405,13 @@
       } else {
         resultDiv.innerHTML = "Wrong password. Try again.";
         resultDiv.style.color = "#f85149";
-        document.getElementById('passkey').value = "";
+        passkey.value = "";
+        
+        // UPGRADE #2: SHAKE EFFECT PAG MALI
+        passkey.style.animation = 'shake 0.4s';
+        setTimeout(() => {
+          passkey.style.animation = '';
+        }, 400);
       }
     }
     
