@@ -250,7 +250,7 @@ width: 100%;
 <script>
 const PROJECT_ID = 'mileagelock';
 const API_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
-const REDIRECT_URL = "https://mileagetraveltracker.github.io/tool/";
+const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
 const RECOVERY_URL = "https://mileagetraveltracker.github.io/tool/";
 const { Client, Account, ID } = Appwrite;
 const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID);
@@ -266,10 +266,15 @@ window.addEventListener('load', () => {
     document.getElementById('loginForm').classList.add('hidden');
     document.getElementById('signupForm').classList.add('hidden');
     document.getElementById('resetForm').classList.remove('hidden');
+  } else {
+    document.getElementById('loginForm').classList.remove('hidden');
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('resetForm').classList.add('hidden');
   }
 });
 
 function showLogin() {
+  window.history.replaceState({}, document.title, window.location.pathname);
   document.getElementById('loginForm').classList.remove('hidden');
   document.getElementById('signupForm').classList.add('hidden');
   document.getElementById('resetForm').classList.add('hidden');
@@ -278,6 +283,7 @@ function showLogin() {
 }
 
 function showSignup() {
+  window.history.replaceState({}, document.title, window.location.pathname);
   document.getElementById('loginForm').classList.add('hidden');
   document.getElementById('signupForm').classList.remove('hidden');
   document.getElementById('resetForm').classList.add('hidden');
@@ -410,7 +416,10 @@ document.getElementById('resetBtn').onclick = async () => {
     await account.updateRecovery(userId, secret, newPass, confirmPass);
     resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Redirecting...';
     resultDiv.style.color = "#3fb950";
-    setTimeout(() => window.location.href = REDIRECT_URL, 2000);
+    setTimeout(() => {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      window.location.href = REDIRECT_URL;
+    }, 2000);
   } catch (error) {
     resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
     resultDiv.style.color = "#f85149";
