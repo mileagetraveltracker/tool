@@ -17,10 +17,10 @@
       align-items: center; 
       padding: 20px;
       position: relative;
-      overflow-x: hidden; /* INALIS YUNG overflow: hidden */
+      overflow-x: hidden;
     }
     
-    /* POV HIGHWAY - AYOS NA TO */
+    /* POV HIGHWAY - 150KPH BILIS */
     .highway-bg {
       position: fixed;
       top: 0;
@@ -34,44 +34,45 @@
     
     .road-container {
       position: absolute;
-      bottom: -20%;
-      left: 50%;
-      width: 300%;
-      height: 150%;
-      transform: translateX(-50%) perspective(500px) rotateX(65deg);
-      transform-origin: center bottom;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      perspective: 500px;
     }
     
     .road {
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #1a1a1a;
+      background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%);
+      transform: rotateX(60deg);
+      transform-origin: center bottom;
     }
     
-    /* WHITE LANE LINES - SAKTONG BILIS 0.8s */
+    /* WHITE LANE LINES - 150KPH: 0.25s */
     .lane-lines {
       position: absolute;
-      bottom: 0;
+      bottom: -50%;
       left: 50%;
-      width: 10px;
-      height: 200%;
+      width: 12px;
+      height: 250%;
       transform: translateX(-50%);
       background: repeating-linear-gradient(
         to top,
         transparent 0px,
-        transparent 25px,
-        #ffffff 25px,
-        #ffffff 65px
+        transparent 30px,
+        #ffffff 30px,
+        #ffffff 70px
       );
-      animation: moveRoad 0.8s linear infinite;
+      animation: moveRoad 0.25s linear infinite; /* 150KPH MODE */
     }
     
     @keyframes moveRoad {
       0% { transform: translateX(-50%) translateY(0); }
-      100% { transform: translateX(-50%) translateY(65px); }
+      100% { transform: translateX(-50%) translateY(70px); }
     }
     
     /* DARK OVERLAY */
@@ -127,14 +128,14 @@
   </style>
 </head>
 <body>
-  <!-- POV HIGHWAY BACKGROUND - SINARA KO NA YUNG DIV -->
+  <!-- POV HIGHWAY - 150KPH -->
   <div class="highway-bg">
     <div class="road-container">
       <div class="road">
         <div class="lane-lines"></div>
       </div>
     </div>
-  </div> <!-- ITO YUNG NAKALIMUTAN KO DATI -->
+  </div>
   <div class="overlay"></div>
   
   <div class="back-arrow">‹</div>
