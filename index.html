@@ -165,7 +165,6 @@
   </style>
 </head>
 <body>
-  <!-- AYAN NA YUNG MISSING NA CLOSING DIV -->
   <div class="highway-bg">
     <div class="road-container">
       <div class="road">
@@ -173,7 +172,6 @@
       </div>
     </div>
   </div>
-  <!-- END NG HIGHWAY-BG -->
   
   <div class="overlay"></div>
   
@@ -237,9 +235,13 @@
     const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID);
     const account = new Account(client);
 
-    account.get().then(() => {
-      window.location.href = REDIRECT_URL;
-    }).catch(() => {});
+    // TINANGGAL KO NA TO - PARA DI MAG AUTO-LOGIN
+    // account.get().then(() => {
+    //   window.location.href = REDIRECT_URL;
+    // }).catch(() => {});
+
+    // FORCE LOGOUT PAG LOAD NG PAGE = LAGI MAG-LOGIN
+    account.deleteSession('current').catch(() => {});
 
     document.getElementById('loginBtn').onclick = async () => {
       const email = document.getElementById('loginEmail').value;
@@ -318,7 +320,7 @@
       }
       
       try {
-        await account.createRecovery(email, 'https://mileage-lock.vercel.app');
+        await account.createRecovery(email, 'https://charlsdarwin2004.github.io/mileage-lock/');
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email';
         resultDiv.style.color = "#3fb950";
       } catch (error) {
