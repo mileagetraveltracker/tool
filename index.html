@@ -17,10 +17,10 @@
       align-items: center; 
       padding: 20px;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden; /* INALIS YUNG overflow: hidden */
     }
     
-    /* POV HIGHWAY - SAKTONG BILIS LANG */
+    /* POV HIGHWAY - AYOS NA TO */
     .highway-bg {
       position: fixed;
       top: 0;
@@ -51,7 +51,7 @@
       background: #1a1a1a;
     }
     
-    /* WHITE LANE LINES - SAKTONG BILIS: 0.8s */
+    /* WHITE LANE LINES - SAKTONG BILIS 0.8s */
     .lane-lines {
       position: absolute;
       bottom: 0;
@@ -66,7 +66,7 @@
         #ffffff 25px,
         #ffffff 65px
       );
-      animation: moveRoad 0.8s linear infinite; /* SAKTO LANG - DI MABILIS, DI MABAGAL */
+      animation: moveRoad 0.8s linear infinite;
     }
     
     @keyframes moveRoad {
@@ -86,7 +86,7 @@
     }
     
     .back-arrow { position: absolute; top: 20px; left: 20px; font-size: 28px; color: #7d8590; cursor: pointer; font-weight: 300; z-index: 3; }
-    .container { width: 100%; max-width: 396px; margin-top: 40px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 3; }
+    .container { width: 100%; max-width: 396px; margin-top: 40px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 3; padding-bottom: 40px; }
     
     .logo { 
       width: 100%; 
@@ -127,13 +127,14 @@
   </style>
 </head>
 <body>
-  <!-- POV HIGHWAY BACKGROUND -->
+  <!-- POV HIGHWAY BACKGROUND - SINARA KO NA YUNG DIV -->
   <div class="highway-bg">
     <div class="road-container">
       <div class="road">
         <div class="lane-lines"></div>
       </div>
     </div>
+  </div> <!-- ITO YUNG NAKALIMUTAN KO DATI -->
   <div class="overlay"></div>
   
   <div class="back-arrow">‹</div>
