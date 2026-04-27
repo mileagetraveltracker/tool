@@ -4,21 +4,20 @@
   <title>Mileage Private Tool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- GOOGLE ANALYTICS - BAGONG G-ID MO -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4K558XTMS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T4K558XTMS');
+  </script>
+  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; overflow: hidden; }
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
-      background: #000000; 
-      color: #e6edf3; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center;
-      padding: 12px;
-      padding-bottom: max(12px, env(safe-area-inset-bottom));
-      position: relative;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; background: #000000; color: #e6edf3; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; padding-bottom: max(12px, env(safe-area-inset-bottom)); position: relative; }
     .highway-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: #000000; overflow: hidden; }
     .road-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; perspective: 500px; }
     .road { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%); transform: rotateX(60deg); transform-origin: center bottom; }
@@ -58,28 +57,13 @@
     .footer-note strong { color: #e6edf3; }
     .footer-link { color: #58a6ff; text-decoration: none; transition: all 0.2s; cursor: pointer; }
     .footer-link:hover { text-decoration: underline; color: #79c0ff; }
-    
-    /* MESSENGER WEBVIEW WARNING */
-    .browser-warning {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #f85149;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      font-size: 12px;
-      z-index: 999;
-      display: none;
-    }
+    .browser-warning { position: fixed; top: 0; left: 0; width: 100%; background: #f85149; color: white; padding: 10px; text-align: center; font-size: 12px; z-index: 999; display: none; }
   </style>
 </head>
 <body>
   <div class="browser-warning" id="browserWarning">
     ⚠️ Open in Safari/Chrome para gumana ang Messenger links. Click ⋯ sa taas → Open in Browser
   </div>
-
   <div class="highway-bg">
     <div class="road-container">
       <div class="road">
@@ -88,99 +72,83 @@
     </div>
   </div>
   <div class="overlay"></div>
-  
   <div class="back-arrow" onclick="history.back()">‹</div>
-  
   <div class="container">
     <div class="logo">
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
-    
     <div class="password-wrapper">
       <input type="password" id="passkey" placeholder="Password" autocomplete="off">
       <i class="fa fa-eye toggle-pass" id="togglePass"></i>
     </div>
-    
     <button class="login-btn" onclick="checkPass()">LOG IN</button>
     <div id="result"></div>
     <span class="forgot-link" onclick="alert('Message @CharlsDarwin to get updated password')">
       You don't have password?
     </span>
-
     <ul class="social-wrapper">
       <li class="icon facebook" onclick="openLink('https://www.facebook.com/share/1Dy3attxpX/?mibextid=wwXIfr')">
         <span class="tooltip">Facebook Profile</span>
         <span><i class="fab fa-facebook-f"></i></span>
       </li>
-      
       <li class="icon messenger" onclick="openMessenger()">
         <span class="tooltip">Message Me</span>
         <span><i class="fab fa-facebook-messenger"></i></span>
       </li>
-      
       <li class="icon group" onclick="openGC()">
         <span class="tooltip">Join GC</span>
         <span><i class="fas fa-users"></i></span>
       </li>
-      
       <li class="icon email" onclick="window.location.href='mailto:charlsdarwin2004@gmail.com?subject=Mileage%20Tool%20Access&body=Hi%20Charls,%20pahingi%20password%20sa%20Mileage%20Tool'">
         <span class="tooltip">Email Me</span>
         <span><i class="fas fa-envelope"></i></span>
       </li>
     </ul>
-
     <div class="gc-link" onclick="openGC()">
       Click here to get access
     </div>
-    
     <p class="footer-note">
       Password is valid only for 1month.<br>
       if your password is expired message <span class="footer-link" onclick="openMessenger()"><strong>@CharlsDarwin</strong></span> to get new password
     </p>
   </div>
-  
   <audio id="successSound" preload="auto">
     <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_ad4f6752d8.mp3" type="audio/mpeg">
   </audio>
-  
   <script>
     const PUBLIC_PASS = "GCMILEAGE2026";
     const ADMIN_PASS = "Darwengots200412*";
     const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
     
-    // DETECT KUNG NASA MESSENGER WEBVIEW
     function isMessengerWebView() {
       return navigator.userAgent.includes('FBAN') || navigator.userAgent.includes('FBAV');
     }
     
-    // SHOW WARNING PAG NASA MESSENGER
     if (isMessengerWebView()) {
       document.getElementById('browserWarning').style.display = 'block';
     }
     
-    // UNIVERSAL LINK OPENER - FORCE EXTERNAL BROWSER
     function openLink(url) {
+      gtag('event', 'social_click', { 'link_type': 'facebook' });
       if (isMessengerWebView()) {
-        // Trick para ma-force open sa Safari/Chrome
         window.open(url, '_system');
       } else {
         window.open(url, '_blank');
       }
     }
     
-    // MESSENGER LINK - GAMIT UNIVERSAL LINK
     function openMessenger() {
+      gtag('event', 'social_click', { 'link_type': 'messenger' });
       const url = 'https://m.me/arayco09';
       if (isMessengerWebView()) {
-        // Sa Messenger WebView, mag-shoshow ng warning
         alert('Click ⋯ sa taas ng screen → "Open in Browser" para gumana ang Messenger');
       } else {
         window.open(url, '_blank');
       }
     }
     
-    // GC LINK - GAMIT UNIVERSAL LINK
     function openGC() {
+      gtag('event', 'social_click', { 'link_type': 'gc_join' });
       const url = 'https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c';
       if (isMessengerWebView()) {
         alert('Click ⋯ sa taas ng screen → "Open in Browser" para sumali sa GC');
@@ -189,7 +157,6 @@
       }
     }
     
-    // TOGGLE PASSWORD VISIBILITY
     document.getElementById('togglePass').onclick = function() {
       const pass = document.getElementById('passkey');
       const icon = this;
@@ -220,6 +187,8 @@
       resultDiv.style.color = "#7d8590";
       
       if (passkeyValue === PUBLIC_PASS || passkeyValue === ADMIN_PASS) {
+        gtag('event', 'login', { 'method': 'password', 'status': 'success' });
+        
         resultDiv.innerHTML = "✓ Access Granted";
         resultDiv.style.color = "#3fb950";
         sound.volume = 1.0;
@@ -230,6 +199,8 @@
           window.location.href = REDIRECT_URL;
         }, 1500);
       } else {
+        gtag('event', 'login', { 'method': 'password', 'status': 'failed' });
+        
         resultDiv.innerHTML = "Wrong password. Try again.";
         resultDiv.style.color = "#f85149";
         passkey.value = "";
