@@ -2,16 +2,23 @@
 <html>
 <head>
   <title>Mileage Private Tool</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/appwrite@15.0.0"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; overflow: hidden; }
+    html, body { 
+      height: 100%; 
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
       background: #000000; 
       color: #e6edf3; 
+      min-height: 100vh;
+      min-height: 100dvh;
       display: flex; 
       align-items: center; 
       justify-content: center; 
@@ -48,7 +55,6 @@
       width: 20px; height: 250%; 
       background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px); 
       animation: moveRoad 0.25s linear infinite; 
-      will-change: transform; 
     }
     @keyframes moveRoad { 
       0% { transform: translateX(-50%) translateY(0); } 
@@ -58,11 +64,11 @@
       position: fixed; 
       top: 0; left: 0; 
       width: 100%; height: 100%; 
-      background: rgba(0, 0, 0, 0.8); 
+      background: rgba(0, 0, 0, 0.85); 
       z-index: 1; 
     }
     
-    /* MAIN CONTAINER - NAKA CENTER LAHAT */
+    /* MAIN CONTAINER */
     .container { 
       width: 100%; 
       max-width: 380px; 
@@ -72,6 +78,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      margin: auto;
     }
     
     /* LOGO */
@@ -83,11 +90,6 @@
       background: #ffffff; 
       border-radius: 16px; 
       box-shadow: 0 8px 40px rgba(0,0,0,0.9); 
-      animation: logoPop 0.6s ease-out; 
-    }
-    @keyframes logoPop { 
-      0% { opacity: 0; transform: scale(0.8); } 
-      100% { opacity: 1; transform: scale(1); } 
     }
     .logo img { width: 100%; height: auto; display: block; }
     
@@ -103,7 +105,6 @@
       transform: translateY(-50%);
       color: #6e7681;
       font-size: 16px;
-      z-index: 2;
     }
     input { 
       width: 100%; 
@@ -115,13 +116,11 @@
       color: #e6edf3; 
       outline: none; 
       transition: all 0.2s; 
-      backdrop-filter: blur(10px); 
     }
     input:focus { 
       border-color: #1f6feb; 
       box-shadow: 0 0 0 3px rgba(31,111,235,0.15); 
     }
-    input:focus + i { color: #1f6feb; }
     input::placeholder { color: #6e7681; }
     
     /* BUTTON */
@@ -131,7 +130,6 @@
       cursor: pointer; 
       font-weight: 600; 
       padding: 14px; 
-      margin-top: 4px; 
       font-size: 16px; 
       width: 100%; 
       border-radius: 12px; 
@@ -143,13 +141,11 @@
       justify-content: center;
       gap: 8px;
     }
-    .login-btn:hover { background: #2ea043; transform: translateY(-1px); }
-    .login-btn:active { transform: translateY(0); }
-    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .login-btn:hover { background: #2ea043; }
+    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
     
     /* TEXT & LINKS */
     #result, #signupResult { 
-      margin-top: 4px; 
       font-weight: 500; 
       min-height: 20px; 
       text-align: center; 
@@ -158,21 +154,25 @@
     .toggle-form, .forgot { 
       color: #58a6ff; 
       font-size: 14px; 
-      cursor: pointer; 
-      margin-top: 12px;
-      transition: all 0.2s;
+      cursor: pointer;
+      padding: 8px;
     }
     .toggle-form:hover, .forgot:hover { 
       text-decoration: underline; 
       color: #79c0ff;
     }
-    .hidden { display: none; }
+    
+    /* IMPORTANTE TO - HIDDEN CLASS FIX */
+    .hidden { 
+      display: none !important; 
+    }
     
     /* FORM CONTAINER */
     .form-box {
       display: flex;
       flex-direction: column;
       gap: 12px;
+      width: 100%;
     }
   </style>
 </head>
@@ -247,12 +247,10 @@
     const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID);
     const account = new Account(client);
 
-    // Auto redirect pag naka-login na
     account.get().then(() => {
       window.location.href = REDIRECT_URL;
     }).catch(() => {});
 
-    // LOGIN
     document.getElementById('loginBtn').onclick = async () => {
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
@@ -275,14 +273,12 @@
         resultDiv.style.color = "#3fb950";
         setTimeout(() => window.location.href = REDIRECT_URL, 800);
       } catch (error) {
-        console.log(error);
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password';
         resultDiv.style.color = "#f85149";
         btn.disabled = false;
       }
     };
 
-    // SIGNUP
     document.getElementById('signupBtn').onclick = async () => {
       const name = document.getElementById('signupName').value;
       const email = document.getElementById('signupEmail').value;
@@ -313,7 +309,6 @@
         resultDiv.style.color = "#3fb950";
         setTimeout(() => window.location.href = REDIRECT_URL, 800);
       } catch (error) {
-        console.log(error);
         resultDiv.innerHTML = error.message.includes('already exists') 
           ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' 
           : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
@@ -322,7 +317,6 @@
       }
     };
 
-    // FORGOT PASSWORD
     async function forgotPass() {
       const email = document.getElementById('loginEmail').value;
       const resultDiv = document.getElementById('result');
@@ -343,24 +337,12 @@
       }
     }
 
-    // TOGGLE LOGIN/SIGNUP
     function toggleForms() {
       document.getElementById('loginForm').classList.toggle('hidden');
       document.getElementById('signupForm').classList.toggle('hidden');
       document.getElementById('result').innerHTML = '';
       document.getElementById('signupResult').innerHTML = '';
     }
-
-    // ENTER KEY SUPPORT
-    document.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        if (!document.getElementById('loginForm').classList.contains('hidden')) {
-          document.getElementById('loginBtn').click();
-        } else {
-          document.getElementById('signupBtn').click();
-        }
-      }
-    });
   </script>
 </body>
 </html>
