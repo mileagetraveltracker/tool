@@ -4,16 +4,7 @@
   <title>Mileage Private Tool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- GOOGLE ANALYTICS - BAGONG G-ID MO -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4K558XTMS"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-T4K558XTMS');
-  </script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@15.0.0"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; overflow: hidden; }
@@ -21,42 +12,23 @@
     .highway-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: #000000; overflow: hidden; }
     .road-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; perspective: 500px; }
     .road { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%); transform: rotateX(60deg); transform-origin: center bottom; }
-    .lane-lines { position: absolute; bottom: -50%; left: 50%; width: 20px; height: 250%; transform: translateX(-50%); background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px); animation: moveRoad 0.25s linear infinite; will-change: transform; }
+    .lane-lines { position: absolute; bottom: -50%; left: 50%; width: 20px; height: 250%; background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px); animation: moveRoad 0.25s linear infinite; will-change: transform; }
     @keyframes moveRoad { 0% { transform: translateX(-50%) translateY(0); } 100% { transform: translateX(-50%) translateY(70px); } }
     .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 1; }
-    .back-arrow { position: absolute; top: 12px; left: 12px; font-size: 24px; color: #7d8590; cursor: pointer; font-weight: 300; z-index: 3; transition: color 0.2s; }
-    .back-arrow:hover { color: #58a6ff; }
-    .container { width: 100%; max-width: 360px; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 3; gap: 6px; }
+    .container { width: 100%; max-width: 360px; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 3; gap: 8px; }
     .logo { width: 100%; max-width: 240px; margin: 0 auto 12px auto; padding: 14px; background: #ffffff; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.8); animation: logoPop 0.6s ease-out; }
     @keyframes logoPop { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
     .logo img { width: 100%; height: auto; display: block; }
-    .password-wrapper { position: relative; width: 100%; margin-bottom: 6px; }
-    input { width: 100%; padding: 12px 40px 12px 14px; font-size: 16px; border-radius: 10px; border: 1px solid #30363d; background: rgba(22,27,34,0.95); color: #e6edf3; outline: none; transition: all 0.2s; backdrop-filter: blur(10px); }
+    input { width: 100%; padding: 12px 14px; font-size: 16px; border-radius: 10px; border: 1px solid #30363d; background: rgba(22,27,34,0.95); color: #e6edf3; outline: none; transition: all 0.2s; backdrop-filter: blur(10px); margin-bottom: 6px; }
     input:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
     input::placeholder { color: #6e7681; }
-    .toggle-pass { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #6e7681; cursor: pointer; font-size: 16px; transition: color 0.2s; }
-    .toggle-pass:hover { color: #58a6ff; }
-    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
     .login-btn { background: #238636; color: white; cursor: pointer; font-weight: 600; padding: 12px 14px; margin-top: 2px; font-size: 16px; width: 100%; border-radius: 10px; border: none; transition: all 0.2s; box-shadow: 0 4px 20px rgba(35,134,54,0.4); }
-    .login-btn:hover { background: #2ea043; box-shadow: 0 6px 30px rgba(35,134,54,0.6); }
-    .login-btn:active { transform: scale(0.98); }
-    #result { margin-top: 2px; margin-bottom: 0; font-weight: 500; min-height: 18px; text-align: center; font-size: 13px; }
-    .forgot-link { color: #58a6ff; font-size: 13px; font-weight: 400; text-decoration: none; margin-top: 2px; display: inline-block; cursor: pointer; }
-    .forgot-link:hover { text-decoration: underline; }
-    .social-wrapper { display: flex; justify-content: center; gap: 10px; margin: 10px 0 6px 0; list-style: none; }
-    .social-wrapper .icon { position: relative; width: 38px; height: 38px; border-radius: 50%; background: rgba(22,27,34,0.95); border: 1px solid #30363d; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px); text-decoration: none; }
-    .social-wrapper .icon:hover { background: #238636; transform: translateY(-5px); }
-    .social-wrapper .icon i { font-size: 16px; color: #7d8590; }
-    .social-wrapper .icon:hover i { color: white; }
-    .social-wrapper .tooltip { position: absolute; top: -40px; background: #238636; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; opacity: 0; pointer-events: none; transition: all 0.3s; white-space: nowrap; }
-    .social-wrapper .icon:hover .tooltip { opacity: 1; top: -45px; }
-    .tooltip::after { content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #238636; }
-    .gc-link { display: block; width: 100%; padding: 11px 14px; background: rgba(22,27,34,0.95); color: #58a6ff; text-decoration: none; border-radius: 10px; font-weight: 500; font-size: 14px; border: 1px solid #30363d; text-align: center; transition: all 0.2s; margin-bottom: 6px; backdrop-filter: blur(10px); cursor: pointer; }
-    .gc-link:hover { background: rgba(22,27,34,1); border-color: #58a6ff; }
-    .footer-note { font-size: 10px; color: #6e7681; text-align: center; line-height: 1.3; margin-bottom: 0; }
-    .footer-note strong { color: #e6edf3; }
-    .footer-link { color: #58a6ff; text-decoration: none; transition: all 0.2s; cursor: pointer; }
-    .footer-link:hover { text-decoration: underline; color: #79c0ff; }
+    .login-btn:hover { background: #2ea043; }
+    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    #result { margin-top: 2px; font-weight: 500; min-height: 18px; text-align: center; font-size: 13px; }
+    .toggle-form, .forgot { color: #58a6ff; font-size: 13px; cursor: pointer; margin-top: 8px; }
+    .toggle-form:hover, .forgot:hover { text-decoration: underline; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
@@ -66,114 +38,114 @@
         <div class="lane-lines"></div>
       </div>
     </div>
-  </div>
   <div class="overlay"></div>
-  <div class="back-arrow" onclick="history.back()">‹</div>
   <div class="container">
     <div class="logo">
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
-    <div class="password-wrapper">
-      <input type="password" id="passkey" placeholder="Password" autocomplete="off">
-      <i class="fa fa-eye toggle-pass" id="togglePass"></i>
+    
+    <div id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
+      <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+      <button class="login-btn" id="loginBtn">LOG IN</button>
+      <div id="result"></div>
+      <p class="forgot" onclick="forgotPass()">Forgot Password?</p>
+      <p class="toggle-form" onclick="toggleForms()">Don't have account? Create one</p>
     </div>
-    <button class="login-btn" onclick="checkPass()">LOG IN</button>
-    <div id="result"></div>
-    <span class="forgot-link" onclick="alert('Message @CharlsDarwin to get updated password')">
-      You don't have password?
-    </span>
-    <ul class="social-wrapper">
-      <a class="icon facebook" href="https://www.facebook.com/share/1Dy3attxpX/?mibextid=wwXIfr" target="_blank" onclick="gtag('event', 'social_click', { 'link_type': 'facebook' })">
-        <span class="tooltip">Facebook Profile</span>
-        <span><i class="fab fa-facebook-f"></i></span>
-      </a>
-      <a class="icon messenger" href="https://m.me/arayco09" target="_blank" onclick="gtag('event', 'social_click', { 'link_type': 'messenger' })">
-        <span class="tooltip">Message Me</span>
-        <span><i class="fab fa-facebook-messenger"></i></span>
-      </a>
-      <a class="icon group" href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" target="_blank" onclick="gtag('event', 'social_click', { 'link_type': 'gc_join' })">
-        <span class="tooltip">Join GC</span>
-        <span><i class="fas fa-users"></i></span>
-      </a>
-      <a class="icon email" href="mailto:charlsdarwin2004@gmail.com?subject=Mileage%20Tool%20Access&body=Hi%20Charls,%20pahingi%20password%20sa%20Mileage%20Tool" onclick="gtag('event', 'social_click', { 'link_type': 'email' })">
-        <span class="tooltip">Email Me</span>
-        <span><i class="fas fa-envelope"></i></span>
-      </a>
-    </ul>
-    <a class="gc-link" href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" target="_blank" onclick="gtag('event', 'social_click', { 'link_type': 'gc_join' })">
-      Click here to get access
-    </a>
-    <p class="footer-note">
-      Password is valid only for 1month.<br>
-      if your password is expired message <a class="footer-link" href="https://m.me/arayco09" target="_blank"><strong>@CharlsDarwin</strong></a> to get new password
-    </p>
+
+    <div id="signupForm" class="hidden">
+      <input type="text" id="signupName" placeholder="Full Name" autocomplete="name">
+      <input type="email" id="signupEmail" placeholder="Email" autocomplete="email">
+      <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password">
+      <button class="login-btn" id="signupBtn">CREATE ACCOUNT</button>
+      <div id="signupResult"></div>
+      <p class="toggle-form" onclick="toggleForms()">Already have account? Log in</p>
+    </div>
   </div>
-  <audio id="successSound" preload="auto">
-    <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_ad4f6752d8.mp3" type="audio/mpeg">
-  </audio>
+
   <script>
-    const PUBLIC_PASS = "GCMILEAGE2026";
-    const ADMIN_PASS = "Darwengots200412*";
+    const PROJECT_ID = 'mileagetool';
+    const API_ENDPOINT = 'https://cloud.appwrite.io/v1';
     const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
     
-    document.getElementById('togglePass').onclick = function() {
-      const pass = document.getElementById('passkey');
-      const icon = this;
-      if (pass.type === 'password') {
-        pass.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-      } else {
-        pass.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+    const { Client, Account, ID } = Appwrite;
+    const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID);
+    const account = new Account(client);
+
+    account.get().then(() => {
+      window.location.href = REDIRECT_URL;
+    }).catch(() => {});
+
+    document.getElementById('loginBtn').onclick = async () => {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const resultDiv = document.getElementById('result');
+      const btn = document.getElementById('loginBtn');
+      
+      btn.disabled = true;
+      resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...';
+      resultDiv.style.color = "#7d8590";
+      
+      try {
+        await account.createEmailPasswordSession(email, password);
+        resultDiv.innerHTML = "✓ Access Granted";
+        resultDiv.style.color = "#3fb950";
+        setTimeout(() => window.location.href = REDIRECT_URL, 1000);
+      } catch (error) {
+        resultDiv.innerHTML = "Wrong email or password";
+        resultDiv.style.color = "#f85149";
+        btn.disabled = false;
       }
     };
-    
-    function checkPass() {
-      const passkey = document.getElementById('passkey');
-      const passkeyValue = passkey.value.trim();
-      const resultDiv = document.getElementById('result');
-      const sound = document.getElementById('successSound');
+
+    document.getElementById('signupBtn').onclick = async () => {
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const resultDiv = document.getElementById('signupResult');
+      const btn = document.getElementById('signupBtn');
       
-      if (!passkeyValue) {
-        resultDiv.innerHTML = "⚠️ Please enter password";
+      btn.disabled = true;
+      resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...';
+      resultDiv.style.color = "#7d8590";
+      
+      try {
+        await account.create(ID.unique(), email, password, name);
+        await account.createEmailPasswordSession(email, password);
+        resultDiv.innerHTML = "✓ Account created!";
+        resultDiv.style.color = "#3fb950";
+        setTimeout(() => window.location.href = REDIRECT_URL, 1000);
+      } catch (error) {
+        resultDiv.innerHTML = error.message.includes('already exists') ? "Email already used" : error.message;
+        resultDiv.style.color = "#f85149";
+        btn.disabled = false;
+      }
+    };
+
+    async function forgotPass() {
+      const email = document.getElementById('loginEmail').value;
+      const resultDiv = document.getElementById('result');
+      
+      if (!email) {
+        resultDiv.innerHTML = "Enter your email first";
         resultDiv.style.color = "#f85149";
         return;
       }
       
-      resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Verifying...';
-      resultDiv.style.color = "#7d8590";
-      
-      if (passkeyValue === PUBLIC_PASS || passkeyValue === ADMIN_PASS) {
-        gtag('event', 'login', { 'method': 'password', 'status': 'success' });
-        
-        resultDiv.innerHTML = "✓ Access Granted";
+      try {
+        await account.createRecovery(email, 'https://mileage-lock.vercel.app');
+        resultDiv.innerHTML = "✓ Reset link sent to email";
         resultDiv.style.color = "#3fb950";
-        sound.volume = 1.0;
-        sound.currentTime = 0;
-        sound.play().catch(e => console.log("Sound blocked"));
-        
-        setTimeout(() => {
-          window.location.href = REDIRECT_URL;
-        }, 1500);
-      } else {
-        gtag('event', 'login', { 'method': 'password', 'status': 'failed' });
-        
-        resultDiv.innerHTML = "Wrong password. Try again.";
+      } catch (error) {
+        resultDiv.innerHTML = "Error: " + error.message;
         resultDiv.style.color = "#f85149";
-        passkey.value = "";
-        
-        passkey.style.animation = 'shake 0.4s';
-        setTimeout(() => {
-          passkey.style.animation = '';
-        }, 400);
       }
     }
-    
-    document.getElementById('passkey').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') checkPass();
-    });
+
+    function toggleForms() {
+      document.getElementById('loginForm').classList.toggle('hidden');
+      document.getElementById('signupForm').classList.toggle('hidden');
+    }
   </script>
 </body>
 </html>
