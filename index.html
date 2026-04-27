@@ -20,67 +20,58 @@
       overflow: hidden;
     }
     
-    /* CSS HIGHWAY BACKGROUND - NASA GITNA NG BUONG SCREEN */
-    .css-highway {
+    /* POV HIGHWAY - SMOOTH + WALANG LAG */
+    .highway-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
-      background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
-      perspective: 400px;
+      background: #000000;
+      overflow: hidden;
+    }
+    
+    .road-container {
+      position: absolute;
+      bottom: -20%;
+      left: 50%;
+      width: 300%;
+      height: 150%;
+      transform: translateX(-50%) perspective(500px) rotateX(65deg);
+      transform-origin: center bottom;
     }
     
     .road {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 200%;
-      height: 300%;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: #1a1a1a;
-      transform: translate(-50%, -50%) rotateX(75deg);
-      overflow: hidden;
     }
     
+    /* WHITE LANE LINES - PAPALAYO */
     .lane-lines {
       position: absolute;
-      top: 0;
+      bottom: 0;
       left: 50%;
-      width: 8px;
+      width: 10px;
       height: 200%;
       transform: translateX(-50%);
       background: repeating-linear-gradient(
-        0deg,
-        #ffffff 0px,
-        #ffffff 40px,
-        transparent 40px,
-        transparent 80px
+        to top,
+        transparent 0px,
+        transparent 25px,
+        #ffffff 25px,
+        #ffffff 65px
       );
-      animation: roadFlow 1s linear infinite;
+      animation: moveRoad 0.5s linear infinite;
     }
     
-    .side-lines-left, .side-lines-right {
-      position: absolute;
-      top: 0;
-      width: 4px;
-      height: 200%;
-      background: repeating-linear-gradient(
-        0deg,
-        #f1c40f 0px,
-        #f1c40f 60px,
-        transparent 60px,
-        transparent 120px
-      );
-      animation: roadFlow 1s linear infinite;
-    }
-    
-    .side-lines-left { left: 30%; }
-    .side-lines-right { right: 30%; }
-    
-    @keyframes roadFlow {
+    @keyframes moveRoad {
       0% { transform: translateX(-50%) translateY(0); }
-      100% { transform: translateX(-50%) translateY(80px); }
+      100% { transform: translateX(-50%) translateY(65px); }
     }
     
     /* DARK OVERLAY */
@@ -90,7 +81,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 1;
     }
     
@@ -136,14 +127,13 @@
   </style>
 </head>
 <body>
-  <!-- CSS HIGHWAY BACKGROUND - GITNA NG SCREEN -->
-  <div class="css-highway">
-    <div class="road">
-      <div class="lane-lines"></div>
-      <div class="side-lines-left"></div>
-      <div class="side-lines-right"></div>
+  <!-- POV HIGHWAY BACKGROUND -->
+  <div class="highway-bg">
+    <div class="road-container">
+      <div class="road">
+        <div class="lane-lines"></div>
+      </div>
     </div>
-  </div>
   <div class="overlay"></div>
   
   <div class="back-arrow">‹</div>
