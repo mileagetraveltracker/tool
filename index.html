@@ -414,11 +414,14 @@ document.getElementById('resetBtn').onclick = async () => {
   
   try {
     await account.updateRecovery(userId, secret, newPass, confirmPass);
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Redirecting...';
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in with your new password';
     resultDiv.style.color = "#3fb950";
+    // FIX: WAG MAG-REDIRECT. BALIK LOGIN FORM LANG
     setTimeout(() => {
       window.history.replaceState({}, document.title, window.location.pathname);
-      window.location.href = REDIRECT_URL;
+      showLogin();
+      document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in';
+      document.getElementById('result').style.color = "#3fb950";
     }, 2000);
   } catch (error) {
     resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
