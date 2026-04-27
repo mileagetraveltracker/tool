@@ -61,7 +61,7 @@
       position: absolute;
       bottom: -50%;
       left: 50%;
-      width: 20px; /* UPGRADE #4: MAS MALINAW NA LINES */
+      width: 20px;
       height: 250%;
       transform: translateX(-50%);
       background: repeating-linear-gradient(
@@ -115,7 +115,6 @@
       gap: 6px;
     }
     
-    /* UPGRADE #1: LOGO POP ANIMATION */
     .logo { 
       width: 100%; 
       max-width: 240px;
@@ -132,7 +131,6 @@
     }
     .logo img { width: 100%; height: auto; display: block; }
     
-    /* UPGRADE #5: PASSWORD WRAPPER PARA SA EYE ICON */
     .password-wrapper {
       position: relative;
       width: 100%;
@@ -141,7 +139,7 @@
     
     input { 
       width: 100%; 
-      padding: 12px 40px 12px 14px; /* DAGDAG PADDING RIGHT PARA SA EYE */
+      padding: 12px 40px 12px 14px;
       font-size: 16px; 
       border-radius: 10px; 
       border: 1px solid #30363d; 
@@ -154,7 +152,6 @@
     input:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
     input::placeholder { color: #6e7681; }
     
-    /* UPGRADE #5: EYE ICON */
     .toggle-pass {
       position: absolute;
       right: 14px;
@@ -167,7 +164,6 @@
     }
     .toggle-pass:hover { color: #58a6ff; }
     
-    /* UPGRADE #2: SHAKE ANIMATION */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       25% { transform: translateX(-8px); }
@@ -257,6 +253,7 @@
       transition: all 0.2s; 
       margin-bottom: 6px; 
       backdrop-filter: blur(10px); 
+      cursor: pointer;
     }
     .gc-link:hover { background: rgba(22,27,34,1); border-color: #58a6ff; }
     
@@ -269,11 +266,11 @@
     }
     .footer-note strong { color: #e6edf3; }
     
-    /* UPGRADE #6: CLICKABLE @CHARLSDARWIN */
     .footer-note a {
       color: #58a6ff;
       text-decoration: none;
       transition: all 0.2s;
+      cursor: pointer;
     }
     .footer-note a:hover {
       text-decoration: underline;
@@ -292,7 +289,6 @@
   </div>
   <div class="overlay"></div>
   
-  <!-- UPGRADE #3: BACK ARROW WORKING -->
   <div class="back-arrow" onclick="history.back()">‹</div>
   
   <div class="container">
@@ -300,7 +296,6 @@
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
     
-    <!-- UPGRADE #5: PASSWORD WITH EYE TOGGLE -->
     <div class="password-wrapper">
       <input type="password" id="passkey" placeholder="Password" autocomplete="off">
       <i class="fa fa-eye toggle-pass" id="togglePass"></i>
@@ -320,14 +315,14 @@
         </li>
       </a>
       
-      <a href="https://m.me/arayco09" target="_blank">
+      <a href="javascript:void(0)" onclick="window.open('https://m.me/arayco09', '_blank')">
         <li class="icon messenger">
           <span class="tooltip">Message Me</span>
           <span><i class="fab fa-facebook-messenger"></i></span>
         </li>
       </a>
       
-      <a href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" target="_blank">
+      <a href="javascript:void(0)" onclick="window.open('https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c', '_blank')">
         <li class="icon group">
           <span class="tooltip">Join GC</span>
           <span><i class="fas fa-users"></i></span>
@@ -342,14 +337,13 @@
       </a>
     </ul>
 
-    <a href="https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c" class="gc-link" target="_blank">
+    <a href="javascript:void(0)" onclick="window.open('https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c', '_blank')" class="gc-link">
       Click here to get access
     </a>
     
-    <!-- UPGRADE #6: CLICKABLE @CHARLSDARWIN -->
     <p class="footer-note">
       Password is valid only for 1month.<br>
-      if your password is expired message <a href="https://m.me/arayco09" target="_blank"><strong>@CharlsDarwin</strong></a> to get new password
+      if your password is expired message <a href="javascript:void(0)" onclick="window.open('https://m.me/arayco09', '_blank')"><strong>@CharlsDarwin</strong></a> to get new password
     </p>
   </div>
   
@@ -362,7 +356,7 @@
     const ADMIN_PASS = "Darwengots200412*";
     const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
     
-    // UPGRADE #5: TOGGLE PASSWORD VISIBILITY
+    // TOGGLE PASSWORD VISIBILITY
     document.getElementById('togglePass').onclick = function() {
       const pass = document.getElementById('passkey');
       const icon = this;
@@ -407,7 +401,7 @@
         resultDiv.style.color = "#f85149";
         passkey.value = "";
         
-        // UPGRADE #2: SHAKE EFFECT PAG MALI
+        // SHAKE EFFECT PAG MALI
         passkey.style.animation = 'shake 0.4s';
         setTimeout(() => {
           passkey.style.animation = '';
