@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>Mileage Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
@@ -13,14 +15,12 @@
       color: #e6edf3;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh; padding: 20px;
-      position: relative;
-      overflow: hidden;
     }
-    
-    /* ROAD BACKGROUND */
+
+    /* ROAD BACKGROUND - FIXED PARA SA MESSENGER */
     body::before {
       content: '';
-      position: absolute;
+      position: fixed;
       top: 0; left: 50%; transform: translateX(-50%);
       width: 4px; height: 100%;
       background: repeating-linear-gradient(
@@ -31,7 +31,14 @@
         transparent 60px
       );
       opacity: 0.3;
-      z-index: 0;
+      z-index: -1;
+      pointer-events: none;
+      animation: roadMove 2s linear infinite;
+    }
+
+    @keyframes roadMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 60px; }
     }
 
     .container {
@@ -67,6 +74,7 @@
       transform: translateY(-50%);
       color: #7d8590;
       font-size: 16px;
+      pointer-events: none;
     }
     .input-group input {
       width: 100%; 
@@ -76,6 +84,9 @@
       border-radius: 12px;
       background: #161b22; 
       color: #e6edf3;
+      -webkit-appearance: none;
+      -webkit-user-select: text;
+      user-select: text;
     }
     .input-group input::placeholder { color: #7d8590; }
     .input-group input:focus {
@@ -99,6 +110,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      -webkit-tap-highlight-color: transparent;
     }
     .btn:hover { background: #2ea043; }
     .btn:disabled { opacity: .6; cursor: not-allowed; }
@@ -114,6 +126,7 @@
       text-decoration: none; 
       font-size: 15px;
       margin-bottom: 16px;
+      -webkit-tap-highlight-color: transparent;
     }
     .link i { margin-right: 6px; }
     .link:hover { text-decoration: underline; }
@@ -148,11 +161,11 @@
 
       <div class="input-group">
         <i class="fa-solid fa-envelope"></i>
-        <input type="email" id="loginEmail" placeholder="Email Address">
+        <input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email">
       </div>
       <div class="input-group">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" id="loginPassword" placeholder="Password">
+        <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
       </div>
       
       <button id="loginBtn" class="btn">
@@ -178,15 +191,15 @@
 
       <div class="input-group">
         <i class="fa-solid fa-user"></i>
-        <input type="text" id="signupName" placeholder="Full Name">
+        <input type="text" id="signupName" placeholder="Full Name" autocomplete="name">
       </div>
       <div class="input-group">
         <i class="fa-solid fa-envelope"></i>
-        <input type="email" id="signupEmail" placeholder="Email Address">
+        <input type="email" id="signupEmail" placeholder="Email Address" autocomplete="email">
       </div>
       <div class="input-group">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" id="signupPassword" placeholder="Password (min 8 chars)">
+        <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password">
       </div>
       
       <button id="signupBtn" class="btn">
@@ -206,11 +219,11 @@
 
       <div class="input-group">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" id="newPassword" placeholder="New Password (min 8 chars)">
+        <input type="password" id="newPassword" placeholder="New Password (min 8 chars)" autocomplete="new-password">
       </div>
       <div class="input-group">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" id="confirmPassword" placeholder="Confirm New Password">
+        <input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password">
       </div>
       
       <button id="resetBtn" class="btn">
