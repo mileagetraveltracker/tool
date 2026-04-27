@@ -20,7 +20,7 @@
       overflow: hidden;
     }
     
-    /* CSS HIGHWAY BACKGROUND - WALANG YELLOW LINE, MABILIS */
+    /* HIGHWAY BACKGROUND - MABILIS, WALANG YELLOW LINE */
     .css-highway {
       position: fixed;
       top: 0;
@@ -43,7 +43,7 @@
       overflow: hidden;
     }
     
-    /* WHITE LANE LINES LANG - TINANGGAL YELLOW */
+    /* WHITE LINES LANG - MABILIS ANDAR */
     .lane-lines {
       position: absolute;
       top: 0;
@@ -58,7 +58,7 @@
         transparent 40px,
         transparent 80px
       );
-      animation: roadFlow 0.3s linear infinite; /* SUPER BILIS NA */
+      animation: roadFlow 0.3s linear infinite;
     }
     
     @keyframes roadFlow {
@@ -80,7 +80,7 @@
     .back-arrow { position: absolute; top: 20px; left: 20px; font-size: 28px; color: #7d8590; cursor: pointer; font-weight: 300; z-index: 3; }
     .container { width: 100%; max-width: 396px; margin-top: 40px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 3; }
     
-    /* LOGO CONTAINER */
+    /* LOGO - STEADY LANG, WALANG ANIMATION, WALANG CSS NEEDLE */
     .logo { 
       width: 100%; 
       max-width: 320px; 
@@ -89,59 +89,8 @@
       background: #ffffff; 
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.8);
-      position: relative;
     }
-    .logo img { width: 100%; height: auto; display: block; position: relative; z-index: 2; }
-    
-    /* PANTABON SA ORIGINAL NEEDLE NG LOGO MO */
-    .needle-cover {
-      position: absolute;
-      top: 46px;
-      left: 62px;
-      width: 18px;
-      height: 18px;
-      background: #ffffff;
-      border-radius: 50%;
-      z-index: 3;
-    }
-    
-    /* ISA LANG NA NEEDLE - CSS LANG GUMAGALAW */
-    .needle {
-      position: absolute;
-      top: 52px;
-      left: 66px;
-      width: 3px;
-      height: 32px;
-      background: #4CAF50;
-      transform-origin: bottom center;
-      z-index: 4;
-      border-radius: 2px;
-      animation: revToMax 3s ease-out infinite;
-      box-shadow: 0 0 6px rgba(76,175,80,0.8);
-    }
-    
-    .needle::before {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 10px;
-      height: 10px;
-      background: #4CAF50;
-      border-radius: 50%;
-      border: 2px solid #ffffff;
-    }
-    
-    /* PA-RIGHT LANG - 6TH GEAR */
-    @keyframes revToMax {
-      0% { transform: rotate(-50deg); }
-      20% { transform: rotate(-20deg); }
-      40% { transform: rotate(0deg); }
-      60% { transform: rotate(20deg); }
-      80% { transform: rotate(40deg); }
-      100% { transform: rotate(45deg); }
-    }
+    .logo img { width: 100%; height: auto; display: block; }
     
     input { width: 100%; padding: 16px 18px; margin-bottom: 12px; font-size: 17px; border-radius: 12px; border: 1px solid #30363d; background: rgba(22,27,34,0.95); color: #e6edf3; outline: none; transition: all 0.2s; backdrop-filter: blur(10px); }
     input:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
@@ -171,21 +120,17 @@
   </style>
 </head>
 <body>
-  <!-- CSS HIGHWAY - WALANG YELLOW LINE -->
+  <!-- HIGHWAY BACKGROUND LANG - WALANG YELLOW LINE -->
   <div class="css-highway">
     <div class="road">
       <div class="lane-lines"></div>
     </div>
-  </div>
   <div class="overlay"></div>
   
   <div class="back-arrow">‹</div>
   <div class="container">
     <div class="logo">
-      <!-- PANTABON SA ORIGINAL NEEDLE -->
-      <div class="needle-cover"></div>
-      <!-- ISA LANG NA NEEDLE - GUMAGALAW -->
-      <div class="needle"></div>
+      <!-- LOGO MO LANG - STEADY, WALANG CSS NEEDLE -->
       <img src="./logo.PNG" alt="Mileage Logo">
     </div>
     
