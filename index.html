@@ -235,6 +235,20 @@
 
   <script src="https://cdn.jsdelivr.net/npm/appwrite@15.0.0"></script>
   <script>
+    // FORCE EXTERNAL BROWSER SA MESSENGER/FB
+    if (navigator.userAgent.includes('FBAN') || navigator.userAgent.includes('FBAV')) {
+      // For iOS - Open sa Safari
+      window.location.replace('x-safari-https://mileagetraveltracker.github.io/tool/');
+      
+      // For Android - Open sa Chrome  
+      setTimeout(() => {
+        window.location.replace('intent://mileagetraveltracker.github.io/tool/#Intent;scheme=https;package=com.android.chrome;end');
+      }, 100);
+      
+      // Fallback message
+      document.body.innerHTML = '<div style="color:#fff;text-align:center;padding:40px;font-family:sans-serif;"><h2>Please open in Safari/Chrome</h2><p>Messenger blocks login forms for security.</p><a href="https://mileagetraveltracker.github.io/tool/" style="color:#58a6ff;">Tap here to open</a></div>';
+    }
+
     const { Client, Account, ID } = Appwrite;
     const client = new Client()
       .setEndpoint('https://nyc.cloud.appwrite.io/v1')
