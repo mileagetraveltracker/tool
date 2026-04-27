@@ -15,30 +15,25 @@
       color: #e6edf3;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh; padding: 20px;
+      overflow: hidden;
     }
 
-    /* ROAD BACKGROUND - FIXED PARA SA MESSENGER */
+    /* ROAD BACKGROUND - KAMUKHA NA NG SCREENSHOT MO */
     body::before {
       content: '';
       position: fixed;
       top: 0; left: 50%; transform: translateX(-50%);
-      width: 4px; height: 100%;
-      background: repeating-linear-gradient(
-        to bottom,
-        #333 0px,
-        #333 30px,
-        transparent 30px,
-        transparent 60px
-      );
-      opacity: 0.3;
+      width: 0px; height: 100%;
+      border-left: 12px dashed #333;
+      opacity: 0.6;
       z-index: -1;
       pointer-events: none;
-      animation: roadMove 2s linear infinite;
+      animation: roadMove 3s linear infinite;
     }
 
     @keyframes roadMove {
       0% { background-position: 0 0; }
-      100% { background-position: 0 60px; }
+      100% { background-position: 0 80px; }
     }
 
     .container {
@@ -46,6 +41,23 @@
       background: transparent;
       position: relative;
       z-index: 1;
+    }
+    
+    /* MESSENGER WARNING BUTTON */
+    .messenger-warning {
+      background: #f85149;
+      color: #fff;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .messenger-warning a {
+      color: #fff;
+      text-decoration: underline;
+      font-weight: 700;
     }
     
     /* WHITE LOGO BOX */
@@ -80,9 +92,9 @@
       width: 100%; 
       padding: 16px 16px 16px 50px;
       font-size: 16px;
-      border: 1px solid #21262d; 
+      border: 1px solid #30363d; 
       border-radius: 12px;
-      background: #161b22; 
+      background: #0d1117; 
       color: #e6edf3;
       -webkit-appearance: none;
       -webkit-user-select: text;
@@ -92,6 +104,7 @@
     .input-group input:focus {
       outline: none;
       border-color: #1f6feb;
+      background: #161b22;
     }
 
     /* GREEN LOGIN BUTTON */
@@ -153,6 +166,13 @@
 </head>
 <body>
   <div class="container">
+    <!-- MESSENGER WARNING - LALABAS LANG SA MESSENGER -->
+    <div id="messengerWarning" class="messenger-warning hidden">
+      <i class="fa-solid fa-triangle-exclamation"></i> 
+      Messenger blocks login. 
+      <a href="https://mileagetraveltracker.github.io/tool/" target="_blank">Tap here to open in Safari/Chrome</a>
+    </div>
+
     <!-- LOGIN VIEW -->
     <div id="loginView">
       <div class="logo-wrap">
@@ -235,18 +255,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/appwrite@15.0.0"></script>
   <script>
-    // FORCE EXTERNAL BROWSER SA MESSENGER/FB
+    // SHOW WARNING SA MESSENGER + DISABLE INPUT
     if (navigator.userAgent.includes('FBAN') || navigator.userAgent.includes('FBAV')) {
-      // For iOS - Open sa Safari
-      window.location.replace('x-safari-https://mileagetraveltracker.github.io/tool/');
-      
-      // For Android - Open sa Chrome  
-      setTimeout(() => {
-        window.location.replace('intent://mileagetraveltracker.github.io/tool/#Intent;scheme=https;package=com.android.chrome;end');
-      }, 100);
-      
-      // Fallback message
-      document.body.innerHTML = '<div style="color:#fff;text-align:center;padding:40px;font-family:sans-serif;"><h2>Please open in Safari/Chrome</h2><p>Messenger blocks login forms for security.</p><a href="https://mileagetraveltracker.github.io/tool/" style="color:#58a6ff;">Tap here to open</a></div>';
+      document.getElementById('messengerWarning').classList.remove('hidden');
+      document.getElementById('loginEmail').disabled = true;
+      document.getElementById('loginPassword').disabled = true;
+      document.getElementById('loginBtn').disabled = true;
     }
 
     const { Client, Account, ID } = Appwrite;
