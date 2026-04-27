@@ -206,6 +206,7 @@
       text-decoration: none; 
       margin-top: 2px; 
       display: inline-block; 
+      cursor: pointer;
     }
     .forgot-link:hover { text-decoration: underline; }
     
@@ -216,7 +217,6 @@
       margin: 10px 0 6px 0;
       list-style: none; 
     }
-    .social-wrapper a { text-decoration: none; }
     .social-wrapper .icon { 
       position: relative; 
       width: 38px;
@@ -266,13 +266,14 @@
     }
     .footer-note strong { color: #e6edf3; }
     
-    .footer-note a {
+    /* UPGRADE: CLICKABLE SPAN INSTEAD OF A TAG */
+    .footer-link {
       color: #58a6ff;
       text-decoration: none;
       transition: all 0.2s;
       cursor: pointer;
     }
-    .footer-note a:hover {
+    .footer-link:hover {
       text-decoration: underline;
       color: #79c0ff;
     }
@@ -303,47 +304,39 @@
     
     <button class="login-btn" onclick="checkPass()">LOG IN</button>
     <div id="result"></div>
-    <a href="#" class="forgot-link" onclick="alert('Message @CharlsDarwin to get updated password'); return false;">
+    <span class="forgot-link" onclick="alert('Message @CharlsDarwin to get updated password')">
       You don't have password?
-    </a>
+    </span>
 
     <ul class="social-wrapper">
-      <a href="https://www.facebook.com/share/1Dy3attxpX/?mibextid=wwXIfr" target="_blank">
-        <li class="icon facebook">
-          <span class="tooltip">Facebook Profile</span>
-          <span><i class="fab fa-facebook-f"></i></span>
-        </li>
-      </a>
+      <li class="icon facebook" onclick="window.open('https://www.facebook.com/share/1Dy3attxpX/?mibextid=wwXIfr', '_blank')">
+        <span class="tooltip">Facebook Profile</span>
+        <span><i class="fab fa-facebook-f"></i></span>
+      </li>
       
-      <a href="javascript:void(0)" onclick="window.open('https://m.me/arayco09', '_blank')">
-        <li class="icon messenger">
-          <span class="tooltip">Message Me</span>
-          <span><i class="fab fa-facebook-messenger"></i></span>
-        </li>
-      </a>
+      <li class="icon messenger" onclick="openMessenger()">
+        <span class="tooltip">Message Me</span>
+        <span><i class="fab fa-facebook-messenger"></i></span>
+      </li>
       
-      <a href="javascript:void(0)" onclick="window.open('https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c', '_blank')">
-        <li class="icon group">
-          <span class="tooltip">Join GC</span>
-          <span><i class="fas fa-users"></i></span>
-        </li>
-      </a>
+      <li class="icon group" onclick="openGC()">
+        <span class="tooltip">Join GC</span>
+        <span><i class="fas fa-users"></i></span>
+      </li>
       
-      <a href="mailto:charlsdarwin2004@gmail.com?subject=Mileage%20Tool%20Access&body=Hi%20Charls,%20pahingi%20password%20sa%20Mileage%20Tool">
-        <li class="icon email">
-          <span class="tooltip">Email Me</span>
-          <span><i class="fas fa-envelope"></i></span>
-        </li>
-      </a>
+      <li class="icon email" onclick="window.location.href='mailto:charlsdarwin2004@gmail.com?subject=Mileage%20Tool%20Access&body=Hi%20Charls,%20pahingi%20password%20sa%20Mileage%20Tool'">
+        <span class="tooltip">Email Me</span>
+        <span><i class="fas fa-envelope"></i></span>
+      </li>
     </ul>
 
-    <a href="javascript:void(0)" onclick="window.open('https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c', '_blank')" class="gc-link">
+    <div class="gc-link" onclick="openGC()">
       Click here to get access
-    </a>
+    </div>
     
     <p class="footer-note">
       Password is valid only for 1month.<br>
-      if your password is expired message <a href="javascript:void(0)" onclick="window.open('https://m.me/arayco09', '_blank')"><strong>@CharlsDarwin</strong></a> to get new password
+      if your password is expired message <span class="footer-link" onclick="openMessenger()"><strong>@CharlsDarwin</strong></span> to get new password
     </p>
   </div>
   
@@ -355,6 +348,15 @@
     const PUBLIC_PASS = "GCMILEAGE2026";
     const ADMIN_PASS = "Darwengots200412*";
     const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
+    
+    // FIX: GUMAGANA NA SA MESSENGER WEBVIEW
+    function openMessenger() {
+      window.location.href = 'https://m.me/arayco09';
+    }
+    
+    function openGC() {
+      window.location.href = 'https://m.me/j/AbYpGq-yLGpGvqNK/?send_source=gc:copy_invite_link_c';
+    }
     
     // TOGGLE PASSWORD VISIBILITY
     document.getElementById('togglePass').onclick = function() {
@@ -401,7 +403,6 @@
         resultDiv.style.color = "#f85149";
         passkey.value = "";
         
-        // SHAKE EFFECT PAG MALI
         passkey.style.animation = 'shake 0.4s';
         setTimeout(() => {
           passkey.style.animation = '';
