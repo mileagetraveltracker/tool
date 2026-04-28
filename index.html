@@ -67,7 +67,7 @@ input::placeholder { color: #6e7681; }
 <p class="toggle-form" onclick="showSignup()"> 
 <i class="fa-solid fa-user-plus"></i> Don't have account? Create one 
 </p> 
-<!-- BAGONG SUPPORT LINK --> 
+<!-- SUPPORT LINK NA AYOS NA --> 
 <p class="support-link">
 <i class="fa-solid fa-circle-question"></i> No access to your email? 
 <a href="mailto:helpcenter.mileage@gmail.com?subject=MileageLock%20Password%20Reset%20Request&body=Hi%20Admin%2C%0A%0AI%20can%20no%20longer%20access%20my%20registered%20email.%20Please%20help%20reset%20my%20MileageLock%20password.%0A%0ARegistered%20Email%3A%20%0AFull%20Name%3A%20%0ALast%20Trip%20Date%3A%20%0A%0AThank%20you!">Contact Support</a>
@@ -109,7 +109,7 @@ input::placeholder { color: #6e7681; }
 <i class="fa-solid fa-check"></i> UPDATE PASSWORD 
 </button> 
 <div id="resetResult"></div> 
-</div> 
+</div>
 <script> 
 const PROJECT_ID = 'mileagelock'; 
 const API_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1'; 
@@ -259,7 +259,6 @@ try {
 await account.updateRecovery(userId, secret, newPass, confirmPass); 
 resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in with your new password'; 
 resultDiv.style.color = "#3fb950"; 
-// FIX: WAG MAG-REDIRECT. BALIK LOGIN FORM LANG 
 setTimeout(() => { 
 window.history.replaceState({}, document.title, window.location.pathname); 
 showLogin(); 
