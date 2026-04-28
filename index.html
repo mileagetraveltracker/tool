@@ -116,7 +116,7 @@ body {
 }
 
 .input-group { position: relative; width: 100%; }
-.input-group i { 
+.input-group .input-icon { 
     position: absolute; 
     left: 14px; 
     top: 50%; 
@@ -128,7 +128,7 @@ body {
 }
 input, textarea { 
     width: 100%; 
-    padding: 13px 14px 13px 42px; 
+    padding: 13px 46px 13px 42px; 
     font-size: 15px; 
     border-radius: 10px; 
     border: 1px solid #30363d; 
@@ -142,6 +142,22 @@ input, textarea {
 textarea { resize: vertical; min-height: 80px; }
 input:focus, textarea:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
 input::placeholder, textarea::placeholder { color: #6e7681; }
+
+.password-toggle {
+    position: absolute; 
+    right: 14px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    cursor: pointer; 
+    color: #6e7681; 
+    z-index: 10;
+    padding: 6px;
+    -webkit-tap-highlight-color: transparent;
+}
+.password-toggle:active {
+    transform: translateY(-50%) scale(0.9);
+    color: #58a6ff;
+}
 
 .login-btn { 
     background: #238636; 
@@ -160,6 +176,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     margin-bottom: 6px;
     position: relative;
     z-index: 1;
+    -webkit-tap-highlight-color: transparent;
 }
 .login-btn i {
     margin-left: -4px;
@@ -219,7 +236,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
         margin: -5px auto 12px auto;
     }
     .form-box { gap: 8px; }
-    input, .login-btn { padding: 11px 14px 11px 42px; font-size: 14px; }
+    input, .login-btn { padding: 11px 46px 11px 42px; font-size: 14px; }
     .link-btn { padding: 5px 4px; font-size: 12px; }
     .link-btn.support { font-size: 11px; }
 }
@@ -233,7 +250,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
         margin: 0 auto 8px auto;
     }
     .form-box { gap: 6px; }
-    input, .login-btn { padding: 10px 14px 10px 42px; font-size: 13px; }
+    input, .login-btn { padding: 10px 46px 10px 42px; font-size: 13px; }
 }
 </style>
 </head>
@@ -256,11 +273,14 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
         <div id="loginForm" class="form-box">
             <div class="input-group">
                 <input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email">
-                <i class="fa-solid fa-envelope"></i>
+                <i class="fa-solid fa-envelope input-icon"></i>
             </div>
             <div class="input-group">
                 <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
-                <i class="fa-solid fa-lock"></i>
+                <i class="fa-solid fa-lock input-icon"></i>
+                <div class="password-toggle" onclick="toggleLoginPassword()">
+                    <i class="fa-solid fa-lock" id="login-password-icon"></i>
+                </div>
             </div>
             <button class="login-btn" id="loginBtn">
                 <i class="fa-solid fa-right-to-bracket"></i> LOG IN
@@ -285,15 +305,15 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
         <div id="signupForm" class="form-box hidden">
             <div class="input-group">
                 <input type="text" id="signupName" placeholder="Full Name" autocomplete="name">
-                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-user input-icon"></i>
             </div>
             <div class="input-group">
                 <input type="email" id="signupEmail" placeholder="Email Address" autocomplete="email">
-                <i class="fa-solid fa-envelope"></i>
+                <i class="fa-solid fa-envelope input-icon"></i>
             </div>
             <div class="input-group">
                 <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password">
-                <i class="fa-solid fa-lock"></i>
+                <i class="fa-solid fa-lock input-icon"></i>
             </div>
             <button class="login-btn" id="signupBtn">
                 <i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT
@@ -307,11 +327,11 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
         <div id="resetForm" class="form-box hidden">
             <div class="input-group">
                 <input type="password" id="newPassword" placeholder="New Password (min 8 chars)" autocomplete="new-password">
-                <i class="fa-solid fa-lock"></i>
+                <i class="fa-solid fa-lock input-icon"></i>
             </div>
             <div class="input-group">
                 <input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password">
-                <i class="fa-solid fa-lock"></i>
+                <i class="fa-solid fa-lock input-icon"></i>
             </div>
             <button class="login-btn" id="resetBtn">
                 <i class="fa-solid fa-check"></i> UPDATE PASSWORD
@@ -322,19 +342,19 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
         <div id="contactForm" class="form-box hidden">
             <div class="input-group">
                 <input type="text" id="contactName" placeholder="Your Name" autocomplete="name">
-                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-user input-icon"></i>
             </div>
             <div class="input-group">
                 <input type="email" id="contactEmail" placeholder="Your Email" autocomplete="email">
-                <i class="fa-solid fa-envelope"></i>
+                <i class="fa-solid fa-envelope input-icon"></i>
             </div>
             <div class="input-group">
                 <input type="text" id="contactSubject" placeholder="Subject" autocomplete="off">
-                <i class="fa-solid fa-tag"></i>
+                <i class="fa-solid fa-tag input-icon"></i>
             </div>
             <div class="input-group">
                 <textarea id="contactMessage" placeholder="Your message..." autocomplete="off"></textarea>
-                <i class="fa-solid fa-message" style="top: 24px;"></i>
+                <i class="fa-solid fa-message input-icon" style="top: 24px;"></i>
             </div>
             <button class="login-btn" id="contactBtn">
                 <i class="fa-solid fa-paper-plane"></i> SEND MESSAGE
@@ -407,6 +427,21 @@ function showContact() {
     document.getElementById('resetForm').classList.add('hidden');
     document.getElementById('contactForm').classList.remove('hidden');
     document.getElementById('contactResult').innerHTML = '';
+}
+
+function toggleLoginPassword() {
+    const passwordInput = document.getElementById('loginPassword');
+    const icon = document.getElementById('login-password-icon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-lock');
+        icon.classList.add('fa-lock-open');
+    } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-lock-open');
+        icon.classList.add('fa-lock');
+    }
 }
 
 document.getElementById('loginBtn').onclick = async () => {
@@ -531,7 +566,6 @@ document.getElementById('resetBtn').onclick = async () => {
     }
 };
 
-// UPDATED: GUMAGAMIT NA NG FORMSUBMIT - TOTOONG MASE-SEND SA EMAIL MO
 document.getElementById('contactBtn').onclick = async () => {
     const name = document.getElementById('contactName').value.trim();
     const email = document.getElementById('contactEmail').value.trim();
