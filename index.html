@@ -7,33 +7,87 @@
 <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; width: 100%; overflow-x: hidden; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; background: #000000; color: #e6edf3; min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; }
-.highway-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: #000000; overflow: hidden; pointer-events: none; }
+html, body { 
+    height: 100%; 
+    width: 100%; 
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; 
+    background: #000000; 
+    color: #e6edf3; 
+    min-height: 100vh; 
+    min-height: 100dvh;
+    width: 100vw;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 0;
+    position: relative; 
+}
+.highway-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; background: #000000; overflow: hidden; pointer-events: none; }
 .road-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; perspective: 500px; pointer-events: none; }
 .road { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%); transform: rotateX(60deg); transform-origin: center bottom; pointer-events: none; }
 .lane-lines { position: absolute; bottom: -50%; left: 50%; width: 20px; height: 250%; background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px); animation: moveRoad 0.25s linear infinite; pointer-events: none; }
 @keyframes moveRoad { 0% { transform: translateX(-50%) translateY(0); } 100% { transform: translateX(-50%) translateY(70px); } }
-.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1; pointer-events: none; }
-.container { width: 100%; max-width: 380px; text-align: center; position: relative; z-index: 10; display: flex; flex-direction: column; gap: 16px; margin: auto; }
-.logo { width: 100%; max-width: 260px; margin: 0 auto 8px auto; padding: 16px; background: #ffffff; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.9); }
+.overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); z-index: 1; pointer-events: none; }
+
+.container { 
+    width: 100%; 
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-width: 100vw;
+    text-align: center; 
+    position: relative; 
+    z-index: 10; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+    gap: 16px; 
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.logo { 
+    width: 100%; 
+    max-width: 280px; 
+    margin: 0 auto 24px auto; 
+    padding: 20px; 
+    background: #ffffff; 
+    border-radius: 16px; 
+    box-shadow: 0 8px 40px rgba(0,0,0,0.9); 
+}
 .logo img { width: 100%; height: auto; display: block; }
 .input-group { position: relative; width: 100%; }
 .input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #6e7681; font-size: 16px; pointer-events: none; }
-input, textarea { width: 100%; padding: 14px 16px 14px 48px; font-size: 16px; border-radius: 12px; border: 1px solid #30363d; background: rgba(22,27,34,0.95); color: #e6edf3; outline: none; font-family: inherit; }
+input, textarea { width: 100%; padding: 16px 16px 16px 48px; font-size: 16px; border-radius: 12px; border: 1px solid #30363d; background: rgba(22,27,34,0.95); color: #e6edf3; outline: none; font-family: inherit; }
 textarea { resize: vertical; min-height: 100px; }
 input:focus, textarea:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
 input::placeholder, textarea::placeholder { color: #6e7681; }
-.login-btn { background: #238636; color: white; cursor: pointer; font-weight: 600; padding: 14px; font-size: 16px; width: 100%; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.login-btn { background: #238636; color: white; cursor: pointer; font-weight: 600; padding: 16px; font-size: 16px; width: 100%; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .login-btn:active { transform: scale(0.98); }
 .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 #result, #signupResult, #resetResult, #contactResult { font-weight: 500; min-height: 20px; text-align: center; font-size: 14px; }
-.toggle-form, .forgot, .contact-link { color: #58a6ff; font-size: 14px; cursor: pointer; padding: 10px; user-select: none; -webkit-tap-highlight-color: transparent; }
-.toggle-form:active, .forgot:active, .contact-link:active { opacity: 0.7; }
+.link-btn { color: #58a6ff; font-size: 15px; cursor: pointer; padding: 12px; user-select: none; -webkit-tap-highlight-color: transparent; text-align: center; }
+.link-btn:active { opacity: 0.7; }
 .hidden { display: none !important; }
-.form-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.form-box { display: flex; flex-direction: column; gap: 14px; width: 100%; }
 .divider { height: 1px; background: #30363d; margin: 8px 0; }
 .support-email { color: #7d8590; font-size: 12px; margin-top: 8px; }
+.links-container { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+
+@media (min-width: 768px) {
+    .form-wrapper { max-width: 450px; }
+    .logo { max-width: 320px; }
+}
 </style>
 </head>
 <body>
@@ -46,6 +100,8 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 </div>
 <div class="overlay"></div>
 <div class="container">
+<div class="form-wrapper">
+
 <div class="logo">
 <img src="./logo.PNG" alt="Mileage Logo">
 </div>
@@ -64,16 +120,23 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 <i class="fa-solid fa-right-to-bracket"></i> LOG IN
 </button>
 <div id="result"></div>
-<p class="forgot" onclick="forgotPass()">
-<i class="fa-solid fa-key"></i> Forgot Password?
-</p>
-<div class="divider"></div>
-<p class="contact-link" onclick="showContact()">
-<i class="fa-solid fa-headset"></i> Contact Support
-</p>
-<p class="toggle-form" onclick="showSignup()">
-<i class="fa-solid fa-user-plus"></i> Don't have account? Create one
-</p>
+
+<div class="links-container">
+    <!-- ORDER: 1. Don't have account -->
+    <p class="link-btn" onclick="showSignup()">
+        <i class="fa-solid fa-user-plus"></i> Don't have account? Create One
+    </p>
+    
+    <!-- ORDER: 2. Forgot Password -->
+    <p class="link-btn" onclick="forgotPass()">
+        <i class="fa-solid fa-key"></i> Forgot Password?
+    </p>
+    
+    <!-- ORDER: 3. I don't have access email -->
+    <p class="link-btn" onclick="showContact()">
+        <i class="fa-solid fa-headset"></i> I don't have access to email, contact support
+    </p>
+</div>
 </div>
 
 <!-- SIGNUP FORM -->
@@ -94,7 +157,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 <i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT
 </button>
 <div id="signupResult"></div>
-<p class="toggle-form" onclick="showLogin()">
+<p class="link-btn" onclick="showLogin()">
 <i class="fa-solid fa-right-to-bracket"></i> Already have account? Log in
 </p>
 </div>
@@ -138,18 +201,18 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 </button>
 <div id="contactResult"></div>
 <p class="support-email">Or email us directly: helpcenter.mileage@gmail.com</p>
-<p class="toggle-form" onclick="showLogin()">
+<p class="link-btn" onclick="showLogin()">
 <i class="fa-solid fa-arrow-left"></i> Back to Login
 </p>
 </div>
 
+</div>
 </div>
 <script>
 // ====== CONFIG - PALITAN MO LANG TO KUNG KAILANGAN ======
 const PROJECT_ID = 'mileagelock'; 
 const API_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
 const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
-// IMPORTANTE: DAPAT EXACT FILENAME NG HTML MO. KUNG index.html YAN, OK NA. KUNG reset.html, PALITAN MO
 const RECOVERY_URL = window.location.origin + window.location.pathname;
 const SUPPORT_EMAIL = "helpcenter.mileage@gmail.com";
 // =====================================================
@@ -332,7 +395,7 @@ btn.disabled = false;
 }
 };
 
-// CONTACT SUPPORT - MAY FALLBACK NA
+// CONTACT SUPPORT
 document.getElementById('contactBtn').onclick = async () => {
 const name = document.getElementById('contactName').value.trim();
 const email = document.getElementById('contactEmail').value.trim();
@@ -351,7 +414,6 @@ btn.disabled = true;
 resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Opening email app...';
 resultDiv.style.color = "#7d8590";
 
-// Gamit mailto para rekta sa email client ng user
 const mailtoLink = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('[MileageLock Support] ' + subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message)}`;
 
 window.location.href = mailtoLink;
@@ -360,7 +422,6 @@ setTimeout(() => {
 resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Email app opened. If nothing happened, email us at ' + SUPPORT_EMAIL;
 resultDiv.style.color = "#3fb950";
 btn.disabled = false;
-// Clear form
 document.getElementById('contactName').value = '';
 document.getElementById('contactEmail').value = '';
 document.getElementById('contactSubject').value = '';
