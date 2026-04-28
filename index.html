@@ -38,77 +38,80 @@ input::placeholder { color: #6e7681; }
 </head> 
 <body> 
 <div class="highway-bg"> 
-<div class="road-container"> 
-<div class="road"> 
-<div class="lane-lines"></div> 
-</div> 
+  <div class="road-container"> 
+    <div class="road"> 
+      <div class="lane-lines"></div> 
+    </div> 
+  </div>
+</div>
 <div class="overlay"></div> 
 <div class="container"> 
-<div class="logo"> 
-<img src="./logo.PNG" alt="Mileage Logo"> 
-</div> 
-<!-- LOGIN FORM --> 
-<div id="loginForm" class="form-box"> 
-<div class="input-group"> 
-<input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email"> 
-<i class="fa-solid fa-envelope"></i> 
-</div> 
-<div class="input-group"> 
-<input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password"> 
-<i class="fa-solid fa-lock"></i> 
-</div> 
-<button class="login-btn" id="loginBtn"> 
-<i class="fa-solid fa-right-to-bracket"></i> LOG IN 
-</button> 
-<div id="result"></div> 
-<p class="forgot" onclick="forgotPass()"> 
-<i class="fa-solid fa-key"></i> Forgot Password? 
-</p> 
-<p class="toggle-form" onclick="showSignup()"> 
-<i class="fa-solid fa-user-plus"></i> Don't have account? Create one 
-</p> 
-<!-- SUPPORT LINK NA AYOS NA --> 
-<p class="support-link">
-<i class="fa-solid fa-circle-question"></i> No access to your email? 
-<a href="mailto:helpcenter.mileage@gmail.com?subject=MileageLock%20Password%20Reset%20Request&body=Hi%20Admin%2C%0A%0AI%20can%20no%20longer%20access%20my%20registered%20email.%20Please%20help%20reset%20my%20MileageLock%20password.%0A%0ARegistered%20Email%3A%20%0AFull%20Name%3A%20%0ALast%20Trip%20Date%3A%20%0A%0AThank%20you!">Contact Support</a>
-</p>
-</div> 
-<!-- SIGNUP FORM --> 
-<div id="signupForm" class="form-box hidden"> 
-<div class="input-group"> 
-<input type="text" id="signupName" placeholder="Full Name" autocomplete="name"> 
-<i class="fa-solid fa-user"></i> 
-</div> 
-<div class="input-group"> 
-<input type="email" id="signupEmail" placeholder="Email Address" autocomplete="email"> 
-<i class="fa-solid fa-envelope"></i> 
-</div> 
-<div class="input-group"> 
-<input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password"> 
-<i class="fa-solid fa-lock"></i> 
-</div> 
-<button class="login-btn" id="signupBtn"> 
-<i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT 
-</button> 
-<div id="signupResult"></div> 
-<p class="toggle-form" onclick="showLogin()"> 
-<i class="fa-solid fa-right-to-bracket"></i> Already have account? Log in 
-</p> 
-</div> 
-<!-- RESET PASSWORD FORM --> 
-<div id="resetForm" class="form-box hidden"> 
-<div class="input-group"> 
-<input type="password" id="newPassword" placeholder="New Password (min 8 chars)" autocomplete="new-password"> 
-<i class="fa-solid fa-lock"></i> 
-</div> 
-<div class="input-group"> 
-<input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password"> 
-<i class="fa-solid fa-lock"></i> 
-</div> 
-<button class="login-btn" id="resetBtn"> 
-<i class="fa-solid fa-check"></i> UPDATE PASSWORD 
-</button> 
-<div id="resetResult"></div> 
+  <div class="logo"> 
+    <img src="./logo.PNG" alt="Mileage Logo"> 
+  </div> 
+  <!-- LOGIN FORM --> 
+  <div id="loginForm" class="form-box"> 
+    <div class="input-group"> 
+      <input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email"> 
+      <i class="fa-solid fa-envelope"></i> 
+    </div> 
+    <div class="input-group"> 
+      <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password"> 
+      <i class="fa-solid fa-lock"></i> 
+    </div> 
+    <button class="login-btn" id="loginBtn"> 
+      <i class="fa-solid fa-right-to-bracket"></i> LOG IN 
+    </button> 
+    <div id="result"></div> 
+    <p class="forgot" onclick="forgotPass()"> 
+      <i class="fa-solid fa-key"></i> Forgot Password? 
+    </p> 
+    <p class="toggle-form" onclick="showSignup()"> 
+      <i class="fa-solid fa-user-plus"></i> Don't have account? Create one 
+    </p> 
+    <!-- SUPPORT LINK --> 
+    <p class="support-link">
+      <i class="fa-solid fa-circle-question"></i> No access to your email? 
+      <a href="mailto:helpcenter.mileage@gmail.com?subject=MileageLock%20Password%20Reset%20Request&body=Hi%20Admin%2C%0A%0AI%20can%20no%20longer%20access%20my%20registered%20email.%20Please%20help%20reset%20my%20MileageLock%20password.%0A%0ARegistered%20Email%3A%20%0AFull%20Name%3A%20%0ALast%20Trip%20Date%3A%20%0A%0AThank%20you!">Contact Support</a>
+    </p>
+  </div> 
+  <!-- SIGNUP FORM --> 
+  <div id="signupForm" class="form-box hidden"> 
+    <div class="input-group"> 
+      <input type="text" id="signupName" placeholder="Full Name" autocomplete="name"> 
+      <i class="fa-solid fa-user"></i> 
+    </div> 
+    <div class="input-group"> 
+      <input type="email" id="signupEmail" placeholder="Email Address" autocomplete="email"> 
+      <i class="fa-solid fa-envelope"></i> 
+    </div> 
+    <div class="input-group"> 
+      <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password"> 
+      <i class="fa-solid fa-lock"></i> 
+    </div> 
+    <button class="login-btn" id="signupBtn"> 
+      <i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT 
+    </button> 
+    <div id="signupResult"></div> 
+    <p class="toggle-form" onclick="showLogin()"> 
+      <i class="fa-solid fa-right-to-bracket"></i> Already have account? Log in 
+    </p> 
+  </div> 
+  <!-- RESET PASSWORD FORM --> 
+  <div id="resetForm" class="form-box hidden"> 
+    <div class="input-group"> 
+      <input type="password" id="newPassword" placeholder="New Password (min 8 chars)" autocomplete="new-password"> 
+      <i class="fa-solid fa-lock"></i> 
+    </div> 
+    <div class="input-group"> 
+      <input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password"> 
+      <i class="fa-solid fa-lock"></i> 
+    </div> 
+    <button class="login-btn" id="resetBtn"> 
+      <i class="fa-solid fa-check"></i> UPDATE PASSWORD 
+    </button> 
+    <div id="resetResult"></div> 
+  </div>
 </div>
 <script> 
 const PROJECT_ID = 'mileagelock'; 
