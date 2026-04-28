@@ -69,7 +69,6 @@ input::placeholder { color: #6e7681; }
     <p class="toggle-form" onclick="showSignup()"> 
       <i class="fa-solid fa-user-plus"></i> Don't have account? Create one 
     </p> 
-    <!-- SUPPORT LINK --> 
     <p class="support-link">
       <i class="fa-solid fa-circle-question"></i> No access to your email? 
       <a href="mailto:helpcenter.mileage@gmail.com?subject=MileageLock%20Password%20Reset%20Request&body=Hi%20Admin%2C%0A%0AI%20can%20no%20longer%20access%20my%20registered%20email.%20Please%20help%20reset%20my%20MileageLock%20password.%0A%0ARegistered%20Email%3A%20%0AFull%20Name%3A%20%0ALast%20Trip%20Date%3A%20%0A%0AThank%20you!">Contact Support</a>
@@ -121,158 +120,160 @@ const RECOVERY_URL = "https://mileagetraveltracker.github.io/tool/";
 const { Client, Account, ID } = Appwrite; 
 const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID); 
 const account = new Account(client); 
-// CHECK KUNG GALING SA RESET EMAIL 
+
 window.addEventListener('load', () => { 
-const urlParams = new URLSearchParams(window.location.search); 
-const userId = urlParams.get('userId'); 
-const secret = urlParams.get('secret'); 
-if (userId && secret) { 
-document.getElementById('loginForm').classList.add('hidden'); 
-document.getElementById('signupForm').classList.add('hidden'); 
-document.getElementById('resetForm').classList.remove('hidden'); 
-} else { 
-document.getElementById('loginForm').classList.remove('hidden'); 
-document.getElementById('signupForm').classList.add('hidden'); 
-document.getElementById('resetForm').classList.add('hidden'); 
-} 
+  const urlParams = new URLSearchParams(window.location.search); 
+  const userId = urlParams.get('userId'); 
+  const secret = urlParams.get('secret'); 
+  if (userId && secret) { 
+    document.getElementById('loginForm').classList.add('hidden'); 
+    document.getElementById('signupForm').classList.add('hidden'); 
+    document.getElementById('resetForm').classList.remove('hidden'); 
+  } else { 
+    document.getElementById('loginForm').classList.remove('hidden'); 
+    document.getElementById('signupForm').classList.add('hidden'); 
+    document.getElementById('resetForm').classList.add('hidden'); 
+  } 
 }); 
+
 function showLogin() { 
-window.history.replaceState({}, document.title, window.location.pathname); 
-document.getElementById('loginForm').classList.remove('hidden'); 
-document.getElementById('signupForm').classList.add('hidden'); 
-document.getElementById('resetForm').classList.add('hidden'); 
-document.getElementById('result').innerHTML = ''; 
-document.getElementById('signupResult').innerHTML = ''; 
+  window.history.replaceState({}, document.title, window.location.pathname); 
+  document.getElementById('loginForm').classList.remove('hidden'); 
+  document.getElementById('signupForm').classList.add('hidden'); 
+  document.getElementById('resetForm').classList.add('hidden'); 
+  document.getElementById('result').innerHTML = ''; 
+  document.getElementById('signupResult').innerHTML = ''; 
 } 
+
 function showSignup() { 
-window.history.replaceState({}, document.title, window.location.pathname); 
-document.getElementById('loginForm').classList.add('hidden'); 
-document.getElementById('signupForm').classList.remove('hidden'); 
-document.getElementById('resetForm').classList.add('hidden'); 
-document.getElementById('result').innerHTML = ''; 
-document.getElementById('signupResult').innerHTML = ''; 
+  window.history.replaceState({}, document.title, window.location.pathname); 
+  document.getElementById('loginForm').classList.add('hidden'); 
+  document.getElementById('signupForm').classList.remove('hidden'); 
+  document.getElementById('resetForm').classList.add('hidden'); 
+  document.getElementById('result').innerHTML = ''; 
+  document.getElementById('signupResult').innerHTML = ''; 
 } 
-// LOGIN 
+
 document.getElementById('loginBtn').onclick = async () => { 
-const email = document.getElementById('loginEmail').value.trim(); 
-const password = document.getElementById('loginPassword').value; 
-const resultDiv = document.getElementById('result'); 
-const btn = document.getElementById('loginBtn'); 
-if (!email || !password) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
-resultDiv.style.color = "#f85149"; 
-return; 
-} 
-btn.disabled = true; 
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...'; 
-resultDiv.style.color = "#7d8590"; 
-try { 
-await account.deleteSessions().catch(() => {}); 
-await account.createEmailPasswordSession(email, password); 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted'; 
-resultDiv.style.color = "#3fb950"; 
-setTimeout(() => window.location.href = REDIRECT_URL, 800); 
-} catch (error) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password'; 
-resultDiv.style.color = "#f85149"; 
-btn.disabled = false; 
-} 
+  const email = document.getElementById('loginEmail').value.trim(); 
+  const password = document.getElementById('loginPassword').value; 
+  const resultDiv = document.getElementById('result'); 
+  const btn = document.getElementById('loginBtn'); 
+  if (!email || !password) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
+    resultDiv.style.color = "#f85149"; 
+    return; 
+  } 
+  btn.disabled = true; 
+  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...'; 
+  resultDiv.style.color = "#7d8590"; 
+  try { 
+    await account.deleteSessions().catch(() => {}); 
+    await account.createEmailPasswordSession(email, password); 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted'; 
+    resultDiv.style.color = "#3fb950"; 
+    setTimeout(() => window.location.href = REDIRECT_URL, 800); 
+  } catch (error) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password'; 
+    resultDiv.style.color = "#f85149"; 
+    btn.disabled = false; 
+  } 
 }; 
-// SIGNUP 
+
 document.getElementById('signupBtn').onclick = async () => { 
-const name = document.getElementById('signupName').value.trim(); 
-const email = document.getElementById('signupEmail').value.trim(); 
-const password = document.getElementById('signupPassword').value; 
-const resultDiv = document.getElementById('signupResult'); 
-const btn = document.getElementById('signupBtn'); 
-if (!name || !email || !password) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
-resultDiv.style.color = "#f85149"; 
-return; 
-} 
-if (password.length < 8) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters'; 
-resultDiv.style.color = "#f85149"; 
-return; 
-} 
-btn.disabled = true; 
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...'; 
-resultDiv.style.color = "#7d8590"; 
-try { 
-await account.deleteSessions().catch(() => {}); 
-await account.create(ID.unique(), email, password, name); 
-await account.createEmailPasswordSession(email, password); 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created!'; 
-resultDiv.style.color = "#3fb950"; 
-setTimeout(() => window.location.href = REDIRECT_URL, 800); 
-} catch (error) { 
-resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message; 
-resultDiv.style.color = "#f85149"; 
-btn.disabled = false; 
-} 
+  const name = document.getElementById('signupName').value.trim(); 
+  const email = document.getElementById('signupEmail').value.trim(); 
+  const password = document.getElementById('signupPassword').value; 
+  const resultDiv = document.getElementById('signupResult'); 
+  const btn = document.getElementById('signupBtn'); 
+  if (!name || !email || !password) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
+    resultDiv.style.color = "#f85149"; 
+    return; 
+  } 
+  if (password.length < 8) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters'; 
+    resultDiv.style.color = "#f85149"; 
+    return; 
+  } 
+  btn.disabled = true; 
+  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...'; 
+  resultDiv.style.color = "#7d8590"; 
+  try { 
+    await account.deleteSessions().catch(() => {}); 
+    await account.create(ID.unique(), email, password, name); 
+    await account.createEmailPasswordSession(email, password); 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created!'; 
+    resultDiv.style.color = "#3fb950"; 
+    setTimeout(() => window.location.href = REDIRECT_URL, 800); 
+  } catch (error) { 
+    resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message; 
+    resultDiv.style.color = "#f85149"; 
+    btn.disabled = false; 
+  } 
 }; 
-// FORGOT PASSWORD 
+
 async function forgotPass() { 
-const email = document.getElementById('loginEmail').value.trim(); 
-const resultDiv = document.getElementById('result'); 
-if (!email) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email first'; 
-resultDiv.style.color = "#f85149"; 
-return; 
+  const email = document.getElementById('loginEmail').value.trim(); 
+  const resultDiv = document.getElementById('result'); 
+  if (!email) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email first'; 
+    resultDiv.style.color = "#f85149"; 
+    return; 
+  } 
+  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending reset link...'; 
+  resultDiv.style.color = "#7d8590"; 
+  try { 
+    await account.createRecovery(email, RECOVERY_URL); 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email'; 
+    resultDiv.style.color = "#3fb950"; 
+  } catch (error) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message; 
+    resultDiv.style.color = "#f85149"; 
+  } 
 } 
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending reset link...'; 
-resultDiv.style.color = "#7d8590"; 
-try { 
-await account.createRecovery(email, RECOVERY_URL); 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email'; 
-resultDiv.style.color = "#3fb950"; 
-} catch (error) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message; 
-resultDiv.style.color = "#f85149"; 
-} 
-} 
-// RESET PASSWORD 
+
 document.getElementById('resetBtn').onclick = async () => { 
-const newPass = document.getElementById('newPassword').value; 
-const confirmPass = document.getElementById('confirmPassword').value; 
-const resultDiv = document.getElementById('resetResult'); 
-const btn = document.getElementById('resetBtn'); 
-const urlParams = new URLSearchParams(window.location.search); 
-const userId = urlParams.get('userId'); 
-const secret = urlParams.get('secret'); 
-if (!newPass || !confirmPass) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
-resultDiv.style.color = "#f85149"; 
-return; 
-} 
-if (newPass.length < 8) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters'; 
-resultDiv.style.color = "#f85149"; 
-return; 
-} 
-if (newPass !== confirmPass) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match'; 
-resultDiv.style.color = "#f85149"; 
-return; 
-} 
-btn.disabled = true; 
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating password...'; 
-resultDiv.style.color = "#7d8590"; 
-try { 
-await account.updateRecovery(userId, secret, newPass, confirmPass); 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in with your new password'; 
-resultDiv.style.color = "#3fb950"; 
-setTimeout(() => { 
-window.history.replaceState({}, document.title, window.location.pathname); 
-showLogin(); 
-document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in'; 
-document.getElementById('result').style.color = "#3fb950"; 
-}, 2000); 
-} catch (error) { 
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message; 
-resultDiv.style.color = "#f85149"; 
-btn.disabled = false; 
-} 
+  const newPass = document.getElementById('newPassword').value; 
+  const confirmPass = document.getElementById('confirmPassword').value; 
+  const resultDiv = document.getElementById('resetResult'); 
+  const btn = document.getElementById('resetBtn'); 
+  const urlParams = new URLSearchParams(window.location.search); 
+  const userId = urlParams.get('userId'); 
+  const secret = urlParams.get('secret'); 
+  if (!newPass || !confirmPass) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
+    resultDiv.style.color = "#f85149"; 
+    return; 
+  } 
+  if (newPass.length < 8) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters'; 
+    resultDiv.style.color = "#f85149"; 
+    return; 
+  } 
+  if (newPass !== confirmPass) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match'; 
+    resultDiv.style.color = "#f85149"; 
+    return; 
+  } 
+  btn.disabled = true; 
+  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating password...'; 
+  resultDiv.style.color = "#7d8590"; 
+  try { 
+    await account.updateRecovery(userId, secret, newPass, confirmPass); 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in with your new password'; 
+    resultDiv.style.color = "#3fb950"; 
+    setTimeout(() => { 
+      window.history.replaceState({}, document.title, window.location.pathname); 
+      showLogin(); 
+      document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in'; 
+      document.getElementById('result').style.color = "#3fb950"; 
+    }, 2000); 
+  } catch (error) { 
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message; 
+    resultDiv.style.color = "#f85149"; 
+    btn.disabled = false; 
+  } 
 }; 
 </script> 
 </body> 
