@@ -80,7 +80,7 @@ body {
     z-index: 10; 
     display: flex; 
     flex-direction: column; 
-    justify-content: center; /* CENTER SA PC */
+    justify-content: center;
     gap: 8px; 
     padding: 20px;
     margin: 0 auto;
@@ -94,12 +94,11 @@ body {
     padding: 0 12px;
 }
 
-/* FIXED: LOGO MAS MALAKI + NAKAANGAT KONTI */
 .logo { 
     width: 100%; 
     max-width: 260px; 
     max-height: 20vh;
-    margin: -10px auto 18px auto; /* NEGATIVE TOP PARA UMAANGAT */
+    margin: -10px auto 18px auto;
     padding: 14px; 
     background: #ffffff; 
     border-radius: 16px; 
@@ -144,7 +143,6 @@ textarea { resize: vertical; min-height: 80px; }
 input:focus, textarea:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
 input::placeholder, textarea::placeholder { color: #6e7681; }
 
-/* FIXED: LOG IN TEXT PERFECT CENTER NA */
 .login-btn { 
     background: #238636; 
     color: white; 
@@ -158,13 +156,13 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    gap: 6px; /* LINIITAN GAP */
+    gap: 6px;
     margin-bottom: 6px;
     position: relative;
     z-index: 1;
 }
 .login-btn i {
-    margin-left: -4px; /* USOG KONTI PAKALIWA PARA BALANCE */
+    margin-left: -4px;
 }
 .login-btn:active { transform: scale(0.98); }
 .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -201,7 +199,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 .support-email { color: #7d8590; font-size: 11px; margin-top: 6px; }
 .links-container { display: flex; flex-direction: column; gap: 0px; margin-top: -2px; }
 
-/* DESKTOP */
 @media (min-width: 768px) {
     .form-wrapper { max-width: 380px; }
     .logo { max-width: 280px; max-height: 180px; margin: 0 auto 20px auto; }
@@ -209,10 +206,9 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     .link-btn.support { font-size: 13px; }
 }
 
-/* LANDSCAPE PHONE - FIXED: HINDI NA LAWLAW */
 @media (max-height: 600px) and (orientation: landscape) {
     .container {
-        justify-content: flex-start; /* ITAAS MO LAHAT */
+        justify-content: flex-start;
         padding-top: 20px;
         padding-bottom: 20px;
     }
@@ -228,7 +224,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     .link-btn.support { font-size: 11px; }
 }
 
-/* SOBRANG LIIT NA SCREEN */
 @media (max-height: 450px) {
     .container { padding-top: 15px; }
     .logo { 
@@ -244,327 +239,327 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 </head>
 <body>
 <div class="highway-bg">
-<div class="road-container">
-<div class="road">
-<div class="lane-lines"></div>
+    <div class="road-container">
+        <div class="road">
+            <div class="lane-lines"></div>
+        </div>
+    </div>
 </div>
+
 <div class="container">
-<div class="form-wrapper">
+    <div class="form-wrapper">
 
-<div class="logo">
-<img src="./logo.PNG" alt="Mileage Logo">
+        <div class="logo">
+            <img src="./logo.PNG" alt="Mileage Logo">
+        </div>
+
+        <div id="loginForm" class="form-box">
+            <div class="input-group">
+                <input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="input-group">
+                <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <button class="login-btn" id="loginBtn">
+                <i class="fa-solid fa-right-to-bracket"></i> LOG IN
+            </button>
+            <div id="result"></div>
+
+            <div class="links-container">
+                <p class="link-btn" onclick="showSignup()">
+                    <i class="fa-solid fa-user-plus"></i> Don't have account? Create One
+                </p>
+                
+                <p class="link-btn" onclick="forgotPass()">
+                    <i class="fa-solid fa-key"></i> Forgot Password?
+                </p>
+                
+                <p class="link-btn support" onclick="showContact()">
+                    <i class="fa-solid fa-headset"></i> I don't have access to email, contact support
+                </p>
+            </div>
+        </div>
+
+        <div id="signupForm" class="form-box hidden">
+            <div class="input-group">
+                <input type="text" id="signupName" placeholder="Full Name" autocomplete="name">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="input-group">
+                <input type="email" id="signupEmail" placeholder="Email Address" autocomplete="email">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="input-group">
+                <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <button class="login-btn" id="signupBtn">
+                <i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT
+            </button>
+            <div id="signupResult"></div>
+            <p class="link-btn" onclick="showLogin()">
+                <i class="fa-solid fa-right-to-bracket"></i> Already have account? Log in
+            </p>
+        </div>
+
+        <div id="resetForm" class="form-box hidden">
+            <div class="input-group">
+                <input type="password" id="newPassword" placeholder="New Password (min 8 chars)" autocomplete="new-password">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <button class="login-btn" id="resetBtn">
+                <i class="fa-solid fa-check"></i> UPDATE PASSWORD
+            </button>
+            <div id="resetResult"></div>
+        </div>
+
+        <div id="contactForm" class="form-box hidden">
+            <div class="input-group">
+                <input type="text" id="contactName" placeholder="Your Name" autocomplete="name">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="input-group">
+                <input type="email" id="contactEmail" placeholder="Your Email" autocomplete="email">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="input-group">
+                <input type="text" id="contactSubject" placeholder="Subject" autocomplete="off">
+                <i class="fa-solid fa-tag"></i>
+            </div>
+            <div class="input-group">
+                <textarea id="contactMessage" placeholder="Your message..." autocomplete="off"></textarea>
+                <i class="fa-solid fa-message" style="top: 24px;"></i>
+            </div>
+            <button class="login-btn" id="contactBtn">
+                <i class="fa-solid fa-paper-plane"></i> SEND MESSAGE
+            </button>
+            <div id="contactResult"></div>
+            <p class="support-email">Or email us directly: helpcenter.mileage@gmail.com</p>
+            <p class="link-btn" onclick="showLogin()">
+                <i class="fa-solid fa-arrow-left"></i> Back to Login
+            </p>
+        </div>
+
+    </div>
 </div>
 
-<!-- LOGIN FORM -->
-<div id="loginForm" class="form-box">
-<div class="input-group">
-<input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email">
-<i class="fa-solid fa-envelope"></i>
-</div>
-<div class="input-group">
-<input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
-<i class="fa-solid fa-lock"></i>
-</div>
-<button class="login-btn" id="loginBtn">
-<i class="fa-solid fa-right-to-bracket"></i> LOG IN
-</button>
-<div id="result"></div>
-
-<div class="links-container">
-    <p class="link-btn" onclick="showSignup()">
-        <i class="fa-solid fa-user-plus"></i> Don't have account? Create One
-    </p>
-    
-    <p class="link-btn" onclick="forgotPass()">
-        <i class="fa-solid fa-key"></i> Forgot Password?
-    </p>
-    
-    <p class="link-btn support" onclick="showContact()">
-        <i class="fa-solid fa-headset"></i> I don't have access to email, contact support
-    </p>
-</div>
-
-<!-- SIGNUP FORM -->
-<div id="signupForm" class="form-box hidden">
-<div class="input-group">
-<input type="text" id="signupName" placeholder="Full Name" autocomplete="name">
-<i class="fa-solid fa-user"></i>
-</div>
-<div class="input-group">
-<input type="email" id="signupEmail" placeholder="Email Address" autocomplete="email">
-<i class="fa-solid fa-envelope"></i>
-</div>
-<div class="input-group">
-<input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password">
-<i class="fa-solid fa-lock"></i>
-</div>
-<button class="login-btn" id="signupBtn">
-<i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT
-</button>
-<div id="signupResult"></div>
-<p class="link-btn" onclick="showLogin()">
-<i class="fa-solid fa-right-to-bracket"></i> Already have account? Log in
-</p>
-</div>
-
-<!-- RESET PASSWORD FORM -->
-<div id="resetForm" class="form-box hidden">
-<div class="input-group">
-<input type="password" id="newPassword" placeholder="New Password (min 8 chars)" autocomplete="new-password">
-<i class="fa-solid fa-lock"></i>
-</div>
-<div class="input-group">
-<input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password">
-<i class="fa-solid fa-lock"></i>
-</div>
-<button class="login-btn" id="resetBtn">
-<i class="fa-solid fa-check"></i> UPDATE PASSWORD
-</button>
-<div id="resetResult"></div>
-</div>
-
-<!-- CONTACT SUPPORT FORM -->
-<div id="contactForm" class="form-box hidden">
-<div class="input-group">
-<input type="text" id="contactName" placeholder="Your Name" autocomplete="name">
-<i class="fa-solid fa-user"></i>
-</div>
-<div class="input-group">
-<input type="email" id="contactEmail" placeholder="Your Email" autocomplete="email">
-<i class="fa-solid fa-envelope"></i>
-</div>
-<div class="input-group">
-<input type="text" id="contactSubject" placeholder="Subject" autocomplete="off">
-<i class="fa-solid fa-tag"></i>
-</div>
-<div class="input-group">
-<textarea id="contactMessage" placeholder="Your message..." autocomplete="off"></textarea>
-<i class="fa-solid fa-message" style="top: 24px;"></i>
-</div>
-<button class="login-btn" id="contactBtn">
-<i class="fa-solid fa-paper-plane"></i> SEND MESSAGE
-</button>
-<div id="contactResult"></div>
-<p class="support-email">Or email us directly: helpcenter.mileage@gmail.com</p>
-<p class="link-btn" onclick="showLogin()">
-<i class="fa-solid fa-arrow-left"></i> Back to Login
-</p>
-</div>
-
-</div>
 <script>
-// ====== CONFIG ======
 const PROJECT_ID = 'mileagelock'; 
 const API_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
 const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
 const RECOVERY_URL = window.location.origin + window.location.pathname;
 const SUPPORT_EMAIL = "helpcenter.mileage@gmail.com";
-// ====================
 
 const { Client, Account, ID } = Appwrite;
 const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID);
 const account = new Account(client);
 
 window.addEventListener('load', () => {
-const urlParams = new URLSearchParams(window.location.search);
-const userId = urlParams.get('userId');
-const secret = urlParams.get('secret');
-if (userId && secret) {
-document.getElementById('loginForm').classList.add('hidden');
-document.getElementById('signupForm').classList.add('hidden');
-document.getElementById('resetForm').classList.remove('hidden');
-document.getElementById('contactForm').classList.add('hidden');
-} else {
-document.getElementById('loginForm').classList.remove('hidden');
-document.getElementById('signupForm').classList.add('hidden');
-document.getElementById('resetForm').classList.add('hidden');
-document.getElementById('contactForm').classList.add('hidden');
-}
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+    const secret = urlParams.get('secret');
+    if (userId && secret) {
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('resetForm').classList.remove('hidden');
+        document.getElementById('contactForm').classList.add('hidden');
+    } else {
+        document.getElementById('loginForm').classList.remove('hidden');
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('resetForm').classList.add('hidden');
+        document.getElementById('contactForm').classList.add('hidden');
+    }
 });
 
 function showLogin() {
-window.history.replaceState({}, document.title, window.location.pathname);
-document.getElementById('loginForm').classList.remove('hidden');
-document.getElementById('signupForm').classList.add('hidden');
-document.getElementById('resetForm').classList.add('hidden');
-document.getElementById('contactForm').classList.add('hidden');
-document.getElementById('result').innerHTML = '';
-document.getElementById('signupResult').innerHTML = '';
-document.getElementById('contactResult').innerHTML = '';
+    window.history.replaceState({}, document.title, window.location.pathname);
+    document.getElementById('loginForm').classList.remove('hidden');
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('resetForm').classList.add('hidden');
+    document.getElementById('contactForm').classList.add('hidden');
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('signupResult').innerHTML = '';
+    document.getElementById('contactResult').innerHTML = '';
 }
 
 function showSignup() {
-window.history.replaceState({}, document.title, window.location.pathname);
-document.getElementById('loginForm').classList.add('hidden');
-document.getElementById('signupForm').classList.remove('hidden');
-document.getElementById('resetForm').classList.add('hidden');
-document.getElementById('contactForm').classList.add('hidden');
-document.getElementById('result').innerHTML = '';
-document.getElementById('signupResult').innerHTML = '';
+    window.history.replaceState({}, document.title, window.location.pathname);
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.remove('hidden');
+    document.getElementById('resetForm').classList.add('hidden');
+    document.getElementById('contactForm').classList.add('hidden');
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('signupResult').innerHTML = '';
 }
 
 function showContact() {
-window.history.replaceState({}, document.title, window.location.pathname);
-document.getElementById('loginForm').classList.add('hidden');
-document.getElementById('signupForm').classList.add('hidden');
-document.getElementById('resetForm').classList.add('hidden');
-document.getElementById('contactForm').classList.remove('hidden');
-document.getElementById('contactResult').innerHTML = '';
+    window.history.replaceState({}, document.title, window.location.pathname);
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('resetForm').classList.add('hidden');
+    document.getElementById('contactForm').classList.remove('hidden');
+    document.getElementById('contactResult').innerHTML = '';
 }
 
 document.getElementById('loginBtn').onclick = async () => {
-const email = document.getElementById('loginEmail').value.trim();
-const password = document.getElementById('loginPassword').value;
-const resultDiv = document.getElementById('result');
-const btn = document.getElementById('loginBtn');
-if (!email || !password) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
-resultDiv.style.color = "#f85149";
-return;
-}
-btn.disabled = true;
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...';
-resultDiv.style.color = "#7d8590";
-try {
-await account.deleteSessions().catch(() => {});
-await account.createEmailSession(email, password);
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted';
-resultDiv.style.color = "#3fb950";
-setTimeout(() => window.location.href = REDIRECT_URL, 800);
-} catch (error) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password';
-resultDiv.style.color = "#f85149";
-btn.disabled = false;
-}
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const resultDiv = document.getElementById('result');
+    const btn = document.getElementById('loginBtn');
+    if (!email || !password) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    btn.disabled = true;
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...';
+    resultDiv.style.color = "#7d8590";
+    try {
+        await account.deleteSessions().catch(() => {});
+        await account.createEmailSession(email, password);
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted';
+        resultDiv.style.color = "#3fb950";
+        setTimeout(() => window.location.href = REDIRECT_URL, 800);
+    } catch (error) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password';
+        resultDiv.style.color = "#f85149";
+        btn.disabled = false;
+    }
 };
 
 document.getElementById('signupBtn').onclick = async () => {
-const name = document.getElementById('signupName').value.trim();
-const email = document.getElementById('signupEmail').value.trim();
-const password = document.getElementById('signupPassword').value;
-const resultDiv = document.getElementById('signupResult');
-const btn = document.getElementById('signupBtn');
-if (!name || !email || !password) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
-resultDiv.style.color = "#f85149";
-return;
-}
-if (password.length < 8) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
-resultDiv.style.color = "#f85149";
-return;
-}
-btn.disabled = true;
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...';
-resultDiv.style.color = "#7d8590";
-try {
-await account.deleteSessions().catch(() => {});
-await account.create(ID.unique(), email, password, name);
-await account.createEmailSession(email, password);
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created!';
-resultDiv.style.color = "#3fb950";
-setTimeout(() => window.location.href = REDIRECT_URL, 800);
-} catch (error) {
-resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
-resultDiv.style.color = "#f85149";
-btn.disabled = false;
-}
+    const name = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const password = document.getElementById('signupPassword').value;
+    const resultDiv = document.getElementById('signupResult');
+    const btn = document.getElementById('signupBtn');
+    if (!name || !email || !password) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    if (password.length < 8) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    btn.disabled = true;
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...';
+    resultDiv.style.color = "#7d8590";
+    try {
+        await account.deleteSessions().catch(() => {});
+        await account.create(ID.unique(), email, password, name);
+        await account.createEmailSession(email, password);
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created!';
+        resultDiv.style.color = "#3fb950";
+        setTimeout(() => window.location.href = REDIRECT_URL, 800);
+    } catch (error) {
+        resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
+        resultDiv.style.color = "#f85149";
+        btn.disabled = false;
+    }
 };
 
 async function forgotPass() {
-const email = document.getElementById('loginEmail').value.trim();
-const resultDiv = document.getElementById('result');
-if (!email) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email first';
-resultDiv.style.color = "#f85149";
-return;
-}
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending reset link...';
-resultDiv.style.color = "#7d8590";
-try {
-await account.createRecovery(email, RECOVERY_URL);
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email';
-resultDiv.style.color = "#3fb950";
-} catch (error) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
-resultDiv.style.color = "#f85149";
-}
+    const email = document.getElementById('loginEmail').value.trim();
+    const resultDiv = document.getElementById('result');
+    if (!email) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email first';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending reset link...';
+    resultDiv.style.color = "#7d8590";
+    try {
+        await account.createRecovery(email, RECOVERY_URL);
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email';
+        resultDiv.style.color = "#3fb950";
+    } catch (error) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
+        resultDiv.style.color = "#f85149";
+    }
 }
 
 document.getElementById('resetBtn').onclick = async () => {
-const newPass = document.getElementById('newPassword').value;
-const confirmPass = document.getElementById('confirmPassword').value;
-const resultDiv = document.getElementById('resetResult');
-const btn = document.getElementById('resetBtn');
-const urlParams = new URLSearchParams(window.location.search);
-const userId = urlParams.get('userId');
-const secret = urlParams.get('secret');
-if (!newPass || !confirmPass) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
-resultDiv.style.color = "#f85149";
-return;
-}
-if (newPass.length < 8) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
-resultDiv.style.color = "#f85149";
-return;
-}
-if (newPass !== confirmPass) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match';
-resultDiv.style.color = "#f85149";
-return;
-}
-btn.disabled = true;
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating password...';
-resultDiv.style.color = "#7d8590";
-try {
-await account.updateRecovery(userId, secret, newPass, confirmPass);
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in';
-resultDiv.style.color = "#3fb950";
-setTimeout(() => {
-window.history.replaceState({}, document.title, window.location.pathname);
-showLogin();
-document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in';
-document.getElementById('result').style.color = "#3fb950";
-}, 2000);
-} catch (error) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
-resultDiv.style.color = "#f85149";
-btn.disabled = false;
-}
+    const newPass = document.getElementById('newPassword').value;
+    const confirmPass = document.getElementById('confirmPassword').value;
+    const resultDiv = document.getElementById('resetResult');
+    const btn = document.getElementById('resetBtn');
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+    const secret = urlParams.get('secret');
+    if (!newPass || !confirmPass) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    if (newPass.length < 8) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    if (newPass !== confirmPass) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    btn.disabled = true;
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating password...';
+    resultDiv.style.color = "#7d8590";
+    try {
+        await account.updateRecovery(userId, secret, newPass, confirmPass);
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in';
+        resultDiv.style.color = "#3fb950";
+        setTimeout(() => {
+            window.history.replaceState({}, document.title, window.location.pathname);
+            showLogin();
+            document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in';
+            document.getElementById('result').style.color = "#3fb950";
+        }, 2000);
+    } catch (error) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
+        resultDiv.style.color = "#f85149";
+        btn.disabled = false;
+    }
 };
 
 document.getElementById('contactBtn').onclick = async () => {
-const name = document.getElementById('contactName').value.trim();
-const email = document.getElementById('contactEmail').value.trim();
-const subject = document.getElementById('contactSubject').value.trim();
-const message = document.getElementById('contactMessage').value.trim();
-const resultDiv = document.getElementById('contactResult');
-const btn = document.getElementById('contactBtn');
+    const name = document.getElementById('contactName').value.trim();
+    const email = document.getElementById('contactEmail').value.trim();
+    const subject = document.getElementById('contactSubject').value.trim();
+    const message = document.getElementById('contactMessage').value.trim();
+    const resultDiv = document.getElementById('contactResult');
+    const btn = document.getElementById('contactBtn');
 
-if (!name || !email || !subject || !message) {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
-resultDiv.style.color = "#f85149";
-return;
-}
+    if (!name || !email || !subject || !message) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
 
-btn.disabled = true;
-resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Opening email app...';
-resultDiv.style.color = "#7d8590";
+    btn.disabled = true;
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Opening email app...';
+    resultDiv.style.color = "#7d8590";
 
-const mailtoLink = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('[MileageLock Support] ' + subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message)}`;
+    const mailtoLink = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('[MileageLock Support] ' + subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message)}`;
 
-window.location.href = mailtoLink;
+    window.location.href = mailtoLink;
 
-setTimeout(() => {
-resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Email app opened. If nothing happened, email us at ' + SUPPORT_EMAIL;
-resultDiv.style.color = "#3fb950";
-btn.disabled = false;
-document.getElementById('contactName').value = '';
-document.getElementById('contactEmail').value = '';
-document.getElementById('contactSubject').value = '';
-document.getElementById('contactMessage').value = '';
-}, 1500);
+    setTimeout(() => {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Email app opened. If nothing happened, email us at ' + SUPPORT_EMAIL;
+        resultDiv.style.color = "#3fb950";
+        btn.disabled = false;
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
+        document.getElementById('contactSubject').value = '';
+        document.getElementById('contactMessage').value = '';
+    }, 1500);
 };
 </script>
 </body>
