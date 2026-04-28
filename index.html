@@ -1,280 +1,434 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-<title>Mileage Private Tool</title> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"> 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
-<script src="https://cdn.jsdelivr.net/npm/appwrite@15.0.0"></script> 
-<style> 
-* { margin: 0; padding: 0; box-sizing: border-box; } 
-html, body { height: 100%; width: 100%; overflow-x: hidden; } 
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial; background: #000000; color: #e6edf3; min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; } 
-.highway-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: #000000; overflow: hidden; pointer-events: none; } 
-.road-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; perspective: 500px; pointer-events: none; } 
-.road { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%); transform: rotateX(60deg); transform-origin: center bottom; pointer-events: none; } 
-.lane-lines { position: absolute; bottom: -50%; left: 50%; width: 20px; height: 250%; background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px); animation: moveRoad 0.25s linear infinite; pointer-events: none; } 
-@keyframes moveRoad { 0% { transform: translateX(-50%) translateY(0); } 100% { transform: translateX(-50%) translateY(70px); } } 
-.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1; pointer-events: none; } 
-.container { width: 100%; max-width: 380px; text-align: center; position: relative; z-index: 10; display: flex; flex-direction: column; gap: 16px; margin: auto; } 
-.logo { width: 100%; max-width: 260px; margin: 0 auto 8px auto; padding: 16px; background: #ffffff; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.9); } 
-.logo img { width: 100%; height: auto; display: block; } 
-.input-group { position: relative; width: 100%; } 
-.input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #6e7681; font-size: 16px; pointer-events: none; } 
-input { width: 100%; padding: 14px 16px 14px 48px; font-size: 16px; border-radius: 12px; border: 1px solid #30363d; background: rgba(22,27,34,0.95); color: #e6edf3; outline: none; } 
-input:focus { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,0.15); } 
-input::placeholder { color: #6e7681; } 
-.login-btn { background: #238636; color: white; cursor: pointer; font-weight: 600; padding: 14px; font-size: 16px; width: 100%; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; } 
-.login-btn:active { transform: scale(0.98); } 
-.login-btn:disabled { opacity: 0.6; cursor: not-allowed; } 
-#result, #signupResult, #resetResult { font-weight: 500; min-height: 20px; text-align: center; font-size: 14px; } 
-.toggle-form, .forgot { color: #58a6ff; font-size: 14px; cursor: pointer; padding: 10px; user-select: none; -webkit-tap-highlight-color: transparent; } 
-.toggle-form:active, .forgot:active { opacity: 0.7; } 
-.hidden { display: none !important; } 
-.form-box { display: flex; flex-direction: column; gap: 12px; width: 100%; } 
-.support-link { color: #6e7681; font-size: 13px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #30363d; } 
-.support-link a { color: #58a6ff; text-decoration: none; } 
-.support-link a:active { opacity: 0.7; } 
-</style> 
-</head> 
-<body> 
-<div class="highway-bg"> 
-  <div class="road-container"> 
-    <div class="road"> 
-      <div class="lane-lines"></div> 
-    </div> 
-  </div>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mileage Private Tool</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@15.0.0"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; width: 100%; overflow-x: hidden; }
+body {
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial;
+background: #000000;
+color: #e6edf3;
+min-height: 100vh;
+min-height: 100dvh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+position: relative;
+}
+.highway-bg {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 0;
+background: #000000;
+overflow: hidden;
+pointer-events: none;
+}
+.road-container {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+perspective: 500px;
+pointer-events: none;
+}
+.road {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%);
+transform: rotateX(60deg);
+transform-origin: center bottom;
+pointer-events: none;
+}
+.lane-lines {
+position: absolute;
+bottom: -50%;
+left: 50%;
+width: 20px;
+height: 250%;
+background: repeating-linear-gradient(to top, transparent 0px, transparent 30px, #ffffff 30px, #ffffff 70px);
+animation: moveRoad 0.25s linear infinite;
+pointer-events: none;
+}
+@keyframes moveRoad {
+0% { transform: translateX(-50%) translateY(0); }
+100% { transform: translateX(-50%) translateY(70px); }
+}
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.85);
+z-index: 1;
+pointer-events: none;
+}
+.container {
+width: 100%;
+max-width: 380px;
+text-align: center;
+position: relative;
+z-index: 10;
+display: flex;
+flex-direction: column;
+gap: 16px;
+margin: auto;
+}
+.logo {
+width: 100%;
+max-width: 260px;
+margin: 0 auto 8px auto;
+padding: 16px;
+background: #ffffff;
+border-radius: 16px;
+box-shadow: 0 8px 40px rgba(0,0,0,0.9);
+}
+.logo img {
+width: 100%;
+height: auto;
+display: block;
+}
+.input-group {
+position: relative;
+width: 100%;
+}
+.input-group i {
+position: absolute;
+left: 16px;
+top: 50%;
+transform: translateY(-50%);
+color: #6e7681;
+font-size: 16px;
+pointer-events: none;
+}
+input {
+width: 100%;
+padding: 14px 16px 14px 48px;
+font-size: 16px;
+border-radius: 12px;
+border: 1px solid #30363d;
+background: rgba(22,27,34,0.95);
+color: #e6edf3;
+outline: none;
+}
+input:focus {
+border-color: #1f6feb;
+box-shadow: 0 0 0 3px rgba(31,111,235,0.15);
+}
+input::placeholder {
+color: #6e7681;
+}
+.login-btn {
+background: #238636;
+color: white;
+cursor: pointer;
+font-weight: 600;
+padding: 14px;
+font-size: 16px;
+width: 100%;
+border-radius: 12px;
+border: none;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+}
+.login-btn:active { transform: scale(0.98); }
+.login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+#result, #signupResult, #resetResult {
+font-weight: 500;
+min-height: 20px;
+text-align: center;
+font-size: 14px;
+}
+.toggle-form, .forgot {
+color: #58a6ff;
+font-size: 14px;
+cursor: pointer;
+padding: 10px;
+user-select: none;
+-webkit-tap-highlight-color: transparent;
+}
+.toggle-form:active, .forgot:active { opacity: 0.7; }
+.hidden { display: none !important; }
+.form-box {
+display: flex;
+flex-direction: column;
+gap: 12px;
+width: 100%;
+}
+</style>
+</head>
+<body>
+<div class="highway-bg">
+<div class="road-container">
+<div class="road">
+<div class="lane-lines"></div>
 </div>
-<div class="overlay"></div> 
-<div class="container"> 
-  <div class="logo"> 
-    <img src="./logo.PNG" alt="Mileage Logo"> 
-  </div> 
-  <!-- LOGIN FORM --> 
-  <div id="loginForm" class="form-box"> 
-    <div class="input-group"> 
-      <input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email"> 
-      <i class="fa-solid fa-envelope"></i> 
-    </div> 
-    <div class="input-group"> 
-      <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password"> 
-      <i class="fa-solid fa-lock"></i> 
-    </div> 
-    <button class="login-btn" id="loginBtn"> 
-      <i class="fa-solid fa-right-to-bracket"></i> LOG IN 
-    </button> 
-    <div id="result"></div> 
-    <p class="forgot" onclick="forgotPass()"> 
-      <i class="fa-solid fa-key"></i> Forgot Password? 
-    </p> 
-    <p class="toggle-form" onclick="showSignup()"> 
-      <i class="fa-solid fa-user-plus"></i> Don't have account? Create one 
-    </p> 
-    <p class="support-link">
-      <i class="fa-solid fa-circle-question"></i> No access to your email? 
-      <a href="mailto:helpcenter.mileage@gmail.com?subject=MileageLock%20Password%20Reset%20Request&body=Hi%20Admin%2C%0A%0AI%20can%20no%20longer%20access%20my%20registered%20email.%20Please%20help%20reset%20my%20MileageLock%20password.%0A%0ARegistered%20Email%3A%20%0AFull%20Name%3A%20%0ALast%20Trip%20Date%3A%20%0A%0AThank%20you!">Contact Support</a>
-    </p>
-  </div> 
-  <!-- SIGNUP FORM --> 
-  <div id="signupForm" class="form-box hidden"> 
-    <div class="input-group"> 
-      <input type="text" id="signupName" placeholder="Full Name" autocomplete="name"> 
-      <i class="fa-solid fa-user"></i> 
-    </div> 
-    <div class="input-group"> 
-      <input type="email" id="signupEmail" placeholder="Email Address" autocomplete="email"> 
-      <i class="fa-solid fa-envelope"></i> 
-    </div> 
-    <div class="input-group"> 
-      <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password"> 
-      <i class="fa-solid fa-lock"></i> 
-    </div> 
-    <button class="login-btn" id="signupBtn"> 
-      <i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT 
-    </button> 
-    <div id="signupResult"></div> 
-    <p class="toggle-form" onclick="showLogin()"> 
-      <i class="fa-solid fa-right-to-bracket"></i> Already have account? Log in 
-    </p> 
-  </div> 
-  <!-- RESET PASSWORD FORM --> 
-  <div id="resetForm" class="form-box hidden"> 
-    <div class="input-group"> 
-      <input type="password" id="newPassword" placeholder="New Password (min 8 chars)" autocomplete="new-password"> 
-      <i class="fa-solid fa-lock"></i> 
-    </div> 
-    <div class="input-group"> 
-      <input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password"> 
-      <i class="fa-solid fa-lock"></i> 
-    </div> 
-    <button class="login-btn" id="resetBtn"> 
-      <i class="fa-solid fa-check"></i> UPDATE PASSWORD 
-    </button> 
-    <div id="resetResult"></div> 
-  </div>
 </div>
-<script> 
-const PROJECT_ID = 'mileagelock'; 
-const API_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1'; 
-const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563"; 
-const RECOVERY_URL = "https://mileagetraveltracker.github.io/tool/"; 
-const { Client, Account, ID } = Appwrite; 
-const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID); 
-const account = new Account(client); 
+</div>
+<div class="overlay"></div>
+<div class="container">
+<div class="logo">
+<img src="./logo.PNG" alt="Mileage Logo">
+</div>
 
-window.addEventListener('load', () => { 
-  const urlParams = new URLSearchParams(window.location.search); 
-  const userId = urlParams.get('userId'); 
-  const secret = urlParams.get('secret'); 
-  if (userId && secret) { 
-    document.getElementById('loginForm').classList.add('hidden'); 
-    document.getElementById('signupForm').classList.add('hidden'); 
-    document.getElementById('resetForm').classList.remove('hidden'); 
-  } else { 
-    document.getElementById('loginForm').classList.remove('hidden'); 
-    document.getElementById('signupForm').classList.add('hidden'); 
-    document.getElementById('resetForm').classList.add('hidden'); 
-  } 
-}); 
+<!-- LOGIN FORM -->
+<div id="loginForm" class="form-box">
+<div class="input-group">
+<input type="email" id="loginEmail" placeholder="Email Address" autocomplete="email">
+<i class="fa-solid fa-envelope"></i>
+</div>
+<div class="input-group">
+<input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+<i class="fa-solid fa-lock"></i>
+</div>
+<button class="login-btn" id="loginBtn">
+<i class="fa-solid fa-right-to-bracket"></i> LOG IN
+</button>
+<div id="result"></div>
+<p class="forgot" onclick="forgotPass()">
+<i class="fa-solid fa-key"></i> Forgot Password?
+</p>
+<p class="toggle-form" onclick="showSignup()">
+<i class="fa-solid fa-user-plus"></i> Don't have account? Create one
+</p>
+</div>
 
-function showLogin() { 
-  window.history.replaceState({}, document.title, window.location.pathname); 
-  document.getElementById('loginForm').classList.remove('hidden'); 
-  document.getElementById('signupForm').classList.add('hidden'); 
-  document.getElementById('resetForm').classList.add('hidden'); 
-  document.getElementById('result').innerHTML = ''; 
-  document.getElementById('signupResult').innerHTML = ''; 
-} 
+<!-- SIGNUP FORM -->
+<div id="signupForm" class="form-box hidden">
+<div class="input-group">
+<input type="text" id="signupName" placeholder="Full Name" autocomplete="name">
+<i class="fa-solid fa-user"></i>
+</div>
+<div class="input-group">
+<input type="email" id="signupEmail" placeholder="Email Address" autocomplete="email">
+<i class="fa-solid fa-envelope"></i>
+</div>
+<div class="input-group">
+<input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password">
+<i class="fa-solid fa-lock"></i>
+</div>
+<button class="login-btn" id="signupBtn">
+<i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT
+</button>
+<div id="signupResult"></div>
+<p class="toggle-form" onclick="showLogin()">
+<i class="fa-solid fa-right-to-bracket"></i> Already have account? Log in
+</p>
+</div>
 
-function showSignup() { 
-  window.history.replaceState({}, document.title, window.location.pathname); 
-  document.getElementById('loginForm').classList.add('hidden'); 
-  document.getElementById('signupForm').classList.remove('hidden'); 
-  document.getElementById('resetForm').classList.add('hidden'); 
-  document.getElementById('result').innerHTML = ''; 
-  document.getElementById('signupResult').innerHTML = ''; 
-} 
+<!-- RESET PASSWORD FORM -->
+<div id="resetForm" class="form-box hidden">
+<div class="input-group">
+<input type="password" id="newPassword" placeholder="New Password (min 8 chars)" autocomplete="new-password">
+<i class="fa-solid fa-lock"></i>
+</div>
+<div class="input-group">
+<input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password">
+<i class="fa-solid fa-lock"></i>
+</div>
+<button class="login-btn" id="resetBtn">
+<i class="fa-solid fa-check"></i> UPDATE PASSWORD
+</button>
+<div id="resetResult"></div>
+</div>
 
-document.getElementById('loginBtn').onclick = async () => { 
-  const email = document.getElementById('loginEmail').value.trim(); 
-  const password = document.getElementById('loginPassword').value; 
-  const resultDiv = document.getElementById('result'); 
-  const btn = document.getElementById('loginBtn'); 
-  if (!email || !password) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
-    resultDiv.style.color = "#f85149"; 
-    return; 
-  } 
-  btn.disabled = true; 
-  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...'; 
-  resultDiv.style.color = "#7d8590"; 
-  try { 
-    await account.deleteSessions().catch(() => {}); 
-    await account.createEmailPasswordSession(email, password); 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted'; 
-    resultDiv.style.color = "#3fb950"; 
-    setTimeout(() => window.location.href = REDIRECT_URL, 800); 
-  } catch (error) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password'; 
-    resultDiv.style.color = "#f85149"; 
-    btn.disabled = false; 
-  } 
-}; 
+</div>
+<script>
+const PROJECT_ID = 'mileagelock';
+const API_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
+const REDIRECT_URL = "https://charlsdarwin2004.github.io/mileageprivatetools/?k=CharlsDarwin-999&t=TestTokenNaMahaba1234563";
+const RECOVERY_URL = "https://mileagetraveltracker.github.io/tool/";
+const { Client, Account, ID } = Appwrite;
+const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID);
+const account = new Account(client);
 
-document.getElementById('signupBtn').onclick = async () => { 
-  const name = document.getElementById('signupName').value.trim(); 
-  const email = document.getElementById('signupEmail').value.trim(); 
-  const password = document.getElementById('signupPassword').value; 
-  const resultDiv = document.getElementById('signupResult'); 
-  const btn = document.getElementById('signupBtn'); 
-  if (!name || !email || !password) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
-    resultDiv.style.color = "#f85149"; 
-    return; 
-  } 
-  if (password.length < 8) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters'; 
-    resultDiv.style.color = "#f85149"; 
-    return; 
-  } 
-  btn.disabled = true; 
-  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...'; 
-  resultDiv.style.color = "#7d8590"; 
-  try { 
-    await account.deleteSessions().catch(() => {}); 
-    await account.create(ID.unique(), email, password, name); 
-    await account.createEmailPasswordSession(email, password); 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created!'; 
-    resultDiv.style.color = "#3fb950"; 
-    setTimeout(() => window.location.href = REDIRECT_URL, 800); 
-  } catch (error) { 
-    resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message; 
-    resultDiv.style.color = "#f85149"; 
-    btn.disabled = false; 
-  } 
-}; 
+// CHECK KUNG GALING SA RESET EMAIL
+window.addEventListener('load', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get('userId');
+  const secret = urlParams.get('secret');
 
-async function forgotPass() { 
-  const email = document.getElementById('loginEmail').value.trim(); 
-  const resultDiv = document.getElementById('result'); 
-  if (!email) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email first'; 
-    resultDiv.style.color = "#f85149"; 
-    return; 
-  } 
-  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending reset link...'; 
-  resultDiv.style.color = "#7d8590"; 
-  try { 
-    await account.createRecovery(email, RECOVERY_URL); 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email'; 
-    resultDiv.style.color = "#3fb950"; 
-  } catch (error) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message; 
-    resultDiv.style.color = "#f85149"; 
-  } 
-} 
+  if (userId && secret) {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('resetForm').classList.remove('hidden');
+  } else {
+    document.getElementById('loginForm').classList.remove('hidden');
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('resetForm').classList.add('hidden');
+  }
+});
 
-document.getElementById('resetBtn').onclick = async () => { 
-  const newPass = document.getElementById('newPassword').value; 
-  const confirmPass = document.getElementById('confirmPassword').value; 
-  const resultDiv = document.getElementById('resetResult'); 
-  const btn = document.getElementById('resetBtn'); 
-  const urlParams = new URLSearchParams(window.location.search); 
-  const userId = urlParams.get('userId'); 
-  const secret = urlParams.get('secret'); 
-  if (!newPass || !confirmPass) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields'; 
-    resultDiv.style.color = "#f85149"; 
-    return; 
-  } 
-  if (newPass.length < 8) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters'; 
-    resultDiv.style.color = "#f85149"; 
-    return; 
-  } 
-  if (newPass !== confirmPass) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match'; 
-    resultDiv.style.color = "#f85149"; 
-    return; 
-  } 
-  btn.disabled = true; 
-  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating password...'; 
-  resultDiv.style.color = "#7d8590"; 
-  try { 
-    await account.updateRecovery(userId, secret, newPass, confirmPass); 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in with your new password'; 
-    resultDiv.style.color = "#3fb950"; 
-    setTimeout(() => { 
-      window.history.replaceState({}, document.title, window.location.pathname); 
-      showLogin(); 
-      document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in'; 
-      document.getElementById('result').style.color = "#3fb950"; 
-    }, 2000); 
-  } catch (error) { 
-    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message; 
-    resultDiv.style.color = "#f85149"; 
-    btn.disabled = false; 
-  } 
-}; 
-</script> 
-</body> 
+function showLogin() {
+  window.history.replaceState({}, document.title, window.location.pathname);
+  document.getElementById('loginForm').classList.remove('hidden');
+  document.getElementById('signupForm').classList.add('hidden');
+  document.getElementById('resetForm').classList.add('hidden');
+  document.getElementById('result').innerHTML = '';
+  document.getElementById('signupResult').innerHTML = '';
+}
+
+function showSignup() {
+  window.history.replaceState({}, document.title, window.location.pathname);
+  document.getElementById('loginForm').classList.add('hidden');
+  document.getElementById('signupForm').classList.remove('hidden');
+  document.getElementById('resetForm').classList.add('hidden');
+  document.getElementById('result').innerHTML = '';
+  document.getElementById('signupResult').innerHTML = '';
+}
+
+// LOGIN
+document.getElementById('loginBtn').onclick = async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const resultDiv = document.getElementById('result');
+  const btn = document.getElementById('loginBtn');
+  
+  if (!email || !password) {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+    resultDiv.style.color = "#f85149";
+    return;
+  }
+  
+  btn.disabled = true;
+  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...';
+  resultDiv.style.color = "#7d8590";
+  
+  try {
+    await account.deleteSessions().catch(() => {});
+    await account.createEmailPasswordSession(email, password);
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted';
+    resultDiv.style.color = "#3fb950";
+    setTimeout(() => window.location.href = REDIRECT_URL, 800);
+  } catch (error) {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password';
+    resultDiv.style.color = "#f85149";
+    btn.disabled = false;
+  }
+};
+
+// SIGNUP
+document.getElementById('signupBtn').onclick = async () => {
+  const name = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  const resultDiv = document.getElementById('signupResult');
+  const btn = document.getElementById('signupBtn');
+  
+  if (!name || !email || !password) {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+    resultDiv.style.color = "#f85149";
+    return;
+  }
+  if (password.length < 😎 {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
+    resultDiv.style.color = "#f85149";
+    return;
+  }
+  
+  btn.disabled = true;
+  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...';
+  resultDiv.style.color = "#7d8590";
+  
+  try {
+    await account.deleteSessions().catch(() => {});
+    await account.create(ID.unique(), email, password, name);
+    await account.createEmailPasswordSession(email, password);
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created!';
+    resultDiv.style.color = "#3fb950";
+    setTimeout(() => window.location.href = REDIRECT_URL, 800);
+  } catch (error) {
+    resultDiv.innerHTML = error.message.includes('already exists') 
+      ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' 
+      : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
+    resultDiv.style.color = "#f85149";
+    btn.disabled = false;
+  }
+};
+
+// FORGOT PASSWORD
+async function forgotPass() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const resultDiv = document.getElementById('result');
+  if (!email) {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email first';
+    resultDiv.style.color = "#f85149";
+    return;
+  }
+  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending reset link...';
+  resultDiv.style.color = "#7d8590";
+  try {
+    await account.createRecovery(email, RECOVERY_URL);
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email';
+    resultDiv.style.color = "#3fb950";
+  } catch (error) {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
+    resultDiv.style.color = "#f85149";
+  }
+}
+
+// RESET PASSWORD
+document.getElementById('resetBtn').onclick = async () => {
+  const newPass = document.getElementById('newPassword').value;
+  const confirmPass = document.getElementById('confirmPassword').value;
+  const resultDiv = document.getElementById('resetResult');
+  const btn = document.getElementById('resetBtn');
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get('userId');
+  const secret = urlParams.get('secret');
+  
+  if (!newPass || !confirmPass) {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+    resultDiv.style.color = "#f85149";
+    return;
+  }
+  if (newPass.length < 😎 {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
+    resultDiv.style.color = "#f85149";
+    return;
+  }
+  if (newPass !== confirmPass) {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match';
+    resultDiv.style.color = "#f85149";
+    return;
+  }
+  
+  btn.disabled = true;
+  resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating password...';
+  resultDiv.style.color = "#7d8590";
+  
+  try {
+    await account.updateRecovery(userId, secret, newPass, confirmPass);
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in with your new password';
+    resultDiv.style.color = "#3fb950";
+    // FIX: WAG MAG-REDIRECT. BALIK LOGIN FORM LANG
+    setTimeout(() => {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      showLogin();
+      document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in';
+      document.getElementById('result').style.color = "#3fb950";
+    }, 2000);
+  } catch (error) {
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
+    resultDiv.style.color = "#f85149";
+    btn.disabled = false;
+  }
+};
+</script>
+</body>
 </html>
