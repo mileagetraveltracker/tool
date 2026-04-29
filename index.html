@@ -153,6 +153,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     z-index: 10;
     padding: 6px;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 .password-toggle:active {
     transform: translateY(-50%) scale(0.9);
@@ -353,7 +354,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
             <div class="input-group">
                 <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
                 <i class="fa-solid fa-lock input-icon"></i>
-                <div class="password-toggle" onclick="toggleLoginPassword()">
+                <div class="password-toggle" id="loginPasswordToggle">
                     <i class="fa-solid fa-lock" id="login-password-icon"></i>
                 </div>
             </div>
@@ -393,7 +394,9 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
             <div class="input-group">
                 <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password">
                 <i class="fa-solid fa-lock input-icon"></i>
-            </div>
+                <div class="password-toggle" id="signupPasswordToggle">
+                    <i class="fa-solid fa-lock" id="signup-password-icon"></i>
+                </div>
             <button class="dispatch-btn" id="signupBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -488,7 +491,31 @@ window.addEventListener('load', () => {
         document.getElementById('resetForm').classList.add('hidden');
         document.getElementById('contactForm').classList.add('hidden');
     }
+    
+    // FIX KEYBOARD ISSUE - MOUSEDOWN INSTEAD OF CLICK
+    setupPasswordToggle('loginPassword', 'loginPasswordToggle', 'login-password-icon');
+    setupPasswordToggle('signupPassword', 'signupPasswordToggle', 'signup-password-icon');
 });
+
+function setupPasswordToggle(inputId, toggleId, iconId) {
+    const toggle = document.getElementById(toggleId);
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    
+    toggle.addEventListener('mousedown', function(e) {
+        e.preventDefault(); // Prevent keyboard from hiding
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-lock');
+            icon.classList.add('fa-lock-open');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-lock-open');
+            icon.classList.add('fa-lock');
+        }
+        input.focus(); // Keep focus on input
+    });
+}
 
 function showLogin() {
     window.history.replaceState({}, document.title, window.location.pathname);
@@ -520,21 +547,6 @@ function showContact() {
     document.getElementById('contactResult').innerHTML = '';
 }
 
-function toggleLoginPassword() {
-    const passwordInput = document.getElementById('loginPassword');
-    const icon = document.getElementById('login-password-icon');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        icon.classList.remove('fa-lock');
-        icon.classList.add('fa-lock-open');
-    } else {
-        passwordInput.type = 'password';
-        icon.classList.remove('fa-lock-open');
-        icon.classList.add('fa-lock');
-    }
-}
-
 document.getElementById('loginBtn').onclick = async () => {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
@@ -563,7 +575,6 @@ document.getElementById('loginBtn').onclick = async () => {
     }
 };
 
-// FIXED SIGNUP - HINDI NA AUTO LOGIN
 document.getElementById('signupBtn').onclick = async () => {
     const name = document.getElementById('signupName').value.trim();
     const email = document.getElementById('signupEmail').value.trim();
@@ -588,7 +599,6 @@ document.getElementById('signupBtn').onclick = async () => {
         await account.create(ID.unique(), email, password, name);
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created! Please log in';
         resultDiv.style.color = "#3fb950";
-        // AUTO BACK TO LOGIN AFTER 2 SECONDS
         setTimeout(() => {
             showLogin();
             document.getElementById('loginEmail').value = email;
@@ -668,6 +678,7 @@ document.getElementById('resetBtn').onclick = async () => {
     }
 };
 
+// FIXED CONTACT FORM - WORKING NA SA FORMSUBMIT
 document.getElementById('contactBtn').onclick = async () => {
     const name = document.getElementById('contactName').value.trim();
     const email = document.getElementById('contactEmail').value.trim();
@@ -688,20 +699,25 @@ document.getElementById('contactBtn').onclick = async () => {
     resultDiv.style.color = "#7d8590";
 
     try {
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('_subject', '[MileageLock Support] ' + subject);
-        formData.append('message', message);
-        formData.append('_captcha', 'false');
-        formData.append('_template', 'table');
-        
-        const response = await fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
+        const response = await fetch('https://formsubmit.co/ajax/' + SUPPORT_EMAIL, {
             method: 'POST',
-            body: formData
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                _subject: '[MileageLock Support] ' + subject,
+                message: message,
+                _captcha: 'false',
+                _template: 'table'
+            })
         });
 
-        if (response.ok) {
+        const data = await response.json();
+        
+        if (data.success === "true" || response.ok) {
             resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Message sent! We will reply to your email soon.';
             resultDiv.style.color = "#3fb950";
             document.getElementById('contactName').value = '';
@@ -709,7 +725,7 @@ document.getElementById('contactBtn').onclick = async () => {
             document.getElementById('contactSubject').value = '';
             document.getElementById('contactMessage').value = '';
         } else {
-            throw new Error('Failed to send');
+            throw new Error('Failed');
         }
     } catch (error) {
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Failed to send. Email us directly at ' + SUPPORT_EMAIL;
