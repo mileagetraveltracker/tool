@@ -186,43 +186,44 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 .dispatch-btn:active { transform: scale(0.98); }
 .dispatch-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
+/* FIXED CAR - MALALAKING HEADLIGHT NA MAY BEAM TULAD SA PIC MO */
 .dispatch-btn .car {
     position: absolute;
     left: -50px;
     top: 50%;
     transform: translateY(-50%);
-    width: 44px;
-    height: 22px;
-    background: #1e293b;
+    width: 46px;
+    height: 24px;
+    background: #2d3748;
     border-radius: 4px;
     transition: left 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     z-index: 3;
     opacity: 0;
-    box-shadow: inset -8px 0 0 #4a90e2;
+    box-shadow: inset -10px 0 0 #4a90e2;
 }
 .dispatch-btn .car::before {
     content: '';
     position: absolute;
-    right: -2px;
-    top: 4px;
-    width: 5px;
-    height: 5px;
-    background: #ffd700;
+    right: -3px;
+    top: 3px;
+    width: 6px;
+    height: 6px;
+    background: #ffeb3b;
     border-radius: 50%;
     box-shadow: 
-        0 9px 0 #ffd700,
-        0 0 8px 2px rgba(255,215,0,0.8),
-        0 9px 8px 2px rgba(255,215,0,0.8),
-        6px 0 15px 3px rgba(255,215,0,0.4),
-        6px 9px 15px 3px rgba(255,215,0,0.4);
+        0 12px 0 #ffeb3b,
+        0 0 12px 3px rgba(255,235,59,0.9),
+        0 12px 12px 3px rgba(255,235,59,0.9),
+        8px 0 20px 5px rgba(255,235,59,0.5),
+        8px 12px 20px 5px rgba(255,235,59,0.5);
 }
 .dispatch-btn .car::after {
     content: '';
     position: absolute;
-    left: 8px;
-    top: 2px;
-    width: 12px;
-    height: 8px;
+    left: 10px;
+    top: 3px;
+    width: 14px;
+    height: 10px;
     background: #4a90e2;
     border-radius: 2px 0 0 2px;
 }
@@ -268,7 +269,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 
 @keyframes carDrive {
     0% { left: 12px; }
-    100% { left: calc(100% - 56px); }
+    100% { left: calc(100% - 58px); }
 }
 @keyframes roadMove {
     0% { background-position: 0 0; }
@@ -374,6 +375,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="loginPasswordToggle">
                     <i class="fa-solid fa-lock" id="login-password-icon"></i>
                 </div>
+            </div>
             <button class="dispatch-btn" id="loginBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -542,7 +544,6 @@ function showLogin() {
     document.getElementById('signupResult').innerHTML = '';
     document.getElementById('contactResult').innerHTML = '';
     
-    // FIX: Reset login button para hindi stuck sa dispatching
     const loginBtn = document.getElementById('loginBtn');
     loginBtn.disabled = false;
     loginBtn.classList.remove('loading');
