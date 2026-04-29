@@ -357,7 +357,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="loginPasswordToggle">
                     <i class="fa-solid fa-lock" id="login-password-icon"></i>
                 </div>
-            </div>
             <button class="dispatch-btn" id="loginBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -492,7 +491,6 @@ window.addEventListener('load', () => {
         document.getElementById('contactForm').classList.add('hidden');
     }
     
-    // FIX KEYBOARD ISSUE - MOUSEDOWN INSTEAD OF CLICK
     setupPasswordToggle('loginPassword', 'loginPasswordToggle', 'login-password-icon');
     setupPasswordToggle('signupPassword', 'signupPasswordToggle', 'signup-password-icon');
 });
@@ -503,7 +501,7 @@ function setupPasswordToggle(inputId, toggleId, iconId) {
     const icon = document.getElementById(iconId);
     
     toggle.addEventListener('mousedown', function(e) {
-        e.preventDefault(); // Prevent keyboard from hiding
+        e.preventDefault();
         if (input.type === 'password') {
             input.type = 'text';
             icon.classList.remove('fa-lock');
@@ -513,7 +511,7 @@ function setupPasswordToggle(inputId, toggleId, iconId) {
             icon.classList.remove('fa-lock-open');
             icon.classList.add('fa-lock');
         }
-        input.focus(); // Keep focus on input
+        input.focus();
     });
 }
 
@@ -678,7 +676,6 @@ document.getElementById('resetBtn').onclick = async () => {
     }
 };
 
-// FIXED CONTACT FORM - WORKING NA SA FORMSUBMIT
 document.getElementById('contactBtn').onclick = async () => {
     const name = document.getElementById('contactName').value.trim();
     const email = document.getElementById('contactEmail').value.trim();
