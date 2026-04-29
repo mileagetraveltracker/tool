@@ -186,15 +186,16 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 .dispatch-btn:active { transform: scale(0.98); }
 .dispatch-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
+/* UPDATED CAR WITH 2 HEADLIGHTS + BEAM */
 .dispatch-btn .car {
     position: absolute;
-    left: -40px;
+    left: -50px;
     top: 50%;
     transform: translateY(-50%);
-    width: 32px;
-    height: 18px;
-    background: #e6edf3;
-    border-radius: 4px;
+    width: 40px;
+    height: 20px;
+    background: linear-gradient(to right, #e6edf3 0%, #e6edf3 60%, #4a90e2 60%, #4a90e2 100%);
+    border-radius: 3px;
     transition: left 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     z-index: 3;
     opacity: 0;
@@ -202,14 +203,20 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 .dispatch-btn .car::before {
     content: '';
     position: absolute;
-    right: -6px;
+    right: -8px;
     top: 3px;
-    width: 10px;
-    height: 12px;
-    background: #58a6ff;
-    border-radius: 2px;
-    box-shadow: 0 0 15px rgba(88,166,255,1);
+    width: 3px;
+    height: 3px;
+    background: #ffeb3b;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 8px rgba(255,235,59,1),
+        0 8px 0 #ffeb3b,
+        0 8px 8px rgba(255,235,59,1),
+        8px 0 12px rgba(255,235,59,0.6),
+        8px 8px 12px rgba(255,235,59,0.6);
 }
+
 .dispatch-btn .road-dash {
     position: absolute;
     top: 50%;
@@ -251,7 +258,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 
 @keyframes carDrive {
     0% { left: 12px; }
-    100% { left: calc(100% - 44px); }
+    100% { left: calc(100% - 52px); }
 }
 @keyframes roadMove {
     0% { background-position: 0 0; }
@@ -357,7 +364,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="loginPasswordToggle">
                     <i class="fa-solid fa-lock" id="login-password-icon"></i>
                 </div>
-            </div>
             <button class="dispatch-btn" id="loginBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -397,7 +403,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="signupPasswordToggle">
                     <i class="fa-solid fa-lock" id="signup-password-icon"></i>
                 </div>
-            </div>
             <button class="dispatch-btn" id="signupBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -526,6 +531,11 @@ function showLogin() {
     document.getElementById('result').innerHTML = '';
     document.getElementById('signupResult').innerHTML = '';
     document.getElementById('contactResult').innerHTML = '';
+    
+    // Reset login button para hindi stuck sa dispatching
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.disabled = false;
+    loginBtn.classList.remove('loading');
 }
 
 function showSignup() {
