@@ -159,30 +159,93 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     color: #58a6ff;
 }
 
-.login-btn { 
-    background: #238636; 
-    color: white; 
-    cursor: pointer; 
-    font-weight: 600; 
-    padding: 13px 20px; 
-    font-size: 15px; 
-    width: 100%; 
-    border-radius: 10px; 
-    border: none; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 6px;
-    margin-bottom: 6px;
+/* DISPATCH BUTTON - BAGONG LOG IN BUTTON */
+.dispatch-btn { 
+    appearance: none;
+    border: 0;
+    background: #1a1a1a;
     position: relative;
-    z-index: 1;
+    height: 52px;
+    width: 100%;
+    padding: 0;
+    outline: none;
+    cursor: pointer;
+    border-radius: 32px;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
     -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+    transition: transform .3s ease;
+    border: 1px solid #30363d;
+    margin-bottom: 6px;
+    z-index: 1;
 }
-.login-btn i {
-    margin-left: -4px;
+.dispatch-btn:active { transform: scale(0.98); }
+.dispatch-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.dispatch-btn .car {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 20px;
+    background: #e6edf3;
+    border-radius: 4px;
+    transition: left 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 3;
 }
-.login-btn:active { transform: scale(0.98); }
-.login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.dispatch-btn .car::before {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    background: #58a6ff;
+    border-radius: 2px;
+    box-shadow: 8px 0 8px -2px rgba(88,166,255,0.8);
+}
+.dispatch-btn .road-dash {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    transform: translateY(-50%);
+    background: repeating-linear-gradient(to right, transparent 0px, transparent 8px, #6e7681 8px, #6e7681 16px);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+.dispatch-btn .btn-text {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 100%;
+    transition: opacity 0.3s;
+}
+
+.dispatch-btn.loading .car {
+    left: calc(100% - 44px);
+}
+.dispatch-btn.loading .road-dash {
+    opacity: 1;
+    animation: roadMove 0.4s linear infinite;
+}
+.dispatch-btn.loading .btn-text {
+    opacity: 0;
+}
+
+@keyframes roadMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 16px 0; }
+}
 
 #result, #signupResult, #resetResult, #contactResult { 
     font-weight: 500; 
@@ -236,7 +299,8 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
         margin: -5px auto 12px auto;
     }
     .form-box { gap: 8px; }
-    input, .login-btn { padding: 11px 46px 11px 42px; font-size: 14px; }
+    input { padding: 11px 46px 11px 42px; font-size: 14px; }
+    .dispatch-btn { height: 48px; }
     .link-btn { padding: 5px 4px; font-size: 12px; }
     .link-btn.support { font-size: 11px; }
 }
@@ -250,7 +314,8 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
         margin: 0 auto 8px auto;
     }
     .form-box { gap: 6px; }
-    input, .login-btn { padding: 10px 46px 10px 42px; font-size: 13px; }
+    input { padding: 10px 46px 10px 42px; font-size: 13px; }
+    .dispatch-btn { height: 44px; }
 }
 </style>
 </head>
@@ -281,9 +346,12 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" onclick="toggleLoginPassword()">
                     <i class="fa-solid fa-lock" id="login-password-icon"></i>
                 </div>
-            </div>
-            <button class="login-btn" id="loginBtn">
-                <i class="fa-solid fa-right-to-bracket"></i> LOG IN
+            <button class="dispatch-btn" id="loginBtn">
+                <div class="car"></div>
+                <div class="road-dash"></div>
+                <div class="btn-text">
+                    <i class="fa-solid fa-right-to-bracket"></i> LOG IN
+                </div>
             </button>
             <div id="result"></div>
 
@@ -315,8 +383,12 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" autocomplete="new-password">
                 <i class="fa-solid fa-lock input-icon"></i>
             </div>
-            <button class="login-btn" id="signupBtn">
-                <i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT
+            <button class="dispatch-btn" id="signupBtn">
+                <div class="car"></div>
+                <div class="road-dash"></div>
+                <div class="btn-text">
+                    <i class="fa-solid fa-user-plus"></i> CREATE ACCOUNT
+                </div>
             </button>
             <div id="signupResult"></div>
             <p class="link-btn" onclick="showLogin()">
@@ -333,8 +405,12 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <input type="password" id="confirmPassword" placeholder="Confirm New Password" autocomplete="new-password">
                 <i class="fa-solid fa-lock input-icon"></i>
             </div>
-            <button class="login-btn" id="resetBtn">
-                <i class="fa-solid fa-check"></i> UPDATE PASSWORD
+            <button class="dispatch-btn" id="resetBtn">
+                <div class="car"></div>
+                <div class="road-dash"></div>
+                <div class="btn-text">
+                    <i class="fa-solid fa-check"></i> UPDATE PASSWORD
+                </div>
             </button>
             <div id="resetResult"></div>
         </div>
@@ -356,8 +432,12 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <textarea id="contactMessage" placeholder="Your message..." autocomplete="off"></textarea>
                 <i class="fa-solid fa-message input-icon" style="top: 24px;"></i>
             </div>
-            <button class="login-btn" id="contactBtn">
-                <i class="fa-solid fa-paper-plane"></i> SEND MESSAGE
+            <button class="dispatch-btn" id="contactBtn">
+                <div class="car"></div>
+                <div class="road-dash"></div>
+                <div class="btn-text">
+                    <i class="fa-solid fa-paper-plane"></i> SEND MESSAGE
+                </div>
             </button>
             <div id="contactResult"></div>
             <p class="support-email">Or email us directly: helpcenter.mileage@gmail.com</p>
@@ -455,18 +535,20 @@ document.getElementById('loginBtn').onclick = async () => {
         return;
     }
     btn.disabled = true;
-    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Logging in...';
+    btn.classList.add('loading');
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Dispatching...';
     resultDiv.style.color = "#7d8590";
     try {
         await account.deleteSessions().catch(() => {});
         await account.createEmailSession(email, password);
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted';
         resultDiv.style.color = "#3fb950";
-        setTimeout(() => window.location.href = REDIRECT_URL, 800);
+        setTimeout(() => window.location.href = REDIRECT_URL, 1000);
     } catch (error) {
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password';
         resultDiv.style.color = "#f85149";
         btn.disabled = false;
+        btn.classList.remove('loading');
     }
 };
 
@@ -487,6 +569,7 @@ document.getElementById('signupBtn').onclick = async () => {
         return;
     }
     btn.disabled = true;
+    btn.classList.add('loading');
     resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...';
     resultDiv.style.color = "#7d8590";
     try {
@@ -495,11 +578,12 @@ document.getElementById('signupBtn').onclick = async () => {
         await account.createEmailSession(email, password);
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created!';
         resultDiv.style.color = "#3fb950";
-        setTimeout(() => window.location.href = REDIRECT_URL, 800);
+        setTimeout(() => window.location.href = REDIRECT_URL, 1000);
     } catch (error) {
         resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
         resultDiv.style.color = "#f85149";
         btn.disabled = false;
+        btn.classList.remove('loading');
     }
 };
 
@@ -547,6 +631,7 @@ document.getElementById('resetBtn').onclick = async () => {
         return;
     }
     btn.disabled = true;
+    btn.classList.add('loading');
     resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating password...';
     resultDiv.style.color = "#7d8590";
     try {
@@ -563,6 +648,7 @@ document.getElementById('resetBtn').onclick = async () => {
         resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
         resultDiv.style.color = "#f85149";
         btn.disabled = false;
+        btn.classList.remove('loading');
     }
 };
 
@@ -581,6 +667,7 @@ document.getElementById('contactBtn').onclick = async () => {
     }
 
     btn.disabled = true;
+    btn.classList.add('loading');
     resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending message...';
     resultDiv.style.color = "#7d8590";
 
@@ -614,6 +701,7 @@ document.getElementById('contactBtn').onclick = async () => {
     }
     
     btn.disabled = false;
+    btn.classList.remove('loading');
 };
 </script>
 </body>
