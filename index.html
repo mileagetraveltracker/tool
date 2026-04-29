@@ -413,7 +413,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="signupPasswordToggle">
                     <i class="fa-solid fa-lock" id="signup-password-icon"></i>
                 </div>
-            </div>
             <button class="dispatch-btn" id="signupBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -543,6 +542,7 @@ function showLogin() {
     document.getElementById('signupResult').innerHTML = '';
     document.getElementById('contactResult').innerHTML = '';
     
+    // FIX: Reset login button para hindi stuck sa dispatching
     const loginBtn = document.getElementById('loginBtn');
     loginBtn.disabled = false;
     loginBtn.classList.remove('loading');
