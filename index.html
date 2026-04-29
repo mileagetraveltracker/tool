@@ -186,48 +186,30 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 .dispatch-btn:active { transform: scale(0.98); }
 .dispatch-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* FIXED: MALAKING HEADLIGHTS NA KAMUKHA NG PIC MO */
 .dispatch-btn .car {
     position: absolute;
-    left: -50px;
+    left: -40px;
     top: 50%;
     transform: translateY(-50%);
-    width: 48px;
-    height: 26px;
-    background: #1e293b;
+    width: 32px;
+    height: 18px;
+    background: #e6edf3;
     border-radius: 4px;
     transition: left 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     z-index: 3;
     opacity: 0;
-    box-shadow: inset -12px 0 0 #4a90e2;
 }
 .dispatch-btn .car::before {
     content: '';
     position: absolute;
-    right: -4px;
-    top: 4px;
-    width: 7px;
-    height: 7px;
-    background: #ffeb3b;
-    border-radius: 50%;
-    box-shadow: 
-        0 11px 0 #ffeb3b,
-        0 0 15px 4px rgba(255,235,59,1),
-        0 11px 15px 4px rgba(255,235,59,1),
-        10px 0 25px 6px rgba(255,235,59,0.6),
-        10px 11px 25px 6px rgba(255,235,59,0.6);
+    right: -6px;
+    top: 3px;
+    width: 10px;
+    height: 12px;
+    background: #58a6ff;
+    border-radius: 2px;
+    box-shadow: 0 0 15px rgba(88,166,255,1);
 }
-.dispatch-btn .car::after {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 4px;
-    width: 16px;
-    height: 11px;
-    background: #4a90e2;
-    border-radius: 2px 0 0 2px;
-}
-
 .dispatch-btn .road-dash {
     position: absolute;
     top: 50%;
@@ -269,7 +251,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 
 @keyframes carDrive {
     0% { left: 12px; }
-    100% { left: calc(100% - 60px); }
+    100% { left: calc(100% - 44px); }
 }
 @keyframes roadMove {
     0% { background-position: 0 0; }
@@ -375,6 +357,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="loginPasswordToggle">
                     <i class="fa-solid fa-lock" id="login-password-icon"></i>
                 </div>
+            </div>
             <button class="dispatch-btn" id="loginBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -414,6 +397,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="signupPasswordToggle">
                     <i class="fa-solid fa-lock" id="signup-password-icon"></i>
                 </div>
+            </div>
             <button class="dispatch-btn" id="signupBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -542,10 +526,6 @@ function showLogin() {
     document.getElementById('result').innerHTML = '';
     document.getElementById('signupResult').innerHTML = '';
     document.getElementById('contactResult').innerHTML = '';
-    
-    const loginBtn = document.getElementById('loginBtn');
-    loginBtn.disabled = false;
-    loginBtn.classList.remove('loading');
 }
 
 function showSignup() {
