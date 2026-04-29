@@ -188,28 +188,45 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 
 .dispatch-btn .car {
     position: absolute;
-    left: -40px;
+    left: -50px;
     top: 50%;
     transform: translateY(-50%);
-    width: 32px;
-    height: 18px;
-    background: #e6edf3;
+    width: 46px;
+    height: 24px;
+    background: #2d3748;
     border-radius: 4px;
     transition: left 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     z-index: 3;
     opacity: 0;
+    box-shadow: inset -10px 0 0 #4a90e2;
 }
 .dispatch-btn .car::before {
     content: '';
     position: absolute;
-    right: -6px;
+    right: -3px;
     top: 3px;
-    width: 10px;
-    height: 12px;
-    background: #58a6ff;
-    border-radius: 2px;
-    box-shadow: 0 0 15px rgba(88,166,255,1);
+    width: 6px;
+    height: 6px;
+    background: #ffeb3b;
+    border-radius: 50%;
+    box-shadow: 
+        0 12px 0 #ffeb3b,
+        0 0 12px 3px rgba(255,235,59,0.9),
+        0 12px 12px 3px rgba(255,235,59,0.9),
+        8px 0 20px 5px rgba(255,235,59,0.5),
+        8px 12px 20px 5px rgba(255,235,59,0.5);
 }
+.dispatch-btn .car::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 3px;
+    width: 14px;
+    height: 10px;
+    background: #4a90e2;
+    border-radius: 2px 0 0 2px;
+}
+
 .dispatch-btn .road-dash {
     position: absolute;
     top: 50%;
@@ -251,7 +268,7 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
 
 @keyframes carDrive {
     0% { left: 12px; }
-    100% { left: calc(100% - 44px); }
+    100% { left: calc(100% - 58px); }
 }
 @keyframes roadMove {
     0% { background-position: 0 0; }
@@ -357,7 +374,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="loginPasswordToggle">
                     <i class="fa-solid fa-lock" id="login-password-icon"></i>
                 </div>
-            </div>
             <button class="dispatch-btn" id="loginBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -397,7 +413,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
                 <div class="password-toggle" id="signupPasswordToggle">
                     <i class="fa-solid fa-lock" id="signup-password-icon"></i>
                 </div>
-            </div>
             <button class="dispatch-btn" id="signupBtn">
                 <div class="car"></div>
                 <div class="road-dash"></div>
@@ -526,6 +541,10 @@ function showLogin() {
     document.getElementById('result').innerHTML = '';
     document.getElementById('signupResult').innerHTML = '';
     document.getElementById('contactResult').innerHTML = '';
+    
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.disabled = false;
+    loginBtn.classList.remove('loading');
 }
 
 function showSignup() {
