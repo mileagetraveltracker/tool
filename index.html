@@ -159,7 +159,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     color: #58a6ff;
 }
 
-/* DISPATCH BUTTON - TAGO MUNA KOTSE AT HIGHWAY */
 .dispatch-btn { 
     appearance: none;
     border: 0;
@@ -236,7 +235,6 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     transition: opacity 0.3s;
 }
 
-/* PAG LOADING NA - LALABAS KOTSE AT HIGHWAY */
 .dispatch-btn.loading .car {
     left: 12px;
     opacity: 1;
@@ -565,6 +563,7 @@ document.getElementById('loginBtn').onclick = async () => {
     }
 };
 
+// FIXED SIGNUP - HINDI NA AUTO LOGIN
 document.getElementById('signupBtn').onclick = async () => {
     const name = document.getElementById('signupName').value.trim();
     const email = document.getElementById('signupEmail').value.trim();
@@ -586,12 +585,16 @@ document.getElementById('signupBtn').onclick = async () => {
     resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...';
     resultDiv.style.color = "#7d8590";
     try {
-        await account.deleteSessions().catch(() => {});
         await account.create(ID.unique(), email, password, name);
-        await account.createEmailSession(email, password);
-        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created!';
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created! Please log in';
         resultDiv.style.color = "#3fb950";
-        setTimeout(() => window.location.href = REDIRECT_URL, 1000);
+        // AUTO BACK TO LOGIN AFTER 2 SECONDS
+        setTimeout(() => {
+            showLogin();
+            document.getElementById('loginEmail').value = email;
+            document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created! Enter password to log in';
+            document.getElementById('result').style.color = "#3fb950";
+        }, 2000);
     } catch (error) {
         resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
         resultDiv.style.color = "#f85149";
