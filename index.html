@@ -464,271 +464,276 @@ input::placeholder, textarea::placeholder { color: #6e7681; }
     </div>
 </div>
 
-<script type="module">
-    import { Client, Account, ID } from "https://cdn.jsdelivr.net/npm/appwrite@13.0.0/+esm";
+<script>
+// ====== CONFIG ======
+const PROJECT_ID = 'mileagelock'; 
+const API_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
+const REDIRECT_URL = "https://mileage.artisandev.cloud/calculator";
+const RECOVERY_URL = window.location.origin + window.location.pathname;
+const SUPPORT_EMAIL = "helpcenter.mileage@gmail.com";
+// ====================
 
-    // ====== CONFIG ======
-    const PROJECT_ID = 'mileagelock'; 
-    const API_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
-    const REDIRECT_URL = "https://mileage.artisandev.cloud/calculator";
-    const RECOVERY_URL = window.location.origin + window.location.pathname;
-    const SUPPORT_EMAIL = "helpcenter.mileage@gmail.com";
-    // ====================
+const { Client, Account, ID } = Appwrite;
+const client = new Client().setEndpoint(API_ENDPOINT).setProject(PROJECT_ID);
+const account = new Account(client);
 
-    const client = new Client();
-    client.setEndpoint(API_ENDPOINT).setProject(PROJECT_ID);
-    const account = new Account(client);
-
+window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const emailFromUrl = urlParams.get('email');
-    if (emailFromUrl) {
-        document.getElementById('loginEmail').value = emailFromUrl;
-        document.getElementById('signupEmail').value = emailFromUrl;
-        document.getElementById('forgotEmail').value = emailFromUrl;
-    }
-
-    window.addEventListener('load', async () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('userId');
-        const secret = urlParams.get('secret');
-        
-        // Check if email verification link
-        if (urlParams.get('type') === 'verification' && userId && secret) {
-            try {
-                await account.updateVerification(userId, secret);
-                document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Email verified! You can now log in';
-                document.getElementById('result').style.color = "#3fb950";
-                window.history.replaceState({}, document.title, window.location.pathname);
-            } catch (error) {
-                document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Verification failed or expired';
-                document.getElementById('result').style.color = "#f85149";
-            }
-        }
-        // Check if password reset link
-        else if (userId && secret) {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('signupForm').classList.add('hidden');
-            document.getElementById('resetForm').classList.remove('hidden');
-            document.getElementById('contactForm').classList.add('hidden');
-        } else {
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('signupForm').classList.add('hidden');
-            document.getElementById('resetForm').classList.add('hidden');
-            document.getElementById('contactForm').classList.add('hidden');
-        }
-        
-        setupPasswordToggle('loginPassword', 'loginPasswordToggle', 'login-password-icon');
-        setupPasswordToggle('signupPassword', 'signupPasswordToggle', 'signup-password-icon');
-    });
-
-    function setupPasswordToggle(inputId, toggleId, iconId) {
-        const input = document.getElementById(inputId);
-        const toggle = document.getElementById(toggleId);
-        const icon = document.getElementById(iconId);
-        if (input && toggle && icon) {
-            toggle.addEventListener('click', () => {
-                const isPassword = input.type === 'password';
-                input.type = isPassword ? 'text' : 'password';
-                icon.className = isPassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            });
-        }
-    }
-
-    window.showSignup = () => {
-        document.getElementById('loginForm').classList.add('hidden');
-        document.getElementById('signupForm').classList.remove('hidden');
-        document.getElementById('resetForm').classList.add('hidden');
-        document.getElementById('contactForm').classList.add('hidden');
-        document.getElementById('signupResult').innerHTML = '';
-    }
-
-    window.showLogin = () => {
-        document.getElementById('loginForm').classList.remove('hidden');
-        document.getElementById('signupForm').classList.add('hidden');
-        document.getElementById('resetForm').classList.add('hidden');
-        document.getElementById('contactForm').classList.add('hidden');
-        document.getElementById('result').innerHTML = '';
-    }
-
-    window.showForgot = () => {
+    const userId = urlParams.get('userId');
+    const secret = urlParams.get('secret');
+    if (userId && secret) {
         document.getElementById('loginForm').classList.add('hidden');
         document.getElementById('signupForm').classList.add('hidden');
         document.getElementById('resetForm').classList.remove('hidden');
         document.getElementById('contactForm').classList.add('hidden');
-        document.getElementById('forgotResult').innerHTML = '';
-    }
-
-    window.showContact = () => {
-        document.getElementById('loginForm').classList.add('hidden');
+    } else {
+        document.getElementById('loginForm').classList.remove('hidden');
         document.getElementById('signupForm').classList.add('hidden');
         document.getElementById('resetForm').classList.add('hidden');
-        document.getElementById('contactForm').classList.remove('hidden');
+        document.getElementById('contactForm').classList.add('hidden');
     }
+    
+    setupPasswordToggle('loginPassword', 'loginPasswordToggle', 'login-password-icon');
+    setupPasswordToggle('signupPassword', 'signupPasswordToggle', 'signup-password-icon');
+});
 
-    document.getElementById('loginBtn').onclick = async () => {
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        const resultDiv = document.getElementById('result');
-        const btn = document.getElementById('loginBtn');
-        if (!email || !password) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
-            resultDiv.style.color = "#f85149";
-            return;
+function setupPasswordToggle(inputId, toggleId, iconId) {
+    const toggle = document.getElementById(toggleId);
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    
+    toggle.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-lock');
+            icon.classList.add('fa-lock-open');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-lock-open');
+            icon.classList.add('fa-lock');
         }
-        btn.disabled = true;
-        btn.classList.add('loading');
-        resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Dispatching...';
-        resultDiv.style.color = "#7d8590";
-        try {
-            await account.deleteSessions().catch(() => {});
-            await account.createEmailSession(email, password);
-            
-            // Check if email is verified
-            const user = await account.get();
-            if (!user.emailVerification) {
-                await account.deleteSession('current');
-                resultDiv.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> Please verify your email first. Check inbox or spam';
-                resultDiv.style.color = "#f85149";
-                btn.disabled = false;
-                btn.classList.remove('loading');
-                return;
-            }
-            
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted';
-            resultDiv.style.color = "#3fb950";
-            setTimeout(() => window.location.href = REDIRECT_URL, 1000);
-        } catch (error) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password';
-            resultDiv.style.color = "#f85149";
-            btn.disabled = false;
-            btn.classList.remove('loading');
-        }
-    };
+        input.focus();
+    });
+}
 
-    document.getElementById('signupBtn').onclick = async () => {
-        const name = document.getElementById('signupName').value.trim();
-        const email = document.getElementById('signupEmail').value.trim();
-        const password = document.getElementById('signupPassword').value;
-        const resultDiv = document.getElementById('signupResult');
-        const btn = document.getElementById('signupBtn');
-        if (!name || !email || !password) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
-            resultDiv.style.color = "#f85149";
-            return;
-        }
-        if (password.length < 8) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
-            resultDiv.style.color = "#f85149";
-            return;
-        }
-        btn.disabled = true;
-        btn.classList.add('loading');
-        resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...';
-        resultDiv.style.color = "#7d8590";
-        try {
-            await account.create(ID.unique(), email, password, name);
-            // Send verification email
-            await account.createVerification(RECOVERY_URL);
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created! Check your email to verify';
-            resultDiv.style.color = "#3fb950";
-            setTimeout(() => {
-                showLogin();
-                document.getElementById('loginEmail').value = email;
-                document.getElementById('result').innerHTML = '<i class="fa-solid fa-envelope"></i> Verify your email first before logging in';
-                document.getElementById('result').style.color = "#58a6ff";
-            }, 3000);
-        } catch (error) {
-            resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
-            resultDiv.style.color = "#f85149";
-            btn.disabled = false;
-            btn.classList.remove('loading');
-        }
-    };
+function showLogin() {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    document.getElementById('loginForm').classList.remove('hidden');
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('resetForm').classList.add('hidden');
+    document.getElementById('contactForm').classList.add('hidden');
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('signupResult').innerHTML = '';
+    document.getElementById('contactResult').innerHTML = '';
+}
 
-    document.getElementById('forgotBtn').onclick = async () => {
-        const email = document.getElementById('forgotEmail').value.trim();
-        const resultDiv = document.getElementById('forgotResult');
-        const btn = document.getElementById('forgotBtn');
-        if (!email) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email';
-            resultDiv.style.color = "#f85149";
-            return;
-        }
-        btn.disabled = true;
-        btn.classList.add('loading');
-        resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending...';
-        resultDiv.style.color = "#7d8590";
-        try {
-            await account.createRecovery(email, RECOVERY_URL);
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email';
-            resultDiv.style.color = "#3fb950";
-        } catch (error) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
-            resultDiv.style.color = "#f85149";
-        }
+function showSignup() {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.remove('hidden');
+    document.getElementById('resetForm').classList.add('hidden');
+    document.getElementById('contactForm').classList.add('hidden');
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('signupResult').innerHTML = '';
+}
+
+function showContact() {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('resetForm').classList.add('hidden');
+    document.getElementById('contactForm').classList.remove('hidden');
+    document.getElementById('contactResult').innerHTML = '';
+}
+
+document.getElementById('loginBtn').onclick = async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const resultDiv = document.getElementById('result');
+    const btn = document.getElementById('loginBtn');
+    if (!email || !password) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    btn.disabled = true;
+    btn.classList.add('loading');
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Dispatching...';
+    resultDiv.style.color = "#7d8590";
+    try {
+        await account.deleteSessions().catch(() => {});
+        await account.createEmailSession(email, password);
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Access Granted';
+        resultDiv.style.color = "#3fb950";
+        setTimeout(() => window.location.href = REDIRECT_URL, 1000);
+    } catch (error) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Wrong email or password';
+        resultDiv.style.color = "#f85149";
         btn.disabled = false;
         btn.classList.remove('loading');
-    };
-
-    document.getElementById('resetBtn').onclick = async () => {
-        const newPass = document.getElementById('newPassword').value;
-        const confirmPass = document.getElementById('confirmPassword').value;
-        const resultDiv = document.getElementById('resetResult');
-        const btn = document.getElementById('resetBtn');
-        if (!newPass || !confirmPass) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
-            resultDiv.style.color = "#f85149";
-            return;
-        }
-        if (newPass.length < 8) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
-            resultDiv.style.color = "#f85149";
-            return;
-        }
-        if (newPass !== confirmPass) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match';
-            resultDiv.style.color = "#f85149";
-            return;
-        }
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('userId');
-        const secret = urlParams.get('secret');
-        if (!userId || !secret) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Invalid reset link';
-            resultDiv.style.color = "#f85149";
-            return;
-        }
-        btn.disabled = true;
-        btn.classList.add('loading');
-        resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating...';
-        resultDiv.style.color = "#7d8590";
-        try {
-            await account.updateRecovery(userId, secret, newPass, confirmPass);
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated!';
-            resultDiv.style.color = "#3fb950";
-            setTimeout(() => {
-                window.history.replaceState({}, document.title, window.location.pathname);
-                showLogin();
-            }, 2000);
-        } catch (error) {
-            resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
-            resultDiv.style.color = "#f85149";
-            btn.disabled = false;
-            btn.classList.remove('loading');
-        }
-    };
-
-    window.handleContact = (event) => {
-        event.preventDefault();
-        const subject = document.getElementById('contactSubject').value;
-        const message = document.getElementById('contactMessage').value.trim();
-        if (!message) {
-            alert('Please enter a message');
-            return;
-        }
-        const mailtoLink = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('MileageLock Support: ' + subject)}&body=${encodeURIComponent(message)}`;
-        window.location.href = mailtoLink;
     }
-    </script>
+};
+
+document.getElementById('signupBtn').onclick = async () => {
+    const name = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const password = document.getElementById('signupPassword').value;
+    const resultDiv = document.getElementById('signupResult');
+    const btn = document.getElementById('signupBtn');
+    if (!name || !email || !password) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    if (password.length < 8) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    btn.disabled = true;
+    btn.classList.add('loading');
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating account...';
+    resultDiv.style.color = "#7d8590";
+    try {
+        await account.create(ID.unique(), email, password, name);
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created! Please log in';
+        resultDiv.style.color = "#3fb950";
+        setTimeout(() => {
+            showLogin();
+            document.getElementById('loginEmail').value = email;
+            document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Account created! Enter password to log in';
+            document.getElementById('result').style.color = "#3fb950";
+        }, 2000);
+    } catch (error) {
+        resultDiv.innerHTML = error.message.includes('already exists') ? '<i class="fa-solid fa-circle-xmark"></i> Email already used' : '<i class="fa-solid fa-circle-xmark"></i> ' + error.message;
+        resultDiv.style.color = "#f85149";
+        btn.disabled = false;
+        btn.classList.remove('loading');
+    }
+};
+
+async function forgotPass() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const resultDiv = document.getElementById('result');
+    if (!email) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email first';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending reset link...';
+    resultDiv.style.color = "#7d8590";
+    try {
+        await account.createRecovery(email, RECOVERY_URL);
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Reset link sent to email';
+        resultDiv.style.color = "#3fb950";
+    } catch (error) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
+        resultDiv.style.color = "#f85149";
+    }
+}
+
+document.getElementById('resetBtn').onclick = async () => {
+    const newPass = document.getElementById('newPassword').value;
+    const confirmPass = document.getElementById('confirmPassword').value;
+    const resultDiv = document.getElementById('resetResult');
+    const btn = document.getElementById('resetBtn');
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+    const secret = urlParams.get('secret');
+    if (!newPass || !confirmPass) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    if (newPass.length < 8) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Password min 8 characters';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    if (newPass !== confirmPass) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+    btn.disabled = true;
+    btn.classList.add('loading');
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating password...';
+    resultDiv.style.color = "#7d8590";
+    try {
+        await account.updateRecovery(userId, secret, newPass, confirmPass);
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in';
+        resultDiv.style.color = "#3fb950";
+        setTimeout(() => {
+            window.history.replaceState({}, document.title, window.location.pathname);
+            showLogin();
+            document.getElementById('result').innerHTML = '<i class="fa-solid fa-circle-check"></i> Password updated! Please log in';
+            document.getElementById('result').style.color = "#3fb950";
+        }, 2000);
+    } catch (error) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Error: ' + error.message;
+        resultDiv.style.color = "#f85149";
+        btn.disabled = false;
+        btn.classList.remove('loading');
+    }
+};
+
+document.getElementById('contactBtn').onclick = async () => {
+    const name = document.getElementById('contactName').value.trim();
+    const email = document.getElementById('contactEmail').value.trim();
+    const subject = document.getElementById('contactSubject').value.trim();
+    const message = document.getElementById('contactMessage').value.trim();
+    const resultDiv = document.getElementById('contactResult');
+    const btn = document.getElementById('contactBtn');
+
+    if (!name || !email || !subject || !message) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Fill all fields';
+        resultDiv.style.color = "#f85149";
+        return;
+    }
+
+    btn.disabled = true;
+    btn.classList.add('loading');
+    resultDiv.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending message...';
+    resultDiv.style.color = "#7d8590";
+
+    try {
+        const response = await fetch('https://formsubmit.co/ajax/' + SUPPORT_EMAIL, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                _subject: '[MileageLock Support] ' + subject,
+                message: message,
+                _captcha: 'false',
+                _template: 'table'
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.success === "true" || response.ok) {
+            resultDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Message sent! We will reply to your email soon.';
+            resultDiv.style.color = "#3fb950";
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactSubject').value = '';
+            document.getElementById('contactMessage').value = '';
+        } else {
+            throw new Error('Failed');
+        }
+    } catch (error) {
+        resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Failed to send. Email us directly at ' + SUPPORT_EMAIL;
+        resultDiv.style.color = "#f85149";
+    }
+    
+    btn.disabled = false;
+    btn.classList.remove('loading');
+};
+</script>
 </body>
 </html>
