@@ -733,7 +733,31 @@ document.getElementById('contactBtn').onclick = async () => {
     
     btn.disabled = false;
     btn.classList.remove('loading');
-};
+};document.addEventListener('DOMContentLoaded', function() {
+    // Hanapin lahat ng button na may text na "Try the Calculator"
+    const allButtons = document.querySelectorAll('button, a');
+    
+    allButtons.forEach(function(btn) {
+        if (btn.textContent.includes('Try the Calculator') || btn.textContent.includes('Calculator')) {
+            // Palitan natin yung click event
+            btn.onclick = async function(e) {
+                e.preventDefault(); // Pigilan yung default action
+                
+                try {
+                    await account.get(); // Check kung naka-login sa Appwrite
+                    // Pag naka-login na, show mo calculator section mo
+                    alert('Naka-login ka na. Open calculator.');
+                    document.getElementById('calculator-section').style.display = 'block';
+                    document.getElementById('landing-section').style.display = 'none';
+                } catch (error) {
+                    // Pag hindi pa naka-login
+                    alert('Please create an account or log in first!');
+                    document.getElementById('login-modal').style.display = 'block';
+                }
+            }
+        }
+    });
+});
 </script>
 </body>
 </html>
